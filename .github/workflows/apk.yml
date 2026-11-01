@@ -8,6 +8,9 @@ on:
       - '.github/workflows/apk.yml'
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -63,6 +66,27 @@ jobs:
           name: lucky-apk
           path: apk/*.apk
           retention-days: 30
+
+      - name: ثبت APK در مخزن
+        if: env.OK != ''
+        run: |
+          mkdir -p apk
+          cp android/app/build/outputs/apk/debug/*.apk apk/lucky.apk
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f apk/lucky.apk
+          git commit -m "APK نسخهٔ ${GITHUB_RUN_NUMBER} (${GITHUB_SHA:0:7}) [skip ci]" || echo "بدون تغییر"
+          git push
+
+      - name: انتشار در Releases
+        if: env.OK != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "apk-${{ github.run_number }}" apk/lucky.apk \
+            --title "Lucky APK — ساخت ${{ github.run_number }}" \
+            --notes "نصب: فایل lucky.apk را روی گوشی نصب کن، بعد آدرس سرور Lucky را وارد کن (مثلاً http://192.168.1.5:3000)." \
+            || gh release upload "apk-${{ github.run_number }}" apk/lucky.apk --clobber
 
       - name: آپلود لاگ ساخت
         if: always()
