@@ -45,7 +45,7 @@ jobs:
         working-directory: android
         run: |
           set -o pipefail
-          gradle --no-daemon --stacktrace --warning-mode=summary assembleDebug 2>&1 | tee /tmp/gradle.log | tail -60
+          gradle --no-daemon --stacktrace --warning-mode=summary assembleRelease assembleDebug 2>&1 | tee /tmp/gradle.log | tail -60
         continue-on-error: true
 
       - name: بررسی خروجی
@@ -53,7 +53,8 @@ jobs:
           echo "--- انتهای لاگ ---"
           tail -40 /tmp/gradle.log || true
           mkdir -p apk
-          cp android/app/build/outputs/apk/debug/*.apk apk/lucky-1.0.apk 2>/dev/null || true
+          cp android/app/build/outputs/apk/release/*.apk apk/lucky-1.0.apk 2>/dev/null \
+            || cp android/app/build/outputs/apk/debug/*.apk apk/lucky-1.0.apk 2>/dev/null || true
           ls -la apk
           if [ -f apk/lucky-1.0.apk ]; then
             echo "OK=$(sha256sum apk/lucky-1.0.apk | cut -d' ' -f1)" >> "$GITHUB_ENV"
@@ -71,7 +72,7 @@ jobs:
         if: env.OK != ''
         run: |
           mkdir -p apk
-          cp android/app/build/outputs/apk/debug/*.apk apk/lucky.apk
+          cp apk/lucky-1.0.apk apk/lucky.apk
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -f apk/lucky.apk
