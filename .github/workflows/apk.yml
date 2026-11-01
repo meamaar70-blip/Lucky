@@ -14,52 +14,67 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: نصب جاوا ۱۷
-        uses: actions/setup-java@v4
+      - name: جاوا ۱۷
+        uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: '17'
 
-      - name: نصب Android SDK
-        uses: android-actions/setup-android@v3
-
-      - name: نصب Gradle
+      - name: Gradle 8.7
         run: |
-          wget -q https://services.gradle.org/distributions/gradle-8.7-bin.zip
-          unzip -q gradle-8.7-bin.zip -d "$HOME"
+          curl -fsSL -o /tmp/gradle.zip https://services.gradle.org/distributions/gradle-8.7-bin.zip
+          unzip -q /tmp/gradle.zip -d "$HOME"
           echo "$HOME/gradle-8.7/bin" >> "$GITHUB_PATH"
 
-      - name: کش Gradle
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: gradle-${{ runner.os }}-${{ hashFiles('android/**/*.gradle', 'android/gradle.properties') }}
+      - name: بررسی Android SDK
+        run: |
+          echo "ANDROID_HOME=${ANDROID_HOME:-unset}"
+          echo "ANDROID_SDK_ROOT=${ANDROID_SDK_ROOT:-unset}"
+          SDK="${ANDROID_HOME:-$ANDROID_SDK_ROOT}"
+          SDK="${SDK:-/usr/local/lib/android/sdk}"
+          echo "SDK=$SDK" >> "$GITHUB_ENV"
+          ls "$SDK" || true
+          ls "$SDK/platforms" || true
+          ls "$SDK/build-tools" || true
+          echo "java: $(java -version 2>&1 | head -1)"
 
       - name: ساخت APK
         working-directory: android
         run: |
-          gradle --no-daemon assembleRelease
-          gradle --no-daemon assembleDebug
+          set -o pipefail
+          gradle --no-daemon --stacktrace --warning-mode=summary assembleDebug 2>&1 | tee /tmp/gradle.log | tail -60
+        continue-on-error: true
 
-      - name: نام‌گذاری خروجی
+      - name: بررسی خروجی
         run: |
+          echo "--- انتهای لاگ ---"
+          tail -40 /tmp/gradle.log || true
           mkdir -p apk
-          cp android/app/build/outputs/apk/release/*.apk apk/lucky-${{ github.sha }}.apk || true
-          cp android/app/build/outputs/apk/debug/*.apk apk/lucky-debug-${{ github.sha }}.apk || true
+          cp android/app/build/outputs/apk/debug/*.apk apk/lucky-1.0.apk 2>/dev/null || true
           ls -la apk
-          sha256sum apk/*.apk || true
+          if [ -f apk/lucky-1.0.apk ]; then
+            echo "OK=$(sha256sum apk/lucky-1.0.apk | cut -d' ' -f1)" >> "$GITHUB_ENV"
+          fi
 
-      - name: آپلود فایل
+      - name: آپلود APK
+        if: env.OK != ''
         uses: actions/upload-artifact@v4
         with:
           name: lucky-apk
           path: apk/*.apk
           retention-days: 30
 
-      - name: گزارش خطای ساخت
-        if: failure()
+      - name: آپلود لاگ ساخت
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-log
+          path: /tmp/gradle.log
+          retention-days: 7
+
+      - name: اعلان خطا
+        if: env.OK == ''
         run: |
-          echo "--- گزارش ---"
-          find android -name "*.log" -o -name "lint-results*" | head
+          LINE=$(grep -m1 -E "^e: |error:|FAILURE:|Could not (resolve|find|download)" /tmp/gradle.log | tr -d '\r' | cut -c1-160)
+          echo "::error title=Gradle::$LINE"
+          exit 1
