@@ -1,9 +1,7 @@
 # HTTPS خودکار + پروکسی به Lucky
-# متغیرهای DOMAIN و EMAIL از docker-compose می‌آیند.
+# متغیر DOMAIN از docker-compose می‌آید.
 
 {$DOMAIN} {
-	tls {$EMAIL}
-
 	encode zstd gzip
 
 	# آپلود PDF: سقف ۲۰۰ مگابایت
