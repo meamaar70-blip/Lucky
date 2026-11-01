@@ -112,8 +112,18 @@ http://localhost:3000
 
 ### راه الف-۲ — دستی (اگر دامنهٔ خودت را داری)
 
-1. از <https://caddyserver.com/download> نسخهٔ **Windows amd64** را دانلود کن
-   (یا `caddy_2.8.4_windows_amd64.zip`).
+1. `caddy.exe` را بگیر — مطمئن‌ترین راه، آخرین نسخهٔ GitHub است:
+
+   ```powershell
+   $r = Invoke-RestMethod 'https://api.github.com/repos/caddyserver/caddy/releases/latest'
+   $a = $r.assets | Where-Object { $_.name -like '*windows_amd64.zip' }
+   Invoke-WebRequest -UseBasicParsing $a[0].browser_download_url -OutFile caddy.zip
+   tar.exe -xf caddy.zip
+   .\caddy.exe version
+   ```
+
+   اگر `tar.exe` نبود: `Expand-Archive .\caddy.zip . -Force`
+   (راه جایگزین: <https://caddyserver.com/download> → Windows / amd64)
 2. `caddy.exe` را در `C:\lucky\deploy\windows\` بگذار.
 3. فایل `Caddyfile` همان پوشه را با Notepad باز کن و خط اول را عوض کن:
    - با دامنه: `lucky.yourdomain.ir {`
