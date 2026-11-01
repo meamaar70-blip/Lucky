@@ -1,9 +1,10 @@
 * text=auto eol=lf
 
 # فایل‌های ویندوزی باید CRLF باشند وگرنه cmd.exe درست اجرا نمی‌کند
-*.bat text eol=crlf
-*.cmd text eol=crlf
-*.ps1 text eol=crlf
+# bat/cmd با CRLF ذخیره می‌شوند تا دانلود مستقیم از GitHub هم در cmd درست اجرا شود
+*.bat -text
+*.cmd -text
+*.ps1 -text
 
 # باینری‌ها
 *.png binary
