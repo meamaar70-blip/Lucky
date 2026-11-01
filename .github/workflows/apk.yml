@@ -41,6 +41,17 @@ jobs:
           ls "$SDK/build-tools" || true
           echo "java: $(java -version 2>&1 | head -1)"
 
+      - name: آدرس پیش‌فرض سرور در APK
+        if: vars.LUCKY_SERVER_URL != ''
+        run: |
+          cat > android/app/src/main/res/values/defaults.xml <<XML
+          <?xml version="1.0" encoding="utf-8"?>
+          <resources>
+              <string name="default_server" translatable="false">${{ vars.LUCKY_SERVER_URL }}</string>
+          </resources>
+          XML
+          cat android/app/src/main/res/values/defaults.xml
+
       - name: ساخت APK
         working-directory: android
         run: |

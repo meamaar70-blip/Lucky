@@ -59,10 +59,17 @@ public class MainActivity extends Activity {
         setContentView(root);
 
         String saved = prefs().getString(KEY_URL, "");
-        if (saved == null || saved.trim().isEmpty()) {
-            showSetup();
-        } else {
+        if (saved != null && !saved.trim().isEmpty()) {
             openWeb(saved);
+            return;
+        }
+        // آدرس پیش‌فرضِ ساخت (اگر در APK گذاشته شده باشد) — بدون پرسیدن
+        String baked = normalize(getString(R.string.default_server));
+        if (baked != null) {
+            prefs().edit().putString(KEY_URL, baked).apply();
+            openWeb(baked);
+        } else {
+            showSetup();
         }
 
         maybeAskNotifications();

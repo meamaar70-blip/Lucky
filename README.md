@@ -95,6 +95,13 @@ npm start          # http://localhost:3000
   برای پشتیبان‌گیری کافی است همین پوشه را کپی کنید. محل پوشه با `LUCKY_DATA_DIR` قابل تغییر است.
 
 
+
+### اجرا روی سرور (اینترنت)
+- `Dockerfile` + `docker-compose.yml` با Caddy برای HTTPS خودکار: `docker compose up -d --build`
+- گزینه‌های بدون داکر: `deploy/lucky.service` (systemd) و `deploy/nginx.conf`
+- داده‌ها در والیوم/پوشهٔ `LUCKY_DATA_DIR` می‌مانند؛ پشتیبان‌گیری و به‌روزرسانی در `deploy/README.md`
+- برای اینکه APK با آدرس از پیش پر ساخته شود: متغیر مخزن `LUCKY_SERVER_URL` را ست کن
+
 ### نصب روی اندروید (APK)
 فایل آمادهٔ نصب در `apk/lucky.apk` است و با هر تغییر در `android/**` خودکار در
 GitHub Actions ساخته و در Releases هم منتشر می‌شود.
