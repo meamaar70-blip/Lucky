@@ -11,7 +11,7 @@ STAGE="$(mktemp -d)"
 mkdir -p "$STAGE" dist
 cp package.json package-lock.json README.md "$STAGE"/
 cp -r server public samples deploy "$STAGE"/
-rm -rf "$STAGE"/deploy/windows/bundle.sh
+rm -rf "$STAGE"/deploy/windows/bundle.sh "$STAGE"/deploy/windows/lucky-server-windows.zip "$STAGE"/dist
 
 # bat و ps1 باید CRLF باشند
 find "$STAGE" -name '*.bat' -o -name '*.ps1' | while read -r f; do
