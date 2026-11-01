@@ -11,49 +11,15 @@ echo.
 REM ---------------- ۱) Caddy ----------------
 if exist "caddy.exe" goto have_caddy
 
-echo  [1/3] دانلود Caddy ...
+echo  [1/3] دانلود Caddy از GitHub ...
 del /q caddy.zip >nul 2>nul
 
-where curl.exe >nul 2>nul
-if errorlevel 1 goto download_ps
-curl.exe -4 -L --fail --max-time 180 -o caddy.zip "https://caddyserver.com/api/download?os=windows&arch=amd64"
-goto check_zip
+powershell -NoProfile -ExecutionPolicy Bypass -Command "$ErrorActionPreference='Stop'; $got=$false; try { $rel=Invoke-RestMethod 'https://api.github.com/repos/caddyserver/caddy/releases/latest' -Headers @{'User-Agent'='lucky-setup'}; $asset=$rel.assets | Where-Object { $_.name -like '*windows_amd64.zip' } | Select-Object -First 1; if ($asset) { Invoke-WebRequest -UseBasicParsing $asset.browser_download_url -OutFile 'caddy.zip'; $got=$true } } catch { Write-Host 'github-failed' }; if (-not $got) { try { Invoke-WebRequest -UseBasicParsing 'https://caddyserver.com/api/download?os=windows&arch=amd64' -OutFile 'caddy.zip'; $got=$true } catch { Write-Host 'caddy-failed' } }; if (-not $got) { exit 1 }; $len=(Get-Item 'caddy.zip').Length; Write-Host ('   حجم فایل: ' + [math]::Round($len/1MB,1) + ' مگابایت'); if ($len -lt 500000) { exit 2 }; try { tar.exe -xf 'caddy.zip' } catch { Write-Host 'tar-failed' }; if (-not (Test-Path 'caddy.exe')) { try { Add-Type -AssemblyName System.IO.Compression.FileSystem; [System.IO.Compression.ZipFile]::ExtractToDirectory((Resolve-Path 'caddy.zip').Path, (Get-Location).Path, $true) } catch { Write-Host 'expand-failed' } }; if (-not (Test-Path 'caddy.exe')) { exit 3 }; Remove-Item 'caddy.zip' -Force -ErrorAction SilentlyContinue; exit 0"
 
-:download_ps
-powershell -NoProfile -ExecutionPolicy Bypass -Command "try { Invoke-WebRequest -UseBasicParsing 'https://caddyserver.com/api/download?os=windows&arch=amd64' -OutFile 'caddy.zip' } catch { exit 1 }"
-
-:check_zip
-powershell -NoProfile -ExecutionPolicy Bypass -Command "if (-not (Test-Path 'caddy.zip')) { exit 1 }; $b=[System.IO.File]::ReadAllBytes('caddy.zip'); if ($b.Length -lt 100000 -or $b[0] -ne 0x50 -or $b[1] -ne 0x4B) { exit 2 }; exit 0"
-if errorlevel 1 goto github_fallback
-goto extract
-
-:github_fallback
-echo  [!] دانلود از caddyserver.com سالم نبود، تلاش از GitHub ...
+set "RC=%errorlevel%"
+if not "%RC%"=="0" goto download_failed
 del /q caddy.zip >nul 2>nul
-powershell -NoProfile -ExecutionPolicy Bypass -Command "try { $r = Invoke-RestMethod 'https://api.github.com/repos/caddyserver/caddy/releases/latest' -Headers @{ 'User-Agent' = 'lucky-setup' }; $a = $r.assets ^| Where-Object { $_.name -like '*windows_amd64.zip' } ^| Select-Object -First 1; if (-not $a) { exit 1 }; Invoke-WebRequest -UseBasicParsing $a.browser_download_url -OutFile 'caddy.zip' } catch { exit 1 }"
-if not exist caddy.zip goto no_download
-
-:extract
-where tar.exe >nul 2>nul
-if errorlevel 1 goto extract_ps
-tar.exe -xf caddy.zip
-if exist caddy.exe goto cleanup_zip
-:extract_ps
-powershell -NoProfile -ExecutionPolicy Bypass -Command "try { Expand-Archive -LiteralPath 'caddy.zip' -DestinationPath '.' -Force } catch { exit 1 }"
-
-:cleanup_zip
-del /q caddy.zip >nul 2>nul
-if exist caddy.exe goto have_caddy
-
-:no_download
-echo.
-echo  [X] caddy.exe دانلود نشد.
-echo      دستی از این آدرس بگیر: https://caddyserver.com/download
-echo      سیستم: Windows / amd64 - بعد caddy.exe را کنار همین فایل بگذار
-echo      و همین اسکریپت را دوباره اجرا کن.
-echo.
-pause
-exit /b 1
+if not exist caddy.exe goto download_failed
 
 :have_caddy
 echo  [1/3] caddy.exe آماده است.
@@ -106,6 +72,20 @@ echo  برای توقف: Ctrl+C
 echo.
 caddy.exe run --config Caddyfile
 goto :eof
+
+:download_failed
+echo.
+echo  [X] دانلود یا باز کردن Caddy نشد. کد خطا: %RC%
+echo      راه سریع: در PowerShell همین چند خط را بزن -
+echo        $r = Invoke-RestMethod 'https://api.github.com/repos/caddyserver/caddy/releases/latest'
+echo        $a = $r.assets ^| Where-Object { $_.name -like '*windows_amd64.zip' }
+echo        Invoke-WebRequest -UseBasicParsing $a[0].browser_download_url -OutFile caddy.zip
+echo        tar.exe -xf caddy.zip
+echo      یا دستی از https://caddyserver.com/download سیستم Windows amd64 را بگیر
+echo      و caddy.exe را کنار همین فایل بگذار و دوباره اجرا کن.
+echo.
+pause
+exit /b 1
 
 :no_ip
 echo  [X] آی‌پی عمومی به دست نیامد. اینترنت سرور یا DNS را چک کن.
