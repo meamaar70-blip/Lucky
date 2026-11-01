@@ -73,7 +73,7 @@ export async function examsView(root, route, app) {
           <div class="t">${ui.esc(next.title || 'آزمون')}</div>
           <div class="meta">${ui.esc(ui.faFullDate(next.start))} • ساعت ${ui.faNum(next.time)}${next.place ? ` • ${ui.esc(next.place)}` : ''}</div>
         </div>
-        <div class="days">
+        <div class="days" role="timer" aria-live="polite">
           <span class="v">${daysLabel(next.days)}</span>
           <span class="l">${next.days <= 7 ? 'زمان مرور' : 'برنامه‌ریزی کن'}</span>
         </div>

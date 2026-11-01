@@ -167,7 +167,10 @@ async function render() {
 
   document.querySelectorAll('.nav-item').forEach((n) => {
     const target = route.name === 'chapter' || route.name === 'library' ? 'courses' : route.name;
-    n.classList.toggle('active', n.dataset.route === target);
+    const isActive = n.dataset.route === target;
+    n.classList.toggle('active', isActive);
+    if (isActive) n.setAttribute('aria-current', 'page');
+    else n.removeAttribute('aria-current');
   });
   document.body.classList.remove('drawer-open');
   document.getElementById('drawer-backdrop').hidden = true;
