@@ -1,0 +1,65 @@
+name: ساخت APK
+
+on:
+  push:
+    branches: ['arena/**', main]
+    paths:
+      - 'android/**'
+      - '.github/workflows/apk.yml'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: نصب جاوا ۱۷
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: نصب Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: نصب Gradle
+        run: |
+          wget -q https://services.gradle.org/distributions/gradle-8.7-bin.zip
+          unzip -q gradle-8.7-bin.zip -d "$HOME"
+          echo "$HOME/gradle-8.7/bin" >> "$GITHUB_PATH"
+
+      - name: کش Gradle
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: gradle-${{ runner.os }}-${{ hashFiles('android/**/*.gradle', 'android/gradle.properties') }}
+
+      - name: ساخت APK
+        working-directory: android
+        run: |
+          gradle --no-daemon assembleRelease
+          gradle --no-daemon assembleDebug
+
+      - name: نام‌گذاری خروجی
+        run: |
+          mkdir -p apk
+          cp android/app/build/outputs/apk/release/*.apk apk/lucky-${{ github.sha }}.apk || true
+          cp android/app/build/outputs/apk/debug/*.apk apk/lucky-debug-${{ github.sha }}.apk || true
+          ls -la apk
+          sha256sum apk/*.apk || true
+
+      - name: آپلود فایل
+        uses: actions/upload-artifact@v4
+        with:
+          name: lucky-apk
+          path: apk/*.apk
+          retention-days: 30
+
+      - name: گزارش خطای ساخت
+        if: failure()
+        run: |
+          echo "--- گزارش ---"
+          find android -name "*.log" -o -name "lint-results*" | head
