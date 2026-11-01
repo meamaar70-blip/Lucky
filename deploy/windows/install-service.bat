@@ -1,4 +1,5 @@
 @echo off
+chcp 65001 >nul 2>nul
 REM ساخت تسک ویندوز برای اجرای خودکار Lucky پس از هر بوت
 REM کلیک راست → Run as administrator
 

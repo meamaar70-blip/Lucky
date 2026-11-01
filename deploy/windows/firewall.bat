@@ -1,4 +1,5 @@
 @echo off
+chcp 65001 >nul 2>nul
 REM باز کردن پورت‌های لازم در فایروال ویندوز (Run as administrator)
 
 netsh advfirewall firewall add rule name="Lucky HTTP 80" dir=in action=allow protocol=TCP localport=80

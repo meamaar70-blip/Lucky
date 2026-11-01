@@ -1,4 +1,5 @@
 @echo off
+chcp 65001 >nul 2>nul
 REM نسخهٔ سرویسی: بدون pause و بدون پنجرهٔ اضافه
 cd /d "%~dp0..\.."
 

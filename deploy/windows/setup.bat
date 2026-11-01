@@ -1,4 +1,5 @@
 @echo off
+chcp 65001 >nul 2>nul
 REM نصب یک‌بارهٔ وابستگی‌ها — همین فایل را دابل‌کلیک کن
 setlocal enabledelayedexpansion
 cd /d "%~dp0..\.."
