@@ -48,7 +48,7 @@ export async function dashboardView(root, route, app) {
         <div class="count">${next.live ? 'کلاس شروع شده' : ui.humanCountdown(next.total)}</div>
         ${nextSession.link ? `<a class="join" href="${ui.esc(nextSession.link)}" target="_blank" rel="noopener">🎥 ورود به کلاس آنلاین</a>` : ''}
       </div>`
-    : `<div class="next-class" style="background:linear-gradient(135deg,#334155,#475569)">
+    : `<div class="next-class is-empty">
         <div class="k">برنامه‌ی هفتگی</div>
         <div class="t">هنوز کلاسی ثبت نشده</div>
         <div class="m"><span>برنامه‌ات را وارد کن تا کلاس بعدی و لینک‌های ورود این‌جا نمایش داده شود.</span></div>
@@ -62,15 +62,15 @@ export async function dashboardView(root, route, app) {
         <div><div class="value">${ui.faNum(d.courses.length)}</div><div class="label">درس فعال</div></div>
       </div>
       <div class="card stat">
-        <div class="icon" style="background:#ecfdf5;color:#0d9488">🗓️</div>
+        <div class="icon icon-ok">🗓️</div>
         <div><div class="value">${ui.faNum(sessions.length)}</div><div class="label">جلسه در هفته • ${ui.faNum(Math.round(weeklyMinutes / 60))} ساعت</div></div>
       </div>
       <div class="card stat">
-        <div class="icon" style="background:#fffbeb;color:#b45309">📄</div>
+        <div class="icon icon-warn">📄</div>
         <div><div class="value">${ui.faNum(d.books.length)}</div><div class="label">کتاب PDF</div></div>
       </div>
       <div class="card stat">
-        <div class="icon" style="background:#fdf2f8;color:#db2777">✨</div>
+        <div class="icon icon-pink">✨</div>
         <div><div class="value">${ui.faNum(readyChapters)}</div><div class="label">فصل آماده‌ی مطالعه از ${ui.faNum(allChapters.length)}</div></div>
       </div>
     </div>`;
@@ -136,29 +136,29 @@ export async function dashboardView(root, route, app) {
     .slice(0, 3);
 
   const examCard = nx ? `
-    <div class="card card-pad" style="background:linear-gradient(135deg,#fffbeb,#fef9c3);border-color:#fde68a">
+    <div class="card card-pad card-exam">
       <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap">
         <div style="font-size:30px">📝</div>
         <div style="flex:1;min-width:220px">
-          <div style="font-size:12px;color:#92400e;font-weight:600">آزمون بعدی</div>
-          <div style="font-weight:800;font-size:17px">${ui.esc(nx.exam.title || 'آزمون')} <span style="font-size:12.5px;font-weight:500;color:#a16207">• ${ui.esc(d.courses.find((c) => c.id === nx.exam.courseId)?.title ?? '')}</span></div>
-          <div style="font-size:12.5px;color:#78350f">
+          <div class="exam-tone-1" style="font-size:12px;font-weight:600">آزمون بعدی</div>
+          <div style="font-weight:800;font-size:17px">${ui.esc(nx.exam.title || 'آزمون')} <span class="exam-tone-2" style="font-size:12.5px;font-weight:500">• ${ui.esc(d.courses.find((c) => c.id === nx.exam.courseId)?.title ?? '')}</span></div>
+          <div class="exam-tone-2" style="font-size:12.5px">
             ${ui.esc(ui.faFullDate(nx.start))} • ساعت ${ui.faNum(nx.exam.time)}${nx.exam.place ? ` • ${ui.esc(nx.exam.place)}` : ''}
           </div>
         </div>
         <div style="text-align:center">
-          <div style="font-size:24px;font-weight:800;color:#92400e">${(() => {
+          <div class="exam-tone-1" style="font-size:24px;font-weight:800">${(() => {
             const days = examDaysLeft(nx.start);
             return days <= 0 ? 'امروز' : days === 1 ? 'فردا' : `${ui.faNum(days)} روز`;
           })()}</div>
-          <div style="font-size:11px;color:#a16207">${nx.start - Date.now() <= 7 * 86400000 ? 'زمان مرور' : 'مانده'}</div>
+          <div class="exam-tone-2" style="font-size:11px">${nx.start - Date.now() <= 7 * 86400000 ? 'زمان مرور' : 'مانده'}</div>
         </div>
-        ${upcomingExams.length > 1 ? `<div style="font-size:12px;color:#92400e;min-width:150px">
+        ${upcomingExams.length > 1 ? `<div class="exam-tone-1" style="font-size:12px;min-width:150px">
           ${upcomingExams.slice(1).map((x) => `<div>• ${ui.esc(ui.faShortDate(x.start))}: ${ui.esc(x.e.title || 'آزمون')}</div>`).join('')}
         </div>` : ''}
         <a class="btn" href="#/exams">مدیریت آزمون‌ها →</a>
       </div>
-      ${perm !== 'granted' ? `<div style="margin-top:10px;font-size:12px;color:#92400e">
+      ${perm !== 'granted' ? `<div class="exam-tone-1" style="margin-top:10px;font-size:12px">
         🔔 برای دریافت اعلان یادآور، اعلان مرورگر را فعال کن. <button class="btn btn-sm" id="dash-perm" style="margin-inline-start:6px">فعال‌سازی</button>
       </div>` : ''}
     </div>` : `
@@ -172,7 +172,7 @@ export async function dashboardView(root, route, app) {
     </div>`;
 
   const onboarding = d.courses.length ? '' : `
-    <div class="card card-pad" style="background:linear-gradient(135deg,#eef2ff,#faf5ff);border-color:#ddd6fe">
+    <div class="card card-pad card-soft-brand">
       <h2 style="margin-bottom:8px">👋 خوش آمدی! سه قدم تا شروع</h2>
       <div class="grid cols-3" style="margin-top:14px;gap:12px">
         <div class="card card-pad"><strong>۱. درس‌هایت را بساز</strong><p style="font-size:12.5px;color:var(--muted);margin-top:4px">نام درس و استاد را وارد کن.</p></div>

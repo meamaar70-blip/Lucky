@@ -10,6 +10,7 @@ import { chapterView } from './views/chapter.js';
 import { examsView } from './views/exams.js';
 import { settingsView } from './views/settings.js';
 import { startReminders, examStart } from './reminders.js';
+import { initTheme } from './theme.js';
 
 const ROUTES = {
   dashboard: { view: dashboardView, title: 'داشبورد', sub: 'خلاصه‌ی وضعیت مطالعه‌ی تو' },
@@ -25,6 +26,7 @@ export const app = {
   data: null,
 
   async init() {
+    initTheme();
     try {
       this.data = await api.state();
     } catch (e) {

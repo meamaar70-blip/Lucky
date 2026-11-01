@@ -44,7 +44,7 @@ export async function chapterView(root, route, app) {
 
   /* ---------- قالب ---------- */
   root.innerHTML = `
-    <div class="card card-pad" style="margin-bottom:16px;background:linear-gradient(135deg,#f5f3ff,#eef2ff);border-color:#e0e7ff">
+    <div class="card card-pad card-soft-brand" style="margin-bottom:16px">
       <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap">
         <div style="width:52px;height:52px;border-radius:15px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;display:grid;place-items:center;font-weight:800;font-size:18px">
           ${ui.faNum(chapter.order ?? 1)}
@@ -435,7 +435,7 @@ export async function chapterView(root, route, app) {
             ${pptx ? '🔄 ساخت دوباره‌ی فایل' : '📊 ساخت فایل پاورپوینت'}
           </button>
           ${pptx ? `
-            <div class="card card-pad" style="margin-top:14px;background:var(--accent-soft);border-color:#99f6e4">
+            <div class="card card-pad" style="margin-top:14px;background:var(--accent-soft);border-color:var(--accent-line)">
               <div style="font-weight:600;margin-bottom:4px">آخرین فایل ساخته‌شده</div>
               <div style="font-size:12.5px;color:var(--muted);margin-bottom:10px">
                 ${ui.faNum(pptx.slides)} اسلاید • ${ui.timeAgo(pptx.createdAt)}

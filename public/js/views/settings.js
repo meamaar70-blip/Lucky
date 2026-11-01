@@ -3,6 +3,7 @@
 import { api } from '../api.js';
 import * as ui from '../ui.js';
 import { permissionState, ensurePermission, sendTestReminder, nextExam } from '../reminders.js';
+import { THEMES, getPref, setTheme } from '../theme.js';
 
 const PRESETS = [
   { label: 'OpenAI', url: 'https://api.openai.com', model: 'gpt-4o-mini' },
@@ -39,6 +40,23 @@ export async function settingsView(root, route, app) {
         </div>
         <button class="btn btn-primary" id="p-save">ذخیره‌ی مشخصات</button>
         <p class="hint" style="margin-top:12px">این اطلاعات روی جلد پاورپوینت و در داشبورد استفاده می‌شود.</p>
+      </div>
+
+      <div class="card card-pad">
+        <div class="section-head">
+          <h2>🎨 ظاهر برنامه</h2>
+          <span class="badge">${THEMES.find((t) => t.key === getPref())?.label ?? 'سیستم'}</span>
+        </div>
+        <p style="font-size:13px;color:var(--ink-2);line-height:2;margin-bottom:12px">
+          تم دلخواهت را انتخاب کن. حالت «هم‌پایه‌ی سیستم» با تنظیمات روشن/تاریک سیستم‌عامل هماهنگ می‌شود.
+        </p>
+        <div class="theme-choice">
+          ${THEMES.map((t) => `
+            <button data-theme-choice="${t.key}" class="${getPref() === t.key ? 'active' : ''}">
+              <span class="ico">${t.icon}</span>${t.label}
+            </button>`).join('')}
+        </div>
+        <p class="hint" style="margin-top:12px">انتخاب تم در همین مرورگر ذخیره می‌شود.</p>
       </div>
 
       <div class="card card-pad">
@@ -165,6 +183,15 @@ export async function settingsView(root, route, app) {
     }, 'در حال ذخیره…');
   };
 
+  /* تم */
+  root.querySelectorAll('[data-theme-choice]').forEach((b) => {
+    b.onclick = () => {
+      setTheme(b.dataset.themeChoice);
+      ui.toast(`تم «${THEMES.find((t) => t.key === b.dataset.themeChoice)?.label}» اعمال شد`, 'ok');
+      settingsView(root, route, app);
+    };
+  });
+
   /* یادآورها */
   const pick = (id) => root.querySelector(id);
   pick('#r-save').onclick = async (e) => {
@@ -219,11 +246,11 @@ export async function settingsView(root, route, app) {
         await api.saveAi(payload);
         keyInput.value = '';
         await app.refresh();
-        resultEl.innerHTML = '<span style="color:#0f766e">✓ تنظیمات ذخیره شد</span>';
+        resultEl.innerHTML = '<span style="color:var(--accent)">✓ تنظیمات ذخیره شد</span>';
         ui.toast('تنظیمات هوش مصنوعی ذخیره شد', 'ok');
         settingsView(root, route, app);
       } catch (err) {
-        resultEl.innerHTML = `<span style="color:#b91c1c">${ui.esc(err.message)}</span>`;
+        resultEl.innerHTML = `<span style="color:var(--danger)">${ui.esc(err.message)}</span>`;
       }
     }, 'در حال ذخیره…');
   };
@@ -234,9 +261,9 @@ export async function settingsView(root, route, app) {
     await app.busy(btn, async () => {
       try {
         const out = await api.testAi();
-        resultEl.innerHTML = `<span style="color:#0f766e">✓ اتصال برقرار است — پاسخ: ${ui.esc(out.message ?? 'ok')}</span>`;
+        resultEl.innerHTML = `<span style="color:var(--accent)">✓ اتصال برقرار است — پاسخ: ${ui.esc(out.message ?? 'ok')}</span>`;
       } catch (err) {
-        resultEl.innerHTML = `<span style="color:#b91c1c">✗ ${ui.esc(err.message)}</span>`;
+        resultEl.innerHTML = `<span style="color:var(--danger)">✗ ${ui.esc(err.message)}</span>`;
       }
     }, 'در حال تست…');
   };

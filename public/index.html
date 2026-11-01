@@ -8,6 +8,18 @@
   <meta name="theme-color" content="#1e1b4b" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%234f46e5'/%3E%3Ctext x='50' y='70' font-size='58' text-anchor='middle' fill='white' font-family='sans-serif'%3E%E2%9C%A6%3C/text%3E%3C/svg%3E" />
   <link rel="stylesheet" href="/css/app.css" />
+  <script>
+    /* اعمال تم پیش از رندر تا صفحه سفید/سیاه نپرد */
+    (function () {
+      try {
+        var pref = localStorage.getItem('lucky:theme') || 'system';
+        var dark = pref === 'dark' ||
+          (pref === 'system' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+        document.documentElement.dataset.themePref = pref;
+      } catch (e) { /* ignore */ }
+    })();
+  </script>
 </head>
 <body>
   <div class="app">
@@ -46,7 +58,10 @@
           </div>
           <div class="sub" id="page-sub">خلاصه‌ی وضعیت مطالعه‌ی تو</div>
         </div>
-        <div class="topbar-actions" id="topbar-actions"></div>
+        <div style="display:flex;gap:8px;align-items:center;flex:0 0 auto">
+          <button class="theme-btn" data-theme-btn title="حالت تاریک" aria-label="تغییر تم">🌙</button>
+          <div class="topbar-actions" id="topbar-actions"></div>
+        </div>
       </div>
       <div id="view" aria-live="polite"></div>
     </main>

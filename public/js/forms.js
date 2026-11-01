@@ -29,7 +29,7 @@ export function courseModal(course = null) {
       <div class="swatches" id="c-colors" style="display:flex;gap:8px;flex-wrap:wrap">
         ${COLORS.map((c) => `
           <button type="button" class="swatch" data-color="${c}"
-            style="width:30px;height:30px;border-radius:9px;border:2px solid ${(course?.color ?? COLORS[0]) === c ? '#111827' : 'transparent'};background:${c};cursor:pointer"></button>
+            style="width:30px;height:30px;border-radius:9px;border:2px solid ${(course?.color ?? COLORS[0]) === c ? 'var(--ink)' : 'transparent'};background:${c};cursor:pointer"></button>
         `).join('')}
       </div>
     </div>
@@ -209,10 +209,10 @@ export function uploadModal(defaultCourseId) {
     </div>
 
     <div id="mode-file">
-      <label id="u-drop" style="display:block;border:2px dashed #cbd5e1;border-radius:14px;padding:26px;text-align:center;cursor:pointer;transition:.15s;background:#fbfbfe">
+      <label id="u-drop" class="dropzone">
         <div style="font-size:28px">📄</div>
         <div style="font-weight:500;margin-top:6px" id="u-filename">فایل PDF را این‌جا بکش یا کلیک کن</div>
-        <div style="font-size:12px;color:#6b7280">حداکثر ۱۲۰ مگابایت — فایل متنی (نه اسکن‌شده)</div>
+        <div style="font-size:12px;color:var(--muted)">حداکثر ۱۲۰ مگابایت — فایل متنی (نه اسکن‌شده)</div>
         <input type="file" id="u-file" accept="application/pdf,.pdf" style="display:none" />
       </label>
     </div>
@@ -227,7 +227,7 @@ export function uploadModal(defaultCourseId) {
 
     <div id="u-progress" style="display:none;margin-top:14px">
       <div class="progress-line"><i></i></div>
-      <p style="font-size:12.5px;color:#6b7280;margin-top:8px" id="u-status">در حال آپلود…</p>
+      <p style="font-size:12.5px;color:var(--muted);margin-top:8px" id="u-status">در حال آپلود…</p>
     </div>`;
 
   ui.openModal({
@@ -272,14 +272,14 @@ export function uploadModal(defaultCourseId) {
         }
         file = f;
         nameEl.textContent = f.name;
-        drop.style.borderColor = '#6366f1';
-        drop.style.background = '#eef2ff';
+        drop.style.borderColor = 'var(--brand)';
+        drop.style.background = 'var(--brand-soft)';
         send.disabled = false;
       };
 
       fileInput.onchange = () => pick(fileInput.files[0]);
-      drop.ondragover = (e) => { e.preventDefault(); drop.style.borderColor = '#6366f1'; };
-      drop.ondragleave = () => { drop.style.borderColor = '#cbd5e1'; };
+      drop.ondragover = (e) => { e.preventDefault(); drop.style.borderColor = 'var(--brand)'; };
+      drop.ondragleave = () => { drop.style.borderColor = 'var(--line-strong)'; };
       drop.ondrop = (e) => { e.preventDefault(); pick(e.dataTransfer.files[0]); };
 
       const finish = async (book) => {

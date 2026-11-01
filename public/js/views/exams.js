@@ -69,20 +69,20 @@ export async function examsView(root, route, app) {
 
   root.innerHTML = `
     ${next ? `
-      <div class="card card-pad" style="margin-bottom:16px;background:linear-gradient(135deg,#fef3c7,#fef9c3);border-color:#fde68a">
+      <div class="card card-pad card-exam" style="margin-bottom:16px">
         <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap">
           <div style="font-size:30px">📝</div>
           <div style="flex:1;min-width:220px">
-            <div style="font-size:12px;color:#92400e;font-weight:500">آزمون بعدی</div>
+            <div class="exam-tone-1" style="font-size:12px;font-weight:500">آزمون بعدی</div>
             <div style="font-weight:800;font-size:18px">${ui.esc(next.title || 'آزمون')}</div>
-            <div style="font-size:13px;color:#78350f">
+            <div class="exam-tone-2" style="font-size:13px">
               ${ui.esc(ui.faFullDate(next.start))} • ساعت ${ui.faNum(next.time)}
               ${next.place ? ` • ${ui.esc(next.place)}` : ''}
             </div>
           </div>
           <div style="text-align:center">
-            <div style="font-size:26px;font-weight:800;color:#92400e">${daysLabel(next.days)}</div>
-            <div style="font-size:11.5px;color:#a16207">${next.days <= 7 ? 'زمان مرور است!' : 'برنامه‌ریزی کن'}</div>
+            <div class="exam-tone-1" style="font-size:26px;font-weight:800">${daysLabel(next.days)}</div>
+            <div class="exam-tone-2" style="font-size:11.5px">${next.days <= 7 ? 'زمان مرور است!' : 'برنامه‌ریزی کن'}</div>
           </div>
           <a class="btn" href="#/library">📑 رفتن به فصل‌ها</a>
         </div>

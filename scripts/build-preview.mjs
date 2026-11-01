@@ -122,31 +122,41 @@ const PREVIEW_CSS = `
   background: rgba(255,255,255,.09); border: 1px solid rgba(255,255,255,.14);
   border-radius: 999px; padding: 2px 10px; font-size: 11.5px; color: #cbd5e1;
 }
+.pv-theme {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(255,255,255,.1); color: #fff;
+  border: 1px solid rgba(255,255,255,.18);
+  border-radius: 999px; padding: 5px 14px;
+  font-family: inherit; font-size: 12.5px; font-weight: 600; cursor: pointer;
+  transition: all .15s;
+}
+.pv-theme:hover { background: rgba(255,255,255,.2); }
 .pv-screens {
   display: flex; gap: 6px; flex-wrap: wrap;
-  padding: 12px 18px; background: #fff; border-bottom: 1px solid #e5e7eb;
+  padding: 12px 18px; background: var(--card); border-bottom: 1px solid var(--line);
   font-family: 'Vazirmatn', Tahoma, sans-serif;
 }
 .pv-screens button {
-  border: 1px solid #e5e7eb; background: #fff; color: #374151; cursor: pointer;
+  border: 1px solid var(--line); background: var(--card); color: var(--ink-2); cursor: pointer;
   border-radius: 999px; padding: 6px 13px; font-size: 12.5px; font-family: inherit;
   transition: all .15s;
 }
-.pv-screens button:hover { border-color: #c7d2fe; background: #f8f9ff; }
-.pv-screens button.active { background: linear-gradient(135deg,#4f46e5,#7c3aed); border-color: transparent; color: #fff; font-weight: 600; }
+.pv-screens button:hover { border-color: var(--brand-line); background: var(--hover); }
+.pv-screens button.active { background: linear-gradient(135deg,var(--brand),var(--brand-2)); border-color: transparent; color: #fff; font-weight: 600; }
 .pv-shell .app { min-height: calc(100vh - 96px); }
 .pv-shell .sidebar { height: calc(100vh - 96px); top: 96px; }
 [data-view] { display: none; }
 [data-view].active { display: block; }
 .pv-foot {
-  padding: 16px 20px; font-size: 12px; color: #6b7280; text-align: center;
-  border-top: 1px solid #e5e7eb; background: #fbfbfe;
+  padding: 16px 20px; font-size: 12px; color: var(--muted); text-align: center;
+  border-top: 1px solid var(--line); background: var(--surface);
   font-family: 'Vazirmatn', Tahoma, sans-serif;
 }
+.pv-foot code { background: var(--line-2); padding: 1px 6px; border-radius: 5px; }
 @media (max-width: 860px) {
   .pv-shell .app { min-height: auto; }
   .pv-shell .sidebar { position: static; height: auto; transform: none; width: 100%; }
-  .pv-shell .sidebar .nav { display: none; }
+  .pv-shell .sidebar nav { display: none; }
 }
 `;
 
@@ -183,7 +193,8 @@ ${PREVIEW_CSS}
   <strong>پیش‌نمایش Lucky</strong>
   <span class="pv-chip">فایل خودکفا — بدون سرور</span>
   <span class="spacer"></span>
-  <span>${captured.length} صفحه • همین داده‌های نمونه‌ی برنامه</span>
+  <span class="pv-chip">${captured.length} صفحه</span>
+  <button class="pv-theme" id="pv-theme">☀️ روشن</button>
 </div>
 
 <div class="pv-screens">
@@ -228,6 +239,20 @@ ${viewSections}
 
 <script>
 (function () {
+  /* ---------- تم ---------- */
+  const themeBtn = document.getElementById('pv-theme');
+  function paintTheme(theme) {
+    document.documentElement.dataset.theme = theme;
+    themeBtn.textContent = theme === 'dark' ? '☀️ روشن' : '🌙 تاریک';
+    try { localStorage.setItem('lucky-preview-theme', theme); } catch (e) { /* ignore */ }
+  }
+  let saved = 'dark';
+  try { saved = localStorage.getItem('lucky-preview-theme') || 'dark'; } catch (e) { /* ignore */ }
+  paintTheme(saved);
+  themeBtn.addEventListener('click', () => {
+    paintTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark');
+  });
+
   const views = [...document.querySelectorAll('[data-view]')];
   const buttons = [...document.querySelectorAll('[data-go]')];
   const navBtns = [...document.querySelectorAll('#pv-nav .nav-item')];

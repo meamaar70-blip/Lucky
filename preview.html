@@ -62,20 +62,56 @@
   --brand: #4f46e5;
   --brand-2: #7c3aed;
   --brand-soft: #eef2ff;
+  --brand-soft-2: #faf5ff;
+  --brand-line: #ddd6fe;
   --accent: #0d9488;
   --accent-soft: #ecfdf5;
+  --accent-line: #99f6e4;
   --warn: #b45309;
   --warn-soft: #fffbeb;
+  --warn-line: #fde68a;
   --danger: #dc2626;
   --danger-soft: #fef2f2;
+  --danger-line: #fecaca;
+  --ok: #047857;
+  --ok-ink: #0f766e;
+  --brand-line: #c7d2fe;
+  --brand-ink: #4338ca;
+  --danger-line: #fecaca;
+  --ok-soft: #ecfdf5;
+  --ok-line: #34d399;
+
+  /* رنگ‌های موضوع آزمون */
+  --exam-soft: #fffbeb;
+  --exam-soft-2: #fef9c3;
+  --exam-line: #fde68a;
+  --exam-ink: #92400e;
+  --exam-muted: #a16207;
 
   --ink: #111827;
   --ink-2: #374151;
   --muted: #6b7280;
   --line: #e5e7eb;
   --line-2: #f1f5f9;
+  --line-strong: #cbd2e0;
   --bg: #f6f7fb;
   --card: #ffffff;
+  --surface: #fbfbfe;
+  --hover: #fafbff;
+  --input-bg: #ffffff;
+  --scroll: #d8dbe4;
+  --scroll-hover: #c3c7d3;
+  --skeleton-a: #f1f2f6;
+  --skeleton-b: #e8eaf1;
+  --sidebar-from: #1e1b4b;
+  --sidebar-to: #2e1065;
+  --sidebar-ink: #c7cbe8;
+  --sidebar-strong: #e5e7f5;
+  --sidebar-hover: rgba(255,255,255,.07);
+  --sidebar-active: rgba(255,255,255,.13);
+  --sidebar-card: rgba(255,255,255,.07);
+  --sidebar-card-line: rgba(255,255,255,.09);
+  --sidebar-muted: #cbd5f5;
 
   --radius: 16px;
   --radius-sm: 10px;
@@ -83,6 +119,67 @@
   --shadow: 0 4px 16px rgba(16, 24, 40, .07), 0 1px 3px rgba(16, 24, 40, .05);
   --shadow-lg: 0 24px 60px rgba(16, 24, 40, .18);
   --sidebar-w: 254px;
+}
+
+/* ---------- حالت تاریک ---------- */
+[data-theme="dark"] {
+  --brand: #818cf8;
+  --brand-2: #a78bfa;
+  --brand-soft: rgba(129, 140, 248, .14);
+  --brand-soft-2: rgba(167, 139, 250, .12);
+  --brand-line: rgba(129, 140, 248, .3);
+  --accent: #2dd4bf;
+  --accent-soft: rgba(45, 212, 191, .12);
+  --accent-line: rgba(45, 212, 191, .3);
+  --warn: #fbbf24;
+  --warn-soft: rgba(251, 191, 36, .12);
+  --warn-line: rgba(251, 191, 36, .28);
+  --danger: #f87171;
+  --danger-soft: rgba(248, 113, 113, .12);
+  --danger-line: rgba(248, 113, 113, .3);
+  --ok: #34d399;
+  --ok-ink: #6ee7b7;
+  --brand-line: #3b3f7a;
+  --brand-ink: #c7d2fe;
+  --danger-line: #7f1d1d;
+  --ok-soft: rgba(52, 211, 153, .12);
+  --ok-line: rgba(52, 211, 153, .32);
+
+  --exam-soft: rgba(251, 191, 36, .1);
+  --exam-soft-2: rgba(251, 191, 36, .16);
+  --exam-line: rgba(251, 191, 36, .26);
+  --exam-ink: #fcd34d;
+  --exam-muted: #e3b779;
+
+  --ink: #e8edf7;
+  --ink-2: #c2cbe0;
+  --muted: #8d99b2;
+  --line: #26314a;
+  --line-2: #1d2739;
+  --line-strong: #35415c;
+  --bg: #0a0e18;
+  --card: #131a29;
+  --surface: #171f30;
+  --hover: #1b2437;
+  --input-bg: #0f1725;
+  --scroll: #2b3650;
+  --scroll-hover: #3a4763;
+  --skeleton-a: #171f30;
+  --skeleton-b: #1f2a3f;
+  --sidebar-from: #0b1020;
+  --sidebar-to: #150f2e;
+  --sidebar-ink: #b6c0d8;
+  --sidebar-strong: #eef1fa;
+  --sidebar-hover: rgba(255,255,255,.055);
+  --sidebar-active: rgba(129, 140, 248, .18);
+  --sidebar-card: rgba(255,255,255,.045);
+  --sidebar-card-line: rgba(255,255,255,.08);
+  --sidebar-muted: #98a4c0;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, .4);
+  --shadow: 0 6px 22px rgba(0, 0, 0, .45);
+  --shadow-lg: 0 24px 70px rgba(0, 0, 0, .65);
+  color-scheme: dark;
 }
 
 * { box-sizing: border-box; }
@@ -108,8 +205,8 @@ h3 { font-size: 16px; }
 p { margin: 0; }
 
 ::-webkit-scrollbar { width: 10px; height: 10px; }
-::-webkit-scrollbar-thumb { background: #d8dbe4; border-radius: 20px; border: 3px solid transparent; background-clip: content-box; }
-::-webkit-scrollbar-thumb:hover { background: #c3c7d3; background-clip: content-box; }
+::-webkit-scrollbar-thumb { background: var(--scroll); border-radius: 20px; border: 3px solid transparent; background-clip: content-box; }
+::-webkit-scrollbar-thumb:hover { background: var(--scroll-hover); background-clip: content-box; }
 
 /* ---------- چیدمان ---------- */
 .app {
@@ -119,8 +216,8 @@ p { margin: 0; }
 }
 
 .sidebar {
-  background: linear-gradient(180deg, #1e1b4b 0%, #2e1065 100%);
-  color: #e5e7f5;
+  background: linear-gradient(180deg, var(--sidebar-from) 0%, var(--sidebar-to) 100%);
+  color: var(--sidebar-strong);
   padding: 22px 16px;
   display: flex;
   flex-direction: column;
@@ -151,25 +248,25 @@ p { margin: 0; }
   display: flex; align-items: center; gap: 10px;
   padding: 10px 12px;
   border-radius: 12px;
-  color: #c7cbe8;
+  color: var(--sidebar-ink);
   cursor: pointer;
   font-weight: 500;
   transition: background .16s, color .16s;
   border: none; background: none; width: 100%; text-align: right;
 }
-.nav-item:hover { background: rgba(255,255,255,.07); color: #fff; }
-.nav-item.active { background: rgba(255,255,255,.13); color: #fff; box-shadow: inset 0 0 0 1px rgba(255,255,255,.08); }
+.nav-item:hover { background: var(--sidebar-hover); color: var(--sidebar-strong); }
+.nav-item.active { background: var(--sidebar-active); color: var(--sidebar-strong); box-shadow: inset 0 0 0 1px rgba(255,255,255,.08); }
 .nav-item .ico { font-size: 17px; width: 22px; text-align: center; }
 .nav-item .badge-count { margin-inline-start: auto; }
 
 .sidebar-foot { margin-top: auto; padding-top: 16px; }
 .sidebar-card {
-  background: rgba(255,255,255,.07);
-  border: 1px solid rgba(255,255,255,.09);
+  background: var(--sidebar-card);
+  border: 1px solid var(--sidebar-card-line);
   border-radius: 14px;
   padding: 12px;
   font-size: 12px;
-  color: #cbd5f5;
+  color: var(--sidebar-muted);
 }
 .sidebar-card strong { display: block; color: #fff; font-size: 13px; margin-bottom: 2px; }
 
@@ -208,14 +305,14 @@ p { margin: 0; }
   padding: 9px 16px;
   border-radius: 11px;
   border: 1px solid var(--line);
-  background: #fff;
+  background: var(--card);
   color: var(--ink-2);
   font-weight: 500;
   cursor: pointer;
   transition: all .15s;
   white-space: nowrap;
 }
-.btn:hover { border-color: #cbd2e0; background: #fafbff; }
+.btn:hover { border-color: var(--line-strong); background: var(--hover); }
 .btn:active { transform: translateY(1px); }
 .btn:disabled { opacity: .55; cursor: not-allowed; transform: none; }
 .btn-primary {
@@ -225,10 +322,10 @@ p { margin: 0; }
 }
 .btn-primary:hover { background: linear-gradient(135deg, #4338ca, #6d28d9); border-color: transparent; }
 .btn-ghost { background: transparent; border-color: transparent; color: var(--muted); }
-.btn-ghost:hover { background: #f3f4f6; color: var(--ink); }
+.btn-ghost:hover { background: var(--hover); color: var(--ink); }
 .btn-sm { padding: 6px 11px; font-size: 13px; border-radius: 9px; }
-.btn-danger { color: var(--danger); border-color: #fecaca; background: var(--danger-soft); }
-.btn-danger:hover { background: #fee2e2; }
+.btn-danger { color: var(--danger); border-color: var(--danger-line); background: var(--danger-soft); }
+.btn-danger:hover { background: var(--danger-soft); border-color: var(--danger-line); }
 .btn-block { width: 100%; }
 
 .badge {
@@ -237,8 +334,8 @@ p { margin: 0; }
   font-size: 11.5px; font-weight: 500;
   background: var(--line-2); color: var(--muted);
 }
-.badge-brand { background: var(--brand-soft); color: #4338ca; }
-.badge-ok { background: var(--accent-soft); color: #0f766e; }
+.badge-brand { background: var(--brand-soft); color: var(--brand-ink); }
+.badge-ok { background: var(--accent-soft); color: var(--ok-ink); }
 .badge-warn { background: var(--warn-soft); color: var(--warn); }
 .badge-danger { background: var(--danger-soft); color: var(--danger); }
 .badge-count { min-width: 22px; justify-content: center; }
@@ -246,7 +343,7 @@ p { margin: 0; }
 .chip {
   display: inline-flex; align-items: center; gap: 6px;
   padding: 4px 11px; border-radius: 999px;
-  background: #fff; border: 1px solid var(--line);
+  background: var(--card); border: 1px solid var(--line);
   font-size: 12.5px; color: var(--ink-2);
 }
 
@@ -290,15 +387,17 @@ p { margin: 0; }
   padding: 10px 12px;
   border: 1px solid var(--line);
   border-radius: 11px;
-  background: #fff;
+  background: var(--input-bg);
+  color: var(--ink);
   transition: border-color .15s, box-shadow .15s;
   outline: none;
 }
 .input:focus, .select:focus, .textarea:focus {
-  border-color: #a5b4fc;
+  border-color: var(--brand);
   box-shadow: 0 0 0 4px rgba(99, 102, 241, .12);
 }
 .textarea { min-height: 90px; resize: vertical; line-height: 1.8; }
+.input::placeholder, .textarea::placeholder { color: var(--muted); opacity: .75; }
 .row { display: flex; gap: 12px; }
 .row > * { flex: 1; min-width: 0; }
 
@@ -311,7 +410,7 @@ p { margin: 0; }
 }
 @keyframes fade { from { opacity: 0; } }
 .modal {
-  background: #fff; border-radius: 20px; width: 100%; max-width: 520px;
+  background: var(--card); border-radius: 20px; width: 100%; max-width: 520px;
   box-shadow: var(--shadow-lg);
   animation: pop .2s cubic-bezier(.2,.9,.3,1.2);
   max-height: 90vh; overflow-y: auto;
@@ -326,23 +425,23 @@ p { margin: 0; }
 .modal-foot {
   display: flex; gap: 10px; justify-content: flex-start;
   padding: 16px 20px; border-top: 1px solid var(--line);
-  background: #fbfbfe; border-radius: 0 0 20px 20px;
+  background: var(--surface); border-radius: 0 0 20px 20px;
 }
 .close-x {
   border: none; background: none; cursor: pointer; font-size: 20px;
   color: var(--muted); line-height: 1; padding: 4px 8px; border-radius: 8px;
 }
-.close-x:hover { background: #f3f4f6; color: var(--ink); }
+.close-x:hover { background: var(--hover); color: var(--ink); }
 
 /* ---------- برنامه هفتگی ---------- */
 .timetable {
   border: 1px solid var(--line);
   border-radius: var(--radius);
   overflow: hidden;
-  background: #fff;
+  background: var(--card);
 }
 .tt-head, .tt-body { display: grid; grid-template-columns: 62px repeat(7, minmax(0, 1fr)); }
-.tt-head { background: #fbfbfe; border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 3; }
+.tt-head { background: var(--surface); border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 3; }
 .tt-head > div {
   padding: 10px 4px; text-align: center; font-size: 12.5px; font-weight: 500; color: var(--ink-2);
   border-inline-start: 1px solid var(--line);
@@ -353,7 +452,7 @@ p { margin: 0; }
 .tt-col { position: relative; border-inline-start: 1px solid var(--line-2); }
 .tt-hours { border: none !important; }
 .tt-hour {
-  height: 54px; font-size: 11px; color: #9ca3af; text-align: center;
+  height: 54px; font-size: 11px; color: var(--muted); text-align: center;
   border-bottom: 1px dashed var(--line-2);
   padding-top: 2px;
 }
@@ -393,12 +492,12 @@ p { margin: 0; }
   padding: 11px 12px; border-radius: 12px; cursor: pointer;
   border: 1px solid transparent;
 }
-.book-item:hover { background: #fafbff; }
-.book-item.active { background: var(--brand-soft); border-color: #c7d2fe; }
+.book-item:hover { background: var(--hover); }
+.book-item.active { background: var(--brand-soft); border-color: var(--brand-line); }
 .book-item .cover {
   width: 34px; height: 44px; border-radius: 6px; flex: 0 0 auto;
-  background: linear-gradient(135deg, #c7d2fe, #a5b4fc);
-  display: grid; place-items: center; font-size: 16px; color: #4338ca;
+  background: var(--brand-soft);
+  display: grid; place-items: center; font-size: 16px; color: var(--brand);
 }
 .book-item .info { min-width: 0; }
 .book-item .t { font-weight: 500; font-size: 13.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -407,10 +506,10 @@ p { margin: 0; }
 .chapter-card {
   padding: 14px 16px;
   display: flex; gap: 14px; align-items: flex-start;
-  border: 1px solid var(--line); border-radius: 14px; background: #fff;
+  border: 1px solid var(--line); border-radius: 14px; background: var(--card);
   transition: border-color .15s, box-shadow .15s;
 }
-.chapter-card:hover { border-color: #c7d2fe; box-shadow: var(--shadow-sm); }
+.chapter-card:hover { border-color: var(--brand-line); box-shadow: var(--shadow-sm); }
 .chapter-num {
   width: 34px; height: 34px; border-radius: 10px; flex: 0 0 auto;
   background: var(--brand-soft); color: var(--brand);
@@ -436,7 +535,7 @@ p { margin: 0; }
 .points { display: flex; flex-direction: column; gap: 10px; margin-top: 4px; }
 .point {
   display: flex; gap: 10px; align-items: flex-start;
-  padding: 12px 14px; border-radius: 12px; background: #fbfbfe; border: 1px solid var(--line-2);
+  padding: 12px 14px; border-radius: 12px; background: var(--surface); border: 1px solid var(--line-2);
 }
 .point .n {
   width: 22px; height: 22px; border-radius: 7px; background: var(--brand); color: #fff;
@@ -452,35 +551,35 @@ p { margin: 0; }
 .term-row .v { color: var(--muted); }
 
 /* ---------- تست ---------- */
-.quiz-q { padding: 16px 18px; border: 1px solid var(--line); border-radius: 14px; background: #fff; margin-bottom: 12px; }
+.quiz-q { padding: 16px 18px; border: 1px solid var(--line); border-radius: 14px; background: var(--card); margin-bottom: 12px; }
 .quiz-q .qhead { display: flex; justify-content: space-between; gap: 10px; margin-bottom: 8px; align-items: center; }
 .quiz-q .qtext { font-size: 14.5px; margin-bottom: 12px; line-height: 1.9; }
 .opt {
   display: flex; align-items: center; gap: 10px;
   padding: 9px 12px; border-radius: 10px; border: 1px solid var(--line);
-  cursor: pointer; margin-bottom: 7px; transition: all .13s; background: #fff;
+  cursor: pointer; margin-bottom: 7px; transition: all .13s; background: var(--card);
 }
-.opt:hover { border-color: #c7d2fe; background: #fbfbff; }
+.opt:hover { border-color: var(--brand-line); background: var(--hover); }
 .opt .key {
-  width: 22px; height: 22px; border-radius: 6px; background: #f3f4f6; color: var(--muted);
+  width: 22px; height: 22px; border-radius: 6px; background: var(--line-2); color: var(--muted);
   display: grid; place-items: center; font-size: 11.5px; flex: 0 0 auto;
 }
 .opt.sel { border-color: var(--brand); background: var(--brand-soft); }
 .opt.sel .key { background: var(--brand); color: #fff; }
-.opt.correct { border-color: #34d399; background: #ecfdf5; }
-.opt.correct .key { background: #10b981; color: #fff; }
-.opt.wrong { border-color: #fca5a5; background: #fef2f2; }
-.opt.wrong .key { background: #ef4444; color: #fff; }
+.opt.correct { border-color: var(--ok-line); background: var(--ok-soft); }
+.opt.correct .key { background: var(--ok); color: #06281f; }
+.opt.wrong { border-color: var(--danger-line); background: var(--danger-soft); }
+.opt.wrong .key { background: var(--danger); color: #2b0b0b; }
 .quiz-result {
   display: flex; align-items: center; gap: 18px;
   padding: 18px 20px; border-radius: 14px; margin-bottom: 16px;
-  background: linear-gradient(135deg, #eef2ff, #f5f3ff);
-  border: 1px solid #ddd6fe;
+  background: linear-gradient(135deg, var(--brand-soft), var(--brand-soft-2));
+  border: 1px solid var(--brand-line);
 }
 .quiz-result .score { font-size: 30px; font-weight: 800; color: var(--brand); line-height: 1.2; }
 .explain {
   margin-top: 10px; font-size: 12.5px; color: var(--muted);
-  background: #f9fafb; border-radius: 9px; padding: 9px 12px; border: 1px dashed var(--line);
+  background: var(--surface); border-radius: 9px; padding: 9px 12px; border: 1px dashed var(--line);
 }
 
 /* ---------- لودینگ ---------- */
@@ -493,7 +592,7 @@ p { margin: 0; }
 @keyframes spin { to { transform: rotate(360deg); } }
 
 .skeleton {
-  background: linear-gradient(90deg, #f1f2f6 25%, #e8eaf1 37%, #f1f2f6 63%);
+  background: linear-gradient(90deg, var(--skeleton-a) 25%, var(--skeleton-b) 37%, var(--skeleton-a) 63%);
   background-size: 400% 100%;
   animation: shimmer 1.3s ease infinite;
   border-radius: 8px;
@@ -608,7 +707,7 @@ p { margin: 0; }
   align-items: flex-start;
   padding: 14px 16px;
   border-radius: 16px;
-  background: #fff;
+  background: var(--card);
   border: 1px solid var(--line);
   box-shadow: var(--shadow-lg);
   animation: reminderIn .28s cubic-bezier(.2, .9, .3, 1.15);
@@ -625,7 +724,7 @@ p { margin: 0; }
   border: none; background: none; cursor: pointer; color: var(--muted);
   font-size: 20px; line-height: 1; padding: 0 4px; border-radius: 8px;
 }
-.reminder-x:hover { background: #f3f4f6; color: var(--ink); }
+.reminder-x:hover { background: var(--hover); color: var(--ink); }
 
 /* ---------- آزمون‌ها ---------- */
 .exam-card {
@@ -635,7 +734,7 @@ p { margin: 0; }
   padding: 14px 16px;
   border: 1px solid var(--line);
   border-radius: 14px;
-  background: #fff;
+  background: var(--card);
   position: relative;
   overflow: hidden;
   transition: border-color .15s, box-shadow .15s;
@@ -644,15 +743,15 @@ p { margin: 0; }
   content: ''; position: absolute; inset-block: 0; inset-inline-start: 0;
   width: 4px; background: var(--c, var(--brand));
 }
-.exam-card:hover { border-color: #c7d2fe; box-shadow: var(--shadow-sm); }
+.exam-card:hover { border-color: var(--brand-line); box-shadow: var(--shadow-sm); }
 .exam-card.past { opacity: .62; }
 .exam-date {
   flex: 0 0 auto; width: 62px; text-align: center;
-  background: var(--warn-soft); border-radius: 12px; padding: 6px 4px;
-  border: 1px solid #fde68a;
+  background: var(--exam-soft); border-radius: 12px; padding: 6px 4px;
+  border: 1px solid var(--exam-line);
 }
-.exam-date .day { font-weight: 800; font-size: 19px; color: #92400e; line-height: 1.3; }
-.exam-date .month { font-size: 11px; color: #a16207; }
+.exam-date .day { font-weight: 800; font-size: 19px; color: var(--exam-ink); line-height: 1.3; }
+.exam-date .month { font-size: 11px; color: var(--exam-muted); }
 .exam-body { flex: 1; min-width: 0; }
 .exam-title { font-weight: 700; font-size: 14.5px; }
 .exam-meta {
@@ -668,7 +767,7 @@ p { margin: 0; }
   font-size: 12px; font-weight: 700; color: var(--muted);
   background: var(--line-2); border-radius: 999px; padding: 3px 11px; white-space: nowrap;
 }
-.exam-days.urgent { background: #fef2f2; color: var(--danger); }
+.exam-days.urgent { background: var(--danger-soft); color: var(--danger); }
 
 /* ---------- سوییچ ---------- */
 .switch-row {
@@ -677,7 +776,7 @@ p { margin: 0; }
 }
 .switch-row input[type="checkbox"] {
   appearance: none; width: 40px; height: 23px; border-radius: 999px;
-  background: #d1d5db; position: relative; cursor: pointer; transition: background .16s;
+  background: var(--line-strong); position: relative; cursor: pointer; transition: background .16s;
   flex: 0 0 auto; margin: 0;
 }
 .switch-row input[type="checkbox"]::after {
@@ -696,6 +795,124 @@ p { margin: 0; }
 }
 
 
+/* ---------- کلاس‌های معنایی (سازگار با هر دو تم) ---------- */
+.card-soft-brand {
+  background: linear-gradient(135deg, var(--brand-soft), var(--brand-soft-2));
+  border-color: var(--brand-line);
+}
+.card-exam {
+  background: linear-gradient(135deg, var(--exam-soft), var(--exam-soft-2));
+  border-color: var(--exam-line);
+}
+.exam-tone-1 { color: var(--exam-ink); }
+.exam-tone-2 { color: var(--exam-muted); }
+
+.stat .icon.icon-ok { background: var(--ok-soft); color: var(--ok); }
+.stat .icon.icon-warn { background: var(--exam-soft); color: var(--exam-ink); }
+.stat .icon.icon-pink { background: rgba(219, 39, 119, .12); color: #db2777; }
+[data-theme="dark"] .stat .icon.icon-pink { background: rgba(244, 114, 182, .14); color: #f472b6; }
+
+.dropzone {
+  display: block;
+  border: 2px dashed var(--line-strong);
+  border-radius: 14px;
+  padding: 26px;
+  text-align: center;
+  cursor: pointer;
+  transition: .15s;
+  background: var(--surface);
+}
+.dropzone:hover, .dropzone.over { border-color: var(--brand); background: var(--brand-soft); }
+
+/* دکمه‌ی تغییر تم */
+.theme-btn {
+  border: 1px solid var(--line);
+  background: var(--card);
+  color: var(--ink-2);
+  width: 36px; height: 36px;
+  border-radius: 11px;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1;
+  display: inline-grid;
+  place-items: center;
+  transition: all .15s;
+  flex: 0 0 auto;
+}
+.theme-btn:hover { border-color: var(--brand-line); background: var(--brand-soft); color: var(--brand); }
+
+/* انتخاب تم در تنظیمات */
+.theme-choice { display: flex; gap: 8px; flex-wrap: wrap; }
+.theme-choice button {
+  flex: 1; min-width: 110px;
+  padding: 12px 10px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  color: var(--ink-2);
+  cursor: pointer;
+  font-weight: 500;
+  transition: all .15s;
+  text-align: center;
+}
+.theme-choice button:hover { border-color: var(--brand-line); background: var(--hover); }
+.theme-choice button.active {
+  border-color: transparent;
+  background: linear-gradient(135deg, var(--brand), var(--brand-2));
+  color: #fff;
+  box-shadow: 0 6px 16px rgba(79, 70, 229, .28);
+}
+.theme-choice .ico { display: block; font-size: 20px; margin-bottom: 4px; }
+
+/* ---------- اصلاحات مخصوص تم تاریک ---------- */
+[data-theme="dark"] .brand-logo { box-shadow: 0 6px 18px rgba(129, 140, 248, .35); }
+[data-theme="dark"] .nav-item .badge-count { background: rgba(255,255,255,.12); color: var(--sidebar-strong); }
+[data-theme="dark"] .btn-primary { box-shadow: 0 6px 18px rgba(99, 102, 241, .35); }
+[data-theme="dark"] .next-class { box-shadow: 0 14px 34px rgba(0, 0, 0, .45); }
+[data-theme="dark"] .next-class .join { background: #eef2ff; color: #312e81; }
+[data-theme="dark"] .modal-backdrop { background: rgba(3, 6, 14, .72); }
+[data-theme="dark"] .reminder { border-color: var(--line); }
+[data-theme="dark"] .tt-slot { border-color: rgba(255,255,255,.16); }
+[data-theme="dark"] .toast { background: #1f2937; }
+[data-theme="dark"] .toast.ok { background: #065f46; }
+[data-theme="dark"] .toast.err { background: #7f1d1d; }
+[data-theme="dark"] .toast.warn { background: #78350f; }
+[data-theme="dark"] .timetable .tt-head .today { background: var(--brand-soft); }
+[data-theme="dark"] ::selection { background: rgba(129, 140, 248, .35); }
+[data-theme="dark"] .book-item.active { background: var(--brand-soft); border-color: var(--brand-line); }
+[data-theme="dark"] .opt.sel { background: var(--brand-soft); }
+[data-theme="dark"] .badge { background: var(--line-2); color: var(--ink-2); }
+[data-theme="dark"] .badge-brand { background: var(--brand-soft); color: var(--brand); }
+[data-theme="dark"] .badge-ok { background: var(--ok-soft); color: var(--ok); }
+[data-theme="dark"] .badge-warn { background: var(--warn-soft); color: var(--warn); }
+[data-theme="dark"] .badge-danger { background: var(--danger-soft); color: var(--danger); }
+[data-theme="dark"] .hint { background: var(--line-2); color: var(--muted); }
+[data-theme="dark"] .empty .emoji { opacity: .75; }
+[data-theme="dark"] .quiz-result { color: var(--ink); }
+[data-theme="dark"] .progress-line { background: var(--line-2); }
+
+/* پرینت همیشه روشن است */
+@media print {
+  [data-theme="dark"] {
+    --ink: #111827; --ink-2: #374151; --muted: #6b7280;
+    --line: #e5e7eb; --line-2: #f1f5f9; --bg: #fff; --card: #fff;
+    --surface: #fbfbfe; --hover: #fafbff; --input-bg: #fff;
+    --brand-line: #c7d2fe; --brand-ink: #4338ca; --ok-ink: #0f766e; --danger-line: #fecaca;
+    --ok: #047857; color-scheme: light;
+  }
+  [data-theme="dark"] body { background: #fff; color: #111827; }
+}
+
+/* کارت «هنوز کلاسی ثبت نشده» — هم‌رنگ با تم */
+.next-class.is-empty {
+  background: linear-gradient(135deg, var(--surface), var(--hover));
+  color: var(--ink);
+  border: 1px solid var(--line);
+}
+.next-class.is-empty .k { color: var(--brand-2); }
+.next-class.is-empty .m span { color: var(--muted); }
+
+
 /* ---------- نوار بالای پیش‌نمایش ---------- */
 .pv-bar {
   position: sticky; top: 0; z-index: 400;
@@ -711,31 +928,41 @@ p { margin: 0; }
   background: rgba(255,255,255,.09); border: 1px solid rgba(255,255,255,.14);
   border-radius: 999px; padding: 2px 10px; font-size: 11.5px; color: #cbd5e1;
 }
+.pv-theme {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(255,255,255,.1); color: #fff;
+  border: 1px solid rgba(255,255,255,.18);
+  border-radius: 999px; padding: 5px 14px;
+  font-family: inherit; font-size: 12.5px; font-weight: 600; cursor: pointer;
+  transition: all .15s;
+}
+.pv-theme:hover { background: rgba(255,255,255,.2); }
 .pv-screens {
   display: flex; gap: 6px; flex-wrap: wrap;
-  padding: 12px 18px; background: #fff; border-bottom: 1px solid #e5e7eb;
+  padding: 12px 18px; background: var(--card); border-bottom: 1px solid var(--line);
   font-family: 'Vazirmatn', Tahoma, sans-serif;
 }
 .pv-screens button {
-  border: 1px solid #e5e7eb; background: #fff; color: #374151; cursor: pointer;
+  border: 1px solid var(--line); background: var(--card); color: var(--ink-2); cursor: pointer;
   border-radius: 999px; padding: 6px 13px; font-size: 12.5px; font-family: inherit;
   transition: all .15s;
 }
-.pv-screens button:hover { border-color: #c7d2fe; background: #f8f9ff; }
-.pv-screens button.active { background: linear-gradient(135deg,#4f46e5,#7c3aed); border-color: transparent; color: #fff; font-weight: 600; }
+.pv-screens button:hover { border-color: var(--brand-line); background: var(--hover); }
+.pv-screens button.active { background: linear-gradient(135deg,var(--brand),var(--brand-2)); border-color: transparent; color: #fff; font-weight: 600; }
 .pv-shell .app { min-height: calc(100vh - 96px); }
 .pv-shell .sidebar { height: calc(100vh - 96px); top: 96px; }
 [data-view] { display: none; }
 [data-view].active { display: block; }
 .pv-foot {
-  padding: 16px 20px; font-size: 12px; color: #6b7280; text-align: center;
-  border-top: 1px solid #e5e7eb; background: #fbfbfe;
+  padding: 16px 20px; font-size: 12px; color: var(--muted); text-align: center;
+  border-top: 1px solid var(--line); background: var(--surface);
   font-family: 'Vazirmatn', Tahoma, sans-serif;
 }
+.pv-foot code { background: var(--line-2); padding: 1px 6px; border-radius: 5px; }
 @media (max-width: 860px) {
   .pv-shell .app { min-height: auto; }
   .pv-shell .sidebar { position: static; height: auto; transform: none; width: 100%; }
-  .pv-shell .sidebar .nav { display: none; }
+  .pv-shell .sidebar nav { display: none; }
 }
 
 </style>
@@ -746,7 +973,8 @@ p { margin: 0; }
   <strong>پیش‌نمایش Lucky</strong>
   <span class="pv-chip">فایل خودکفا — بدون سرور</span>
   <span class="spacer"></span>
-  <span>10 صفحه • همین داده‌های نمونه‌ی برنامه</span>
+  <span class="pv-chip">10 صفحه</span>
+  <button class="pv-theme" id="pv-theme">☀️ روشن</button>
 </div>
 
 <div class="pv-screens">
@@ -793,14 +1021,14 @@ p { margin: 0; }
       <div class="topbar">
         <div class="page-title">
           <h1 id="pv-title">داشبورد</h1>
-          <div class="sub" id="pv-sub">یکشنبه ۱۰ آبان • صبح بخیر سارا محمدی</div>
+          <div class="sub" id="pv-sub">یکشنبه ۱۰ آبان • وقت بخیر سارا محمدی</div>
         </div>
         <div class="topbar-actions" id="pv-actions"><button class="btn btn-sm" id="dash-upload">📄 افزودن کتاب</button>
      <button class="btn btn-sm btn-primary" id="dash-course">＋ درس جدید</button></div>
       </div>
 
 <section data-view="dashboard" class="active"
-  data-title="داشبورد" data-sub="یکشنبه ۱۰ آبان • صبح بخیر سارا محمدی"
+  data-title="داشبورد" data-sub="یکشنبه ۱۰ آبان • وقت بخیر سارا محمدی"
   data-actions="<button class=&quot;btn btn-sm&quot; id=&quot;dash-upload&quot;>📄 افزودن کتاب</button>      <button class=&quot;btn btn-sm btn-primary&quot; id=&quot;dash-course&quot;>＋ درس جدید</button>" data-nav="dashboard">
 
     <div class="grid" style="gap:18px">
@@ -808,14 +1036,14 @@ p { margin: 0; }
       <div class="grid cols-2" style="grid-template-columns:1.6fr 1fr;align-items:stretch">
         <div class="next-class">
         <div class="k">کلاس بعدی</div>
-        <div class="t">آمار و احتمال</div>
+        <div class="t">آمار و روش تحقیق</div>
         <div class="m">
-          <span>🕐 ۱۳:۰۰ تا ۱۴:۳۰</span>
+          <span>🕐 ۱۴:۰۰ تا ۱۶:۰۰</span>
           <span>📅 یک‌شنبه</span>
-          <span>📍 کلاس ۳۰۲</span>
-          <span>👤 دکتر کریمی</span>
+          <span>📍 کلاس ۱۰۵</span>
+          <span>👤 دکتر کاظمی</span>
         </div>
-        <div class="count">۳ ساعت و ۱ دقیقه دیگر</div>
+        <div class="count">۱ ساعت و ۱۰ دقیقه دیگر</div>
         
       </div>
         <div class="card card-pad">
@@ -837,39 +1065,39 @@ p { margin: 0; }
         <div><div class="value">۲</div><div class="label">درس فعال</div></div>
       </div>
       <div class="card stat">
-        <div class="icon" style="background:#ecfdf5;color:#0d9488">🗓️</div>
-        <div><div class="value">۴</div><div class="label">جلسه در هفته • ۶ ساعت</div></div>
+        <div class="icon icon-ok">🗓️</div>
+        <div><div class="value">۴</div><div class="label">جلسه در هفته • ۸ ساعت</div></div>
       </div>
       <div class="card stat">
-        <div class="icon" style="background:#fffbeb;color:#b45309">📄</div>
+        <div class="icon icon-warn">📄</div>
         <div><div class="value">۱</div><div class="label">کتاب PDF</div></div>
       </div>
       <div class="card stat">
-        <div class="icon" style="background:#fdf2f8;color:#db2777">✨</div>
-        <div><div class="value">۴</div><div class="label">فصل آماده‌ی مطالعه از ۴</div></div>
+        <div class="icon icon-pink">✨</div>
+        <div><div class="value">۱</div><div class="label">فصل آماده‌ی مطالعه از ۴</div></div>
       </div>
     </div>
       
-    <div class="card card-pad" style="background:linear-gradient(135deg,#fffbeb,#fef9c3);border-color:#fde68a">
+    <div class="card card-pad card-exam">
       <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap">
         <div style="font-size:30px">📝</div>
         <div style="flex:1;min-width:220px">
-          <div style="font-size:12px;color:#92400e;font-weight:600">آزمون بعدی</div>
-          <div style="font-weight:800;font-size:17px">میان‌ترم روان‌شناسی یادگیری <span style="font-size:12.5px;font-weight:500;color:#a16207">• روان‌شناسی یادگیری</span></div>
-          <div style="font-size:12.5px;color:#78350f">
-            چهارشنبه ۱۳ آبان ۱۴۰۵ • ساعت ۱۰:۰۰ • سالن ۲
+          <div class="exam-tone-1" style="font-size:12px;font-weight:600">آزمون بعدی</div>
+          <div style="font-weight:800;font-size:17px">میان‌ترم روان‌شناسی یادگیری <span class="exam-tone-2" style="font-size:12.5px;font-weight:500">• روان‌شناسی یادگیری</span></div>
+          <div class="exam-tone-2" style="font-size:12.5px">
+            پنجشنبه ۱۴ آبان ۱۴۰۵ • ساعت ۱۰:۰۰ • سالن ۱
           </div>
         </div>
         <div style="text-align:center">
-          <div style="font-size:24px;font-weight:800;color:#92400e">۳ روز</div>
-          <div style="font-size:11px;color:#a16207">زمان مرور</div>
+          <div class="exam-tone-1" style="font-size:24px;font-weight:800">۴ روز</div>
+          <div class="exam-tone-2" style="font-size:11px">زمان مرور</div>
         </div>
-        <div style="font-size:12px;color:#92400e;min-width:150px">
-          <div>• ۲۲ آبان: پایان‌ترم آمار</div>
+        <div class="exam-tone-1" style="font-size:12px;min-width:150px">
+          <div>• ۱۹ آبان: کوییز آمار</div>
         </div>
         <a class="btn" href="#/exams">مدیریت آزمون‌ها →</a>
       </div>
-      <div style="margin-top:10px;font-size:12px;color:#92400e">
+      <div class="exam-tone-1" style="margin-top:10px;font-size:12px">
         🔔 برای دریافت اعلان یادآور، اعلان مرورگر را فعال کن. <button class="btn btn-sm" id="dash-perm" style="margin-inline-start:6px">فعال‌سازی</button>
       </div>
     </div>
@@ -886,9 +1114,9 @@ p { margin: 0; }
         <div style="display:flex;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line-2)">
                 <div style="width:5px;height:38px;border-radius:4px;background:#0d9488"></div>
                 <div style="flex:1;min-width:0">
-                  <div style="font-weight:600">آمار و احتمال</div>
+                  <div style="font-weight:600">آمار و روش تحقیق</div>
                   <div style="font-size:12.5px;color:var(--muted)">
-                    ۱۳:۰۰–۱۴:۳۰ • کلاس ۳۰۲
+                    ۱۴:۰۰–۱۶:۰۰ • کلاس ۱۰۵
                   </div>
                 </div>
                 
@@ -901,44 +1129,44 @@ p { margin: 0; }
       <div class="section-head"><h2>آخرین فعالیت‌ها</h2></div>
       
           <div style="display:flex;gap:10px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line-2)">
-            <span class="badge badge-danger">۱۰٪</span>
+            <span class="badge badge-danger">۱۷٪</span>
             <div style="flex:1;min-width:0">
-              <div style="font-size:13.5px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">فصل ۱: مفاهیم بنیادی انگیزش</div>
-              <div style="font-size:11.5px;color:var(--muted)">۱ از ۱۰ • ۸ دقیقه پیش</div>
+              <div style="font-size:13.5px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">فصل اول: مفاهیم بنیادی انگیزش</div>
+              <div style="font-size:11.5px;color:var(--muted)">۱ از ۶ • همین حالا</div>
             </div>
-            <a class="btn btn-sm btn-ghost" href="#/chapter/chp_613430c2">مرور</a>
+            <a class="btn btn-sm btn-ghost" href="#/chapter/chp_73b78e43">مرور</a>
           </div>
           <div style="display:flex;gap:10px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line-2)">
-            <span class="badge badge-danger">۱۰٪</span>
+            <span class="badge badge-danger">۱۷٪</span>
             <div style="flex:1;min-width:0">
-              <div style="font-size:13.5px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">فصل ۱: مفاهیم بنیادی انگیزش</div>
-              <div style="font-size:11.5px;color:var(--muted)">۱ از ۱۰ • ۱۲ دقیقه پیش</div>
+              <div style="font-size:13.5px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">فصل اول: مفاهیم بنیادی انگیزش</div>
+              <div style="font-size:11.5px;color:var(--muted)">۱ از ۶ • ۲ دقیقه پیش</div>
             </div>
-            <a class="btn btn-sm btn-ghost" href="#/chapter/chp_613430c2">مرور</a>
+            <a class="btn btn-sm btn-ghost" href="#/chapter/chp_73b78e43">مرور</a>
           </div>
           <div style="display:flex;gap:10px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line-2)">
-            <span class="badge badge-danger">۱۰٪</span>
+            <span class="badge badge-danger">۱۷٪</span>
             <div style="flex:1;min-width:0">
-              <div style="font-size:13.5px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">فصل ۱: مفاهیم بنیادی انگیزش</div>
-              <div style="font-size:11.5px;color:var(--muted)">۱ از ۱۰ • ۱۳ دقیقه پیش</div>
+              <div style="font-size:13.5px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">فصل اول: مفاهیم بنیادی انگیزش</div>
+              <div style="font-size:11.5px;color:var(--muted)">۱ از ۶ • ۲ دقیقه پیش</div>
             </div>
-            <a class="btn btn-sm btn-ghost" href="#/chapter/chp_613430c2">مرور</a>
+            <a class="btn btn-sm btn-ghost" href="#/chapter/chp_73b78e43">مرور</a>
           </div>
           <div style="display:flex;gap:10px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line-2)">
-            <span class="badge badge-danger">۱۰٪</span>
+            <span class="badge badge-danger">۱۷٪</span>
             <div style="flex:1;min-width:0">
-              <div style="font-size:13.5px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">فصل ۱: مفاهیم بنیادی انگیزش</div>
-              <div style="font-size:11.5px;color:var(--muted)">۱ از ۱۰ • ۱۳ دقیقه پیش</div>
+              <div style="font-size:13.5px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">فصل اول: مفاهیم بنیادی انگیزش</div>
+              <div style="font-size:11.5px;color:var(--muted)">۱ از ۶ • ۳ دقیقه پیش</div>
             </div>
-            <a class="btn btn-sm btn-ghost" href="#/chapter/chp_613430c2">مرور</a>
+            <a class="btn btn-sm btn-ghost" href="#/chapter/chp_73b78e43">مرور</a>
           </div>
           <div style="display:flex;gap:10px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line-2)">
-            <span class="badge badge-danger">۱۰٪</span>
+            <span class="badge badge-danger">۱۷٪</span>
             <div style="flex:1;min-width:0">
-              <div style="font-size:13.5px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">فصل ۱: مفاهیم بنیادی انگیزش</div>
-              <div style="font-size:11.5px;color:var(--muted)">۱ از ۱۰ • ۱۳ دقیقه پیش</div>
+              <div style="font-size:13.5px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">فصل اول: مفاهیم بنیادی انگیزش</div>
+              <div style="font-size:11.5px;color:var(--muted)">۱ از ۶ • ۳ دقیقه پیش</div>
             </div>
-            <a class="btn btn-sm btn-ghost" href="#/chapter/chp_613430c2">مرور</a>
+            <a class="btn btn-sm btn-ghost" href="#/chapter/chp_73b78e43">مرور</a>
           </div>
     </div>
       </div>
@@ -961,33 +1189,33 @@ p { margin: 0; }
           </div>
           
             <div class="tt-col" data-day="0" style="height:810px">
-              <div class="tt-slot" data-id="ses_e6243081" style="top:54px;height:77px;background:linear-gradient(135deg,#6366f1,#6366f1dd)">
-        <div class="t">روان‌شناسی یادگیری</div>
-        <div class="m">۰۸:۰۰–۰۹:۳۰ • کلاس ۲۰۵</div>
-        
-      </div>
+              
             </div>
             <div class="tt-col" data-day="1" style="height:810px">
-              <div class="tt-slot" data-id="ses_939e4f40" style="top:324px;height:77px;background:linear-gradient(135deg,#0d9488,#0d9488dd)">
-        <div class="t">آمار و احتمال</div>
-        <div class="m">۱۳:۰۰–۱۴:۳۰ • کلاس ۳۰۲</div>
+              <div class="tt-slot" data-id="ses_e61e5160" style="top:378px;height:104px;background:linear-gradient(135deg,#0d9488,#0d9488dd)">
+        <div class="t">آمار و روش تحقیق</div>
+        <div class="m">۱۴:۰۰–۱۶:۰۰ • کلاس ۱۰۵</div>
         
       </div>
             </div>
             <div class="tt-col" data-day="2" style="height:810px">
-              <div class="tt-slot" data-id="ses_cb4bfd90" style="top:162px;height:77px;background:linear-gradient(135deg,#6366f1,#6366f1dd)">
+              <div class="tt-slot" data-id="ses_64fde400" style="top:54px;height:104px;background:linear-gradient(135deg,#6366f1,#6366f1dd)">
         <div class="t">روان‌شناسی یادگیری</div>
-        <div class="m">۱۰:۰۰–۱۱:۳۰ • آنلاین</div>
-        <div class="m"><a href="https://meet.google.com/abc-defg-hij" target="_blank" rel="noopener">ورود به کلاس</a></div>
+        <div class="m">۰۸:۰۰–۱۰:۰۰ • کلاس ۲۰۳</div>
+        
       </div>
             </div>
             <div class="tt-col" data-day="3" style="height:810px">
-              
+              <div class="tt-slot" data-id="ses_8e35cc99" style="top:486px;height:77px;background:linear-gradient(135deg,#0d9488,#0d9488dd)">
+        <div class="t">آمار و روش تحقیق</div>
+        <div class="m">۱۶:۰۰–۱۷:۳۰ • آزمایشگاه آمار</div>
+        <div class="m"><a href="https://meet.example.com/stat" target="_blank" rel="noopener">ورود به کلاس</a></div>
+      </div>
             </div>
             <div class="tt-col" data-day="4" style="height:810px">
-              <div class="tt-slot" data-id="ses_a049a5da" style="top:378px;height:77px;background:linear-gradient(135deg,#6366f1,#6366f1dd)">
+              <div class="tt-slot" data-id="ses_bbd52959" style="top:162px;height:104px;background:linear-gradient(135deg,#6366f1,#6366f1dd)">
         <div class="t">روان‌شناسی یادگیری</div>
-        <div class="m">۱۴:۰۰–۱۵:۳۰ • کلاس ۱۰۱</div>
+        <div class="m">۱۰:۰۰–۱۲:۰۰ • کلاس ۲۰۳</div>
         
       </div>
             </div>
@@ -1008,16 +1236,16 @@ p { margin: 0; }
                 <span style="width:10px;height:10px;border-radius:50%;background:#6366f1;flex:0 0 auto"></span>
                 <div style="flex:1;min-width:0">
                   <div style="font-weight:500">روان‌شناسی یادگیری</div>
-                  <div style="font-size:12px;color:var(--muted)">شنبه ۰۸:۰۰ • دوشنبه ۱۰:۰۰ • چهارشنبه ۱۴:۰۰</div>
+                  <div style="font-size:12px;color:var(--muted)">دوشنبه ۰۸:۰۰ • چهارشنبه ۱۰:۰۰</div>
                 </div>
-                <span class="badge">۴.۵ ساعت</span>
+                <span class="badge">۴ ساعت</span>
               </div><div style="display:flex;gap:10px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line-2)">
                 <span style="width:10px;height:10px;border-radius:50%;background:#0d9488;flex:0 0 auto"></span>
                 <div style="flex:1;min-width:0">
-                  <div style="font-weight:500">آمار و احتمال</div>
-                  <div style="font-size:12px;color:var(--muted)">یک‌شنبه ۱۳:۰۰</div>
+                  <div style="font-weight:500">آمار و روش تحقیق</div>
+                  <div style="font-size:12px;color:var(--muted)">یک‌شنبه ۱۴:۰۰ • سه‌شنبه ۱۶:۰۰</div>
                 </div>
-                <span class="badge">۱.۵ ساعت</span>
+                <span class="badge">۳.۵ ساعت</span>
               </div>
       </div>
       <div class="card card-pad">
@@ -1042,54 +1270,54 @@ p { margin: 0; }
             <div class="course-dot" style="background:#6366f1">ر</div>
             <div style="flex:1;min-width:0">
               <div style="font-weight:700;font-size:15px">روان‌شناسی یادگیری</div>
-              <div class="meta">دکتر رضایی • کد PSY201</div>
+              <div class="meta">دکتر رضایی • کد PSY-201</div>
             </div>
-            <button class="btn btn-sm btn-ghost c-edit" data-id="crs_59143482" title="ویرایش">✏️</button>
-            <button class="btn btn-sm btn-ghost c-del" data-id="crs_59143482" data-title="روان‌شناسی یادگیری" title="حذف">🗑</button>
+            <button class="btn btn-sm btn-ghost c-edit" data-id="crs_94052325" title="ویرایش">✏️</button>
+            <button class="btn btn-sm btn-ghost c-del" data-id="crs_94052325" data-title="روان‌شناسی یادگیری" title="حذف">🗑</button>
           </div>
 
           <div style="display:flex;gap:6px;flex-wrap:wrap">
-            <span class="chip" style="font-size:11.5px">شنبه ۰۸:۰۰–۰۹:۳۰</span><span class="chip" style="font-size:11.5px">دوشنبه ۱۰:۰۰–۱۱:۳۰</span><span class="chip" style="font-size:11.5px">چهارشنبه ۱۴:۰۰–۱۵:۳۰</span>
+            <span class="chip" style="font-size:11.5px">دوشنبه ۰۸:۰۰–۱۰:۰۰</span><span class="chip" style="font-size:11.5px">چهارشنبه ۱۰:۰۰–۱۲:۰۰</span>
           </div>
 
-          
+          <div class="hint" style="background:transparent;padding:0;font-size:12.5px">📝 کلاس‌ها سه‌شنبه و پنج‌شنبه صبح</div>
 
           <div style="display:flex;gap:10px;align-items:center;padding:8px 0;border-top:1px dashed var(--line)">
       <span style="font-size:16px">📄</span>
       <div style="flex:1;min-width:0">
         <div style="font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">مبانی یادگیری و مطالعه</div>
-        <div style="font-size:11.5px;color:var(--muted)">۶ صفحه <span class="badge badge-ok">۴ فصل</span></div>
+        <div style="font-size:11.5px;color:var(--muted)">۸ صفحه <span class="badge badge-ok">۴ فصل</span></div>
       </div>
-      <a class="btn btn-sm btn-ghost" href="#/library?book=bok_ead4a7b6">فصل‌ها →</a>
-      <button class="btn btn-sm btn-ghost book-del" data-id="bok_ead4a7b6" data-title="مبانی یادگیری و مطالعه" title="حذف کتاب">🗑</button>
+      <a class="btn btn-sm btn-ghost" href="#/library?book=bok_089f2c0a">فصل‌ها →</a>
+      <button class="btn btn-sm btn-ghost book-del" data-id="bok_089f2c0a" data-title="مبانی یادگیری و مطالعه" title="حذف کتاب">🗑</button>
     </div>
 
           <div class="foot">
-            <button class="btn btn-sm s-add" data-id="crs_59143482">＋ کلاس</button>
-            <button class="btn btn-sm b-add" data-id="crs_59143482">📄 افزودن PDF</button>
+            <button class="btn btn-sm s-add" data-id="crs_94052325">＋ کلاس</button>
+            <button class="btn btn-sm b-add" data-id="crs_94052325">📄 افزودن PDF</button>
           </div>
         </div><div class="course-card card" style="--c:#0d9488">
           <div class="head">
             <div class="course-dot" style="background:#0d9488">آ</div>
             <div style="flex:1;min-width:0">
-              <div style="font-weight:700;font-size:15px">آمار و احتمال</div>
-              <div class="meta">دکتر کریمی • کد STA101</div>
+              <div style="font-weight:700;font-size:15px">آمار و روش تحقیق</div>
+              <div class="meta">دکتر کاظمی • کد STA-110</div>
             </div>
-            <button class="btn btn-sm btn-ghost c-edit" data-id="crs_1f2e5919" title="ویرایش">✏️</button>
-            <button class="btn btn-sm btn-ghost c-del" data-id="crs_1f2e5919" data-title="آمار و احتمال" title="حذف">🗑</button>
+            <button class="btn btn-sm btn-ghost c-edit" data-id="crs_0143a89e" title="ویرایش">✏️</button>
+            <button class="btn btn-sm btn-ghost c-del" data-id="crs_0143a89e" data-title="آمار و روش تحقیق" title="حذف">🗑</button>
           </div>
 
           <div style="display:flex;gap:6px;flex-wrap:wrap">
-            <span class="chip" style="font-size:11.5px">یک‌شنبه ۱۳:۰۰–۱۴:۳۰</span>
+            <span class="chip" style="font-size:11.5px">یک‌شنبه ۱۴:۰۰–۱۶:۰۰</span><span class="chip" style="font-size:11.5px">سه‌شنبه ۱۶:۰۰–۱۷:۳۰</span>
           </div>
 
-          
+          <div class="hint" style="background:transparent;padding:0;font-size:12.5px">📝 تمرین‌ها هر هفته تحویل داده شود</div>
 
           <div style="font-size:12.5px;color:var(--muted);border-top:1px dashed var(--line);padding-top:8px">کتابی برای این درس ثبت نشده.</div>
 
           <div class="foot">
-            <button class="btn btn-sm s-add" data-id="crs_1f2e5919">＋ کلاس</button>
-            <button class="btn btn-sm b-add" data-id="crs_1f2e5919">📄 افزودن PDF</button>
+            <button class="btn btn-sm s-add" data-id="crs_0143a89e">＋ کلاس</button>
+            <button class="btn btn-sm b-add" data-id="crs_0143a89e">📄 افزودن PDF</button>
           </div>
         </div>
     </div>
@@ -1104,7 +1332,7 @@ p { margin: 0; }
         <div class="section-head"><h2>کتاب‌ها</h2><button class="btn btn-sm btn-ghost" id="lib-add2">＋</button></div>
         
     <div class="card" style="padding:10px">
-      <div class="book-item active" data-book="bok_ead4a7b6">
+      <div class="book-item active" data-book="bok_089f2c0a">
           <div class="cover" style="background:linear-gradient(135deg,#6366f133,#6366f166);color:#6366f1">📕</div>
           <div class="info">
             <div class="t">مبانی یادگیری و مطالعه</div>
@@ -1122,7 +1350,7 @@ p { margin: 0; }
                 مبانی یادگیری و مطالعه
               </h2>
               <div style="font-size:12.5px;color:var(--muted);margin-top:2px">
-                روان‌شناسی یادگیری • ۶ صفحه • ۴ فصل
+                روان‌شناسی یادگیری • ۸ صفحه • ۴ فصل
                 
                 
               </div>
@@ -1136,62 +1364,62 @@ p { margin: 0; }
         <div class="grid" style="gap:10px"><div class="chapter-card">
           <div class="chapter-num">۱</div>
           <div class="body">
-            <div class="title">فصل ۱: مفاهیم بنیادی انگیزش</div>
+            <div class="title">فصل اول: مفاهیم بنیادی انگیزش</div>
             <div class="meta">
-              <span>صفحه ۲ تا ۳</span>
-              <span>۳۳۵ کلمه</span><span>~۲ دقیقه</span>
+              <span>صفحه ۱ تا ۲</span>
+              <span>۳۲۹ کلمه</span><span>~۲ دقیقه</span>
               <span class="badge badge-ok">خلاصه + تست آماده</span>
             </div>
           </div>
           <div class="actions">
-            <button class="btn btn-sm ch-go" data-id="chp_613430c2" data-tab="summary">📝 خلاصه</button>
-            <button class="btn btn-sm ch-go" data-id="chp_613430c2" data-tab="quiz">✅ تست</button>
-            <button class="btn btn-sm ch-go" data-id="chp_613430c2" data-tab="pptx">📊 پاورپوینت</button>
+            <button class="btn btn-sm ch-go" data-id="chp_73b78e43" data-tab="summary">📝 خلاصه</button>
+            <button class="btn btn-sm ch-go" data-id="chp_73b78e43" data-tab="quiz">✅ تست</button>
+            <button class="btn btn-sm ch-go" data-id="chp_73b78e43" data-tab="pptx">📊 پاورپوینت</button>
           </div>
         </div><div class="chapter-card">
           <div class="chapter-num">۲</div>
           <div class="body">
-            <div class="title">فصل ۲: حافظه و پردازش اطلاعات</div>
+            <div class="title">فصل دوم: حافظه و پردازش اطلاعات</div>
             <div class="meta">
-              <span>صفحه ۴ تا ۴</span>
-              <span>۲۶۱ کلمه</span><span>~۱ دقیقه</span>
-              <span class="badge badge-ok">خلاصه + تست آماده</span>
+              <span>صفحه ۳ تا ۴</span>
+              <span>۲۵۰ کلمه</span><span>~۱ دقیقه</span>
+              
             </div>
           </div>
           <div class="actions">
-            <button class="btn btn-sm ch-go" data-id="chp_d478a81d" data-tab="summary">📝 خلاصه</button>
-            <button class="btn btn-sm ch-go" data-id="chp_d478a81d" data-tab="quiz">✅ تست</button>
-            <button class="btn btn-sm ch-go" data-id="chp_d478a81d" data-tab="pptx">📊 پاورپوینت</button>
+            <button class="btn btn-sm ch-go" data-id="chp_a21aa065" data-tab="summary">📝 خلاصه</button>
+            <button class="btn btn-sm ch-go" data-id="chp_a21aa065" data-tab="quiz">✅ تست</button>
+            <button class="btn btn-sm ch-go" data-id="chp_a21aa065" data-tab="pptx">📊 پاورپوینت</button>
           </div>
         </div><div class="chapter-card">
           <div class="chapter-num">۳</div>
           <div class="body">
-            <div class="title">فصل ۳: روشهای مطالعه و مدیریت زمان</div>
+            <div class="title">فصل سوم: روش‌های مطالعه و مدیریت زمان</div>
             <div class="meta">
-              <span>صفحه ۵ تا ۵</span>
-              <span>۲۴۴ کلمه</span><span>~۱ دقیقه</span>
-              <span class="badge badge-ok">خلاصه + تست آماده</span>
+              <span>صفحه ۵ تا ۶</span>
+              <span>۲۶۲ کلمه</span><span>~۱ دقیقه</span>
+              
             </div>
           </div>
           <div class="actions">
-            <button class="btn btn-sm ch-go" data-id="chp_79656184" data-tab="summary">📝 خلاصه</button>
-            <button class="btn btn-sm ch-go" data-id="chp_79656184" data-tab="quiz">✅ تست</button>
-            <button class="btn btn-sm ch-go" data-id="chp_79656184" data-tab="pptx">📊 پاورپوینت</button>
+            <button class="btn btn-sm ch-go" data-id="chp_081b611e" data-tab="summary">📝 خلاصه</button>
+            <button class="btn btn-sm ch-go" data-id="chp_081b611e" data-tab="quiz">✅ تست</button>
+            <button class="btn btn-sm ch-go" data-id="chp_081b611e" data-tab="pptx">📊 پاورپوینت</button>
           </div>
         </div><div class="chapter-card">
           <div class="chapter-num">۴</div>
           <div class="body">
-            <div class="title">فصل ۴: ارزیابی و آمادگی برای آزمون</div>
+            <div class="title">فصل چهارم: ارزیابی و آمادگی برای آزمون</div>
             <div class="meta">
-              <span>صفحه ۶ تا ۶</span>
-              <span>۲۲۲ کلمه</span><span>~۱ دقیقه</span>
-              <span class="badge badge-ok">خلاصه + تست آماده</span>
+              <span>صفحه ۷ تا ۸</span>
+              <span>۲۱۹ کلمه</span><span>~۱ دقیقه</span>
+              
             </div>
           </div>
           <div class="actions">
-            <button class="btn btn-sm ch-go" data-id="chp_6221ae2b" data-tab="summary">📝 خلاصه</button>
-            <button class="btn btn-sm ch-go" data-id="chp_6221ae2b" data-tab="quiz">✅ تست</button>
-            <button class="btn btn-sm ch-go" data-id="chp_6221ae2b" data-tab="pptx">📊 پاورپوینت</button>
+            <button class="btn btn-sm ch-go" data-id="chp_bb338c74" data-tab="summary">📝 خلاصه</button>
+            <button class="btn btn-sm ch-go" data-id="chp_bb338c74" data-tab="quiz">✅ تست</button>
+            <button class="btn btn-sm ch-go" data-id="chp_bb338c74" data-tab="pptx">📊 پاورپوینت</button>
           </div>
         </div></div>
         <p class="hint" style="margin-top:16px">
@@ -1202,23 +1430,23 @@ p { margin: 0; }
 </section>
 
 <section data-view="chapter-summary" class=""
-  data-title="فصل ۱: مفاهیم بنیادی انگیزش" data-sub="روان‌شناسی یادگیری • مبانی یادگیری و مطالعه • صفحه ۲–۳"
-  data-actions="<a class=&quot;btn btn-sm&quot; href=&quot;#/library?book=bok_ead4a7b6&quot;>→ بازگشت به فصل‌ها</a>" data-nav="library">
+  data-title="فصل اول: مفاهیم بنیادی انگیزش" data-sub="روان‌شناسی یادگیری • مبانی یادگیری و مطالعه • صفحه ۱–۲"
+  data-actions="<a class=&quot;btn btn-sm&quot; href=&quot;#/library?book=bok_089f2c0a&quot;>→ بازگشت به فصل‌ها</a>" data-nav="library">
 
-    <div class="card card-pad" style="margin-bottom:16px;background:linear-gradient(135deg,#f5f3ff,#eef2ff);border-color:#e0e7ff">
+    <div class="card card-pad card-soft-brand" style="margin-bottom:16px">
       <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap">
         <div style="width:52px;height:52px;border-radius:15px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;display:grid;place-items:center;font-weight:800;font-size:18px">
           ۱
         </div>
         <div style="flex:1;min-width:200px">
-          <div style="font-weight:700;font-size:16px">فصل ۱: مفاهیم بنیادی انگیزش</div>
+          <div style="font-weight:700;font-size:16px">فصل اول: مفاهیم بنیادی انگیزش</div>
           <div style="font-size:12.5px;color:var(--muted);margin-top:2px">
-            ۳۳۵ کلمه • حدود ۲ دقیقه مطالعه
+            ۳۲۹ کلمه • حدود ۲ دقیقه مطالعه
           </div>
         </div>
         <div style="display:flex;gap:8px;flex-wrap:wrap">
           <span class="badge badge-ok">خلاصه آماده</span>
-          <span class="badge badge-ok">۱۰ سؤال</span>
+          <span class="badge badge-ok">۶ سؤال</span>
           <span class="badge badge-brand">پاورپوینت ساخته شده</span>
           <span class="badge ">⚙️ موتور محلی</span>
         </div>
@@ -1266,11 +1494,11 @@ p { margin: 0; }
         <div class="section-head">
           <h2>📝 خلاصه‌ی فصل</h2>
           <div style="display:flex;gap:6px;align-items:center"><span class="badge">موتور محلی</span>
-            <span class="badge">۳۳٪ از متن</span>
-            <span class="badge">۲۱ دقیقه پیش</span>
+            <span class="badge">۳۸٪ از متن</span>
+            <span class="badge">۳ دقیقه پیش</span>
           </div>
         </div>
-        <p class="summary-text" id="sum-text">انگیزش به مجموعهای از فرایندهای درونی گفته میشود که رفتار فرد را برای رسیدن به یک هدف به حرکت درمیآورد. در روانشناسی، انگیزش را معمولا به دو دسته درونی و بیرونی تقسیم میکنند. انگیزش درونی زمانی رخ میدهد که فرد برای لذت بردن از خود فعالیت دست به کار میشود، اما انگیزش بیرونی به پاداشها و تنبیههای محیطی وابسته است. نظریه خودتعیینگری از سه نیاز روانشناختی پایه سخن میگوید: خودمختاری، شایستگی و ارتباط. در مقابل، نظریه انتظار-ارزش بیان میکند که انگیزش حاصل ضرب دو عامل است: انتظار موفقیت و ارزشی که فرد برای هدف قایل است. خودکارآمدی که باور فرد به توانایی انجام یک تکلیف است، مهمترین پیشبین یادگیری خودتنظیمی به شمار میرود.</p>
+        <p class="summary-text" id="sum-text">انگیزش به مجموعه ای از فرایندهای درونی گفته می شود که رفتار فرد را برای رسیدن به یک هدف به حرکت درمی آورد. در روان شناسی، انگیزش را معموال به دو دسته درونی و بیرونی تقسیم می کنند. انگیزش درونی زمانی رخ می دهد که فرد برای لذت بردن از خود فعالیت دست به کار می شود، اما انگیزش بیرونی به پاداش ها و تنبیه های محیطی وابسته است. نظریه خودتعیین گری از سه نیاز روان شناختی پایه سخن می گوید: خودمختاری، شایستگی و ارتباط. در مقابل، نظریه انتظار ارزش بیان می کند که انگیزش حاصل ضرب دو عامل است: انتظار موفقیت و ارزشی که فرد برای هدف قایل است. اگر دانشجو باور داشته باشد که تالش او نتیجه می دهد و هدف را ارزشمند بداند، احتمال درگیری او با تکالیف درسی بیشتر است.</p>
       </div>
 
       
@@ -1280,44 +1508,44 @@ p { margin: 0; }
             
               <div class="point">
                 <div class="n">۱</div>
-                <div style="font-size:13.5px;line-height:2">انگیزش به مجموعهای از فرایندهای درونی گفته میشود که رفتار فرد را برای رسیدن به یک هدف به حرکت درمیآورد.
-                  <span class="badge" style="margin-inline-start:6px">صفحه ۲</span>
+                <div style="font-size:13.5px;line-height:2">در روان شناسی، انگیزش را معموال به دو دسته درونی و بیرونی تقسیم می کنند.
+                  <span class="badge" style="margin-inline-start:6px">صفحه ۱</span>
                 </div>
               </div>
               <div class="point">
                 <div class="n">۲</div>
-                <div style="font-size:13.5px;line-height:2">در مقابل، نظریه انتظار-ارزش بیان میکند که انگیزش حاصل ضرب دو عامل است: انتظار موفقیت و ارزشی که فرد برای هدف قایل است.
-                  <span class="badge" style="margin-inline-start:6px">صفحه ۲</span>
+                <div style="font-size:13.5px;line-height:2">در مقابل، نظریه انتظار ارزش بیان می کند که انگیزش حاصل ضرب دو عامل است: انتظار موفقیت و ارزشی که فرد برای هدف قایل است.
+                  <span class="badge" style="margin-inline-start:6px">صفحه ۱</span>
                 </div>
               </div>
               <div class="point">
                 <div class="n">۳</div>
-                <div style="font-size:13.5px;line-height:2">در روانشناسی، انگیزش را معمولا به دو دسته درونی و بیرونی تقسیم میکنند.
-                  <span class="badge" style="margin-inline-start:6px">صفحه ۲</span>
+                <div style="font-size:13.5px;line-height:2">انگیزش به مجموعه ای از فرایندهای درونی گفته می شود که رفتار فرد را برای رسیدن به یک هدف به حرکت درمی آورد.
+                  <span class="badge" style="margin-inline-start:6px">صفحه ۱</span>
                 </div>
               </div>
               <div class="point">
                 <div class="n">۴</div>
-                <div style="font-size:13.5px;line-height:2">نظریه خودتعیینگری از سه نیاز روانشناختی پایه سخن میگوید: خودمختاری، شایستگی و ارتباط.
-                  <span class="badge" style="margin-inline-start:6px">صفحه ۲</span>
+                <div style="font-size:13.5px;line-height:2">نظریه خودتعیین گری از سه نیاز روان شناختی پایه سخن می گوید: خودمختاری، شایستگی و ارتباط.
+                  <span class="badge" style="margin-inline-start:6px">صفحه ۱</span>
                 </div>
               </div>
               <div class="point">
                 <div class="n">۵</div>
-                <div style="font-size:13.5px;line-height:2">انگیزش درونی زمانی رخ میدهد که فرد برای لذت بردن از خود فعالیت دست به کار میشود، اما انگیزش بیرونی به پاداشها و تنبیههای محیطی وابسته است.
-                  <span class="badge" style="margin-inline-start:6px">صفحه ۲</span>
+                <div style="font-size:13.5px;line-height:2">انگیزش درونی زمانی رخ می دهد که فرد برای لذت بردن از خود فعالیت دست به کار می شود، اما انگیزش بیرونی به پاداش ها و تنبیه های محیطی وابسته است.
+                  <span class="badge" style="margin-inline-start:6px">صفحه ۱</span>
                 </div>
               </div>
               <div class="point">
                 <div class="n">۶</div>
-                <div style="font-size:13.5px;line-height:2">خودکارآمدی که باور فرد به توانایی انجام یک تکلیف است، مهمترین پیشبین یادگیری خودتنظیمی به شمار میرود.
-                  <span class="badge" style="margin-inline-start:6px">صفحه ۳</span>
+                <div style="font-size:13.5px;line-height:2">اگر دانشجو باور داشته باشد که تالش او نتیجه می دهد و هدف را ارزشمند بداند، احتمال درگیری او با تکالیف درسی بیشتر است.
+                  <span class="badge" style="margin-inline-start:6px">صفحه ۱</span>
                 </div>
               </div>
               <div class="point">
                 <div class="n">۷</div>
-                <div style="font-size:13.5px;line-height:2">پژوهشها نشان میدهد که ارضای این سه نیاز، انگیزش درونی دانشجو را افزایش میدهد و به یادگیری پایدارتر منجر میشود.
-                  <span class="badge" style="margin-inline-start:6px">صفحه ۲</span>
+                <div style="font-size:13.5px;line-height:2">پژوهش ها نشان می دهد که ارضای این سه نیاز، انگیزش درونی دانشجو را افزایش می دهد و به یادگیری پایدارتر منجر می شود.
+                  <span class="badge" style="margin-inline-start:6px">صفحه ۱</span>
                 </div>
               </div>
           </div>
@@ -1329,73 +1557,73 @@ p { margin: 0; }
           
             <div class="term-row">
               <div class="k">یادگیری خودتنظیمی</div>
-              <div class="v">یادگیری خودتنظیمی فرایندی است که در آن دانشجو اهداف خود را تعیین میکند، پیشرفت خود را پایش میکند و راهبردهای مطالعه را بر اساس بازخورد تنظیم میکند.</div>
+              <div class="v">یادگیری خودتنظیمی فرایندی است که در آن دانشجو اهداف خود را تعیین می کند، پیشرفت خود را پایش می کند و راهبردهای مطالعه را بر اساس بازخورد تنظیم می کند.</div>
             </div>
             <div class="term-row">
               <div class="k">انگیزش درونی</div>
-              <div class="v">انگیزش درونی زمانی رخ میدهد که فرد برای لذت بردن از خود فعالیت دست به کار میشود، اما انگیزش بیرونی به پاداشها و تنبیههای محیطی وابسته است.</div>
+              <div class="v">انگیزش درونی زمانی رخ می دهد که فرد برای لذت بردن از خود فعالیت دست به کار می شود، اما انگیزش بیرونی به پاداش ها و تنبیه های محیطی وابسته است.</div>
             </div>
             <div class="term-row">
               <div class="k">نیازهای سطح</div>
-              <div class="v">بر اساس این نظریه، نیازهای سطح پایینتر باید تا حدی ارضا شوند تا نیازهای سطح بالاتر فعال گردند.</div>
-            </div>
-            <div class="term-row">
-              <div class="k">دانشجو</div>
-              <div class="v">پژوهشها نشان میدهد که ارضای این سه نیاز، انگیزش درونی دانشجو را افزایش میدهد و به یادگیری پایدارتر منجر میشود.</div>
+              <div class="v">بر اساس این نظریه، نیازهای سطح پایین تر باید تا حدی ارضا شوند تا نیازهای سطح باالتر فعال گردند.</div>
             </div>
             <div class="term-row">
               <div class="k">نظریه</div>
-              <div class="v">نظریه سلسلهمراتب نیازها را آبراهام مزلو مطرح کرد.</div>
+              <div class="v">نظریه سلسله مراتب نیازها را آبراهام مزلو مطرح کرد.</div>
             </div>
             <div class="term-row">
-              <div class="k">بیرونی</div>
-              <div class="v">در روانشناسی، انگیزش را معمولا به دو دسته درونی و بیرونی تقسیم میکنند.</div>
+              <div class="k">دانشجو</div>
+              <div class="v">پژوهش ها نشان می دهد که ارضای این سه نیاز، انگیزش درونی دانشجو را افزایش می دهد و به یادگیری پایدارتر منجر می شود.</div>
             </div>
             <div class="term-row">
               <div class="k">فرد</div>
-              <div class="v">انگیزش به مجموعهای از فرایندهای درونی گفته میشود که رفتار فرد را برای رسیدن به یک هدف به حرکت درمیآورد.</div>
+              <div class="v">انگیزش به مجموعه ای از فرایندهای درونی گفته می شود که رفتار فرد را برای رسیدن به یک هدف به حرکت درمی آورد.</div>
             </div>
             <div class="term-row">
               <div class="k">نیاز</div>
-              <div class="v">نظریه سلسلهمراتب نیازها را آبراهام مزلو مطرح کرد.</div>
+              <div class="v">نظریه سلسله مراتب نیازها را آبراهام مزلو مطرح کرد.</div>
             </div>
             <div class="term-row">
               <div class="k">شکست</div>
-              <div class="v">اسناد یا Attribution به باورهای فرد درباره علت موفقیت و شکست اشاره دارد.</div>
-            </div>
-            <div class="term-row">
-              <div class="k">شایستگی</div>
-              <div class="v">نظریه خودتعیینگری از سه نیاز روانشناختی پایه سخن میگوید: خودمختاری، شایستگی و ارتباط.</div>
+              <div class="v">اسناد به باورهای فرد درباره علت موفقیت و شکست اشاره دارد.</div>
             </div>
             <div class="term-row">
               <div class="k">توانایی</div>
-              <div class="v">در حالی که اسناد دادن شکست به توانایی ثابت، به درماندگی آموختهشده منجر میشود.</div>
+              <div class="v">در حالی که اسناد دادن شکست به توانایی ثابت، به درماندگی آموخته شده منجر می شود.</div>
             </div>
             <div class="term-row">
-              <div class="k">بازخورد</div>
-              <div class="v">یادگیری خودتنظیمی فرایندی است که در آن دانشجو اهداف خود را تعیین میکند، پیشرفت خود را پایش میکند و راهبردهای مطالعه را بر اساس بازخورد تنظیم میکند.</div>
+              <div class="k">هدف</div>
+              <div class="v">انگیزش به مجموعه ای از فرایندهای درونی گفته می شود که رفتار فرد را برای رسیدن به یک هدف به حرکت درمی آورد.</div>
+            </div>
+            <div class="term-row">
+              <div class="k">بیرونی</div>
+              <div class="v">در روان شناسی، انگیزش را معموال به دو دسته درونی و بیرونی تقسیم می کنند.</div>
+            </div>
+            <div class="term-row">
+              <div class="k">موفقیت</div>
+              <div class="v">در مقابل، نظریه انتظار ارزش بیان می کند که انگیزش حاصل ضرب دو عامل است: انتظار موفقیت و ارزشی که فرد برای هدف قایل است.</div>
             </div>
         </div></div>
 </section>
 
 <section data-view="chapter-quiz" class=""
-  data-title="فصل ۱: مفاهیم بنیادی انگیزش" data-sub="روان‌شناسی یادگیری • مبانی یادگیری و مطالعه • صفحه ۲–۳"
-  data-actions="<a class=&quot;btn btn-sm&quot; href=&quot;#/library?book=bok_ead4a7b6&quot;>→ بازگشت به فصل‌ها</a>" data-nav="library">
+  data-title="فصل اول: مفاهیم بنیادی انگیزش" data-sub="روان‌شناسی یادگیری • مبانی یادگیری و مطالعه • صفحه ۱–۲"
+  data-actions="<a class=&quot;btn btn-sm&quot; href=&quot;#/library?book=bok_089f2c0a&quot;>→ بازگشت به فصل‌ها</a>" data-nav="library">
 
-    <div class="card card-pad" style="margin-bottom:16px;background:linear-gradient(135deg,#f5f3ff,#eef2ff);border-color:#e0e7ff">
+    <div class="card card-pad card-soft-brand" style="margin-bottom:16px">
       <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap">
         <div style="width:52px;height:52px;border-radius:15px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;display:grid;place-items:center;font-weight:800;font-size:18px">
           ۱
         </div>
         <div style="flex:1;min-width:200px">
-          <div style="font-weight:700;font-size:16px">فصل ۱: مفاهیم بنیادی انگیزش</div>
+          <div style="font-weight:700;font-size:16px">فصل اول: مفاهیم بنیادی انگیزش</div>
           <div style="font-size:12.5px;color:var(--muted);margin-top:2px">
-            ۳۳۵ کلمه • حدود ۲ دقیقه مطالعه
+            ۳۲۹ کلمه • حدود ۲ دقیقه مطالعه
           </div>
         </div>
         <div style="display:flex;gap:8px;flex-wrap:wrap">
           <span class="badge badge-ok">خلاصه آماده</span>
-          <span class="badge badge-ok">۱۰ سؤال</span>
+          <span class="badge badge-ok">۶ سؤال</span>
           <span class="badge badge-brand">پاورپوینت ساخته شده</span>
           <span class="badge ">⚙️ موتور محلی</span>
         </div>
@@ -1412,13 +1640,13 @@ p { margin: 0; }
       
 
       <div class="card card-pad" style="margin-bottom:14px;display:flex;gap:10px;align-items:center;flex-wrap:wrap">
-        <span class="badge badge-brand">۱۰ سؤال</span>
-        <span class="badge">۶ چهارگزینه‌ای</span>
-        <span class="badge">۳ درست/نادرست</span>
-        <span class="badge">۱ پاسخ کوتاه</span>
+        <span class="badge badge-brand">۶ سؤال</span>
+        <span class="badge">۴ چهارگزینه‌ای</span>
+        <span class="badge">۲ درست/نادرست</span>
+        <span class="badge">۰ پاسخ کوتاه</span>
         <span class="badge">⚙️ موتور محلی</span>
         <div style="margin-inline-start:auto;font-size:12.5px;color:var(--muted)">
-          پاسخ‌داده‌شده: ۰ از ۱۰
+          پاسخ‌داده‌شده: ۰ از ۶
         </div>
       </div>
 
@@ -1432,19 +1660,19 @@ p { margin: 0; }
         </div>
         
       </div>
-      <div class="qtext">در مقابل، نظریه انتظار-ارزش بیان میکند که انگیزش حاصل ضرب دو عامل است: انتظار «ـــ...ـــ» و ارزشی که فرد برای هدف قایل است.</div>
+      <div class="qtext">در روان شناسی، انگیزش را معموال به دو دسته درونی و «ـــ...ـــ» تقسیم می کنند.</div>
       <div class="opt" data-opt="0" data-qid="q1">
               <span class="key">۱</span>
-              <span>بازخورد</span>
+              <span>دانشجو</span>
             </div><div class="opt" data-opt="1" data-qid="q1">
               <span class="key">۲</span>
-              <span>هستند</span>
+              <span>توانایی</span>
             </div><div class="opt" data-opt="2" data-qid="q1">
               <span class="key">۳</span>
-              <span>موفقیت</span>
+              <span>اسناد</span>
             </div><div class="opt" data-opt="3" data-qid="q1">
               <span class="key">۴</span>
-              <span>شایستگی</span>
+              <span>بیرونی</span>
             </div>
       
     </div><div class="quiz-q" data-q="q2">
@@ -1456,19 +1684,19 @@ p { margin: 0; }
         </div>
         
       </div>
-      <div class="qtext">در روانشناسی، انگیزش را معمولا به دو دسته درونی و «ـــ...ـــ» تقسیم میکنند.</div>
+      <div class="qtext">در مقابل، نظریه انتظار ارزش بیان می کند که انگیزش حاصل ضرب دو عامل است: انتظار «ـــ...ـــ» و ارزشی که فرد برای هدف قایل است.</div>
       <div class="opt" data-opt="0" data-qid="q2">
               <span class="key">۱</span>
-              <span>هستند</span>
+              <span>اسناد</span>
             </div><div class="opt" data-opt="1" data-qid="q2">
               <span class="key">۲</span>
-              <span>اسناد</span>
+              <span>توانایی</span>
             </div><div class="opt" data-opt="2" data-qid="q2">
               <span class="key">۳</span>
-              <span>موفقیت</span>
+              <span>دانشجو</span>
             </div><div class="opt" data-opt="3" data-qid="q2">
               <span class="key">۴</span>
-              <span>بیرونی</span>
+              <span>موفقیت</span>
             </div>
       
     </div><div class="quiz-q" data-q="q3">
@@ -1476,23 +1704,23 @@ p { margin: 0; }
         <div style="display:flex;gap:8px;align-items:center">
           <span class="badge badge-brand">سؤال ۳</span>
           <span class="badge">چهارگزینه‌ای</span>
-          <span class="badge">متوسط</span>
+          <span class="badge">آسان</span>
         </div>
         
       </div>
-      <div class="qtext">نظریه خودتعیینگری از سه نیاز روانشناختی پایه سخن میگوید: خودمختاری، «ـــ...ـــ» و ارتباط.</div>
+      <div class="qtext">«ـــ...ـــ» خودتعیین گری از سه نیاز روان شناختی پایه سخن می گوید: خودمختاری، شایستگی و ارتباط.</div>
       <div class="opt" data-opt="0" data-qid="q3">
               <span class="key">۱</span>
-              <span>توانایی</span>
+              <span>دانشجو</span>
             </div><div class="opt" data-opt="1" data-qid="q3">
               <span class="key">۲</span>
-              <span>دانشجو</span>
+              <span>بیرونی</span>
             </div><div class="opt" data-opt="2" data-qid="q3">
               <span class="key">۳</span>
-              <span>بازخورد</span>
+              <span>توانایی</span>
             </div><div class="opt" data-opt="3" data-qid="q3">
               <span class="key">۴</span>
-              <span>شایستگی</span>
+              <span>نظریه</span>
             </div>
       
     </div><div class="quiz-q" data-q="q4">
@@ -1504,135 +1732,56 @@ p { margin: 0; }
         </div>
         
       </div>
-      <div class="qtext">«ـــ...ـــ» زمانی رخ میدهد که فرد برای لذت بردن از خود فعالیت دست به کار میشود، اما انگیزش بیرونی به پاداشها و تنبیههای محیطی وابسته است.</div>
+      <div class="qtext">«ـــ...ـــ» زمانی رخ می دهد که فرد برای لذت بردن از خود فعالیت دست به کار می شود، اما انگیزش بیرونی به پاداش ها و تنبیه های محیطی وابسته است.</div>
       <div class="opt" data-opt="0" data-qid="q4">
               <span class="key">۱</span>
-              <span>یادگیری خودتنظیمی</span>
+              <span>توانایی</span>
             </div><div class="opt" data-opt="1" data-qid="q4">
               <span class="key">۲</span>
-              <span>موفقیت</span>
+              <span>انگیزش درونی</span>
             </div><div class="opt" data-opt="2" data-qid="q4">
               <span class="key">۳</span>
               <span>نیازهای سطح</span>
             </div><div class="opt" data-opt="3" data-qid="q4">
               <span class="key">۴</span>
-              <span>انگیزش درونی</span>
+              <span>یادگیری خودتنظیمی</span>
             </div>
       
     </div><div class="quiz-q" data-q="q5">
       <div class="qhead">
         <div style="display:flex;gap:8px;align-items:center">
           <span class="badge badge-brand">سؤال ۵</span>
-          <span class="badge">چهارگزینه‌ای</span>
-          <span class="badge">سخت</span>
+          <span class="badge">درست/نادرست</span>
+          <span class="badge">متوسط</span>
         </div>
         
       </div>
-      <div class="qtext">خودکارآمدی که باور فرد به توانایی انجام یک تکلیف است، مهمترین پیشبین «ـــ...ـــ» به شمار میرود.</div>
+      <div class="qtext">در حالی که اسناد دادن شکست به توانایی ثابت، به درماندگی آموخته شده منجر می شود.</div>
       <div class="opt" data-opt="0" data-qid="q5">
               <span class="key">۱</span>
-              <span>انگیزش درونی</span>
+              <span>درست</span>
             </div><div class="opt" data-opt="1" data-qid="q5">
               <span class="key">۲</span>
-              <span>یادگیری خودتنظیمی</span>
-            </div><div class="opt" data-opt="2" data-qid="q5">
-              <span class="key">۳</span>
-              <span>نیازهای سطح</span>
-            </div><div class="opt" data-opt="3" data-qid="q5">
-              <span class="key">۴</span>
-              <span>شایستگی</span>
+              <span>نادرست</span>
             </div>
       
     </div><div class="quiz-q" data-q="q6">
       <div class="qhead">
         <div style="display:flex;gap:8px;align-items:center">
           <span class="badge badge-brand">سؤال ۶</span>
-          <span class="badge">چهارگزینه‌ای</span>
-          <span class="badge">سخت</span>
+          <span class="badge">درست/نادرست</span>
+          <span class="badge">متوسط</span>
         </div>
         
       </div>
-      <div class="qtext">پژوهشها نشان میدهد که ارضای این سه نیاز، «ـــ...ـــ» دانشجو را افزایش میدهد و به یادگیری پایدارتر منجر میشود.</div>
+      <div class="qtext">بر اساس این نظریه، نیازهای سطح پایین تر باید تا حدی ارضا شوند تا نیازهای سطح باالتر فعال گردند.</div>
       <div class="opt" data-opt="0" data-qid="q6">
               <span class="key">۱</span>
-              <span>توانایی</span>
+              <span>درست</span>
             </div><div class="opt" data-opt="1" data-qid="q6">
               <span class="key">۲</span>
-              <span>نیازهای سطح</span>
-            </div><div class="opt" data-opt="2" data-qid="q6">
-              <span class="key">۳</span>
-              <span>انگیزش درونی</span>
-            </div><div class="opt" data-opt="3" data-qid="q6">
-              <span class="key">۴</span>
-              <span>هستند</span>
-            </div>
-      
-    </div><div class="quiz-q" data-q="q7">
-      <div class="qhead">
-        <div style="display:flex;gap:8px;align-items:center">
-          <span class="badge badge-brand">سؤال ۷</span>
-          <span class="badge">درست/نادرست</span>
-          <span class="badge">متوسط</span>
-        </div>
-        
-      </div>
-      <div class="qtext">یادگیری خودتنظیمی فرایندی است که در آن دانشجو اهداف خود را تعیین میکند، پیشرفت خود را پایش میکند و راهبردهای مطالعه را بر اساس بازخورد تنظیم میکند.</div>
-      <div class="opt" data-opt="0" data-qid="q7">
-              <span class="key">۱</span>
-              <span>درست</span>
-            </div><div class="opt" data-opt="1" data-qid="q7">
-              <span class="key">۲</span>
               <span>نادرست</span>
             </div>
-      
-    </div><div class="quiz-q" data-q="q8">
-      <div class="qhead">
-        <div style="display:flex;gap:8px;align-items:center">
-          <span class="badge badge-brand">سؤال ۸</span>
-          <span class="badge">درست/نادرست</span>
-          <span class="badge">متوسط</span>
-        </div>
-        
-      </div>
-      <div class="qtext">دانشجویانی که شکست خود را به عوامل قابل کنترل مانند کمبود تلاش نسبت میدهند، در برابر ناکامی مقاومتر هستند.</div>
-      <div class="opt" data-opt="0" data-qid="q8">
-              <span class="key">۱</span>
-              <span>درست</span>
-            </div><div class="opt" data-opt="1" data-qid="q8">
-              <span class="key">۲</span>
-              <span>نادرست</span>
-            </div>
-      
-    </div><div class="quiz-q" data-q="q9">
-      <div class="qhead">
-        <div style="display:flex;gap:8px;align-items:center">
-          <span class="badge badge-brand">سؤال ۹</span>
-          <span class="badge">درست/نادرست</span>
-          <span class="badge">متوسط</span>
-        </div>
-        
-      </div>
-      <div class="qtext">اگر دانشجو باور داشته باشد که تلاش او نتیجه میدهد و هدف را ارزشمند بداند، احتمال درگیری او با تکالیف درسی بیشتر است.</div>
-      <div class="opt" data-opt="0" data-qid="q9">
-              <span class="key">۱</span>
-              <span>درست</span>
-            </div><div class="opt" data-opt="1" data-qid="q9">
-              <span class="key">۲</span>
-              <span>نادرست</span>
-            </div>
-      
-    </div><div class="quiz-q" data-q="q10">
-      <div class="qhead">
-        <div style="display:flex;gap:8px;align-items:center">
-          <span class="badge badge-brand">سؤال ۱۰</span>
-          <span class="badge">پاسخ کوتاه</span>
-          <span class="badge">سخت</span>
-        </div>
-        
-      </div>
-      <div class="qtext">«آنچه باید پاسخ دهید» یا Attribution به باورهای فرد درباره علت موفقیت و شکست اشاره دارد.</div>
-      <input class="input" data-short="q10" placeholder="پاسخ کوتاه…" value="">
-           
       
     </div>
       </div>
@@ -1643,23 +1792,23 @@ p { margin: 0; }
 </section>
 
 <section data-view="chapter-pptx" class=""
-  data-title="فصل ۱: مفاهیم بنیادی انگیزش" data-sub="روان‌شناسی یادگیری • مبانی یادگیری و مطالعه • صفحه ۲–۳"
-  data-actions="<a class=&quot;btn btn-sm&quot; href=&quot;#/library?book=bok_ead4a7b6&quot;>→ بازگشت به فصل‌ها</a>" data-nav="library">
+  data-title="فصل اول: مفاهیم بنیادی انگیزش" data-sub="روان‌شناسی یادگیری • مبانی یادگیری و مطالعه • صفحه ۱–۲"
+  data-actions="<a class=&quot;btn btn-sm&quot; href=&quot;#/library?book=bok_089f2c0a&quot;>→ بازگشت به فصل‌ها</a>" data-nav="library">
 
-    <div class="card card-pad" style="margin-bottom:16px;background:linear-gradient(135deg,#f5f3ff,#eef2ff);border-color:#e0e7ff">
+    <div class="card card-pad card-soft-brand" style="margin-bottom:16px">
       <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap">
         <div style="width:52px;height:52px;border-radius:15px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;display:grid;place-items:center;font-weight:800;font-size:18px">
           ۱
         </div>
         <div style="flex:1;min-width:200px">
-          <div style="font-weight:700;font-size:16px">فصل ۱: مفاهیم بنیادی انگیزش</div>
+          <div style="font-weight:700;font-size:16px">فصل اول: مفاهیم بنیادی انگیزش</div>
           <div style="font-size:12.5px;color:var(--muted);margin-top:2px">
-            ۳۳۵ کلمه • حدود ۲ دقیقه مطالعه
+            ۳۲۹ کلمه • حدود ۲ دقیقه مطالعه
           </div>
         </div>
         <div style="display:flex;gap:8px;flex-wrap:wrap">
           <span class="badge badge-ok">خلاصه آماده</span>
-          <span class="badge badge-ok">۱۰ سؤال</span>
+          <span class="badge badge-ok">۶ سؤال</span>
           <span class="badge badge-brand">پاورپوینت ساخته شده</span>
           <span class="badge ">⚙️ موتور محلی</span>
         </div>
@@ -1692,31 +1841,31 @@ p { margin: 0; }
             </div><div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dashed var(--line);font-size:13px">
               <span>📝 خلاصه</span>
             </div><div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dashed var(--line);font-size:13px">
-              <span>✅ ۸ پرسش‌های مرور</span>
+              <span>✅ ۶ پرسش‌های مرور</span>
             </div>
           </div>
           <button class="btn btn-primary btn-block" id="pptx-run">
             🔄 ساخت دوباره‌ی فایل
           </button>
           
-            <div class="card card-pad" style="margin-top:14px;background:var(--accent-soft);border-color:#99f6e4">
+            <div class="card card-pad" style="margin-top:14px;background:var(--accent-soft);border-color:var(--accent-line)">
               <div style="font-weight:600;margin-bottom:4px">آخرین فایل ساخته‌شده</div>
               <div style="font-size:12.5px;color:var(--muted);margin-bottom:10px">
-                ۱۳ اسلاید • ۲۱ دقیقه پیش
+                ۱۲ اسلاید • ۳ دقیقه پیش
               </div>
-              <a class="btn btn-primary btn-block" href="/api/exports/lucky-bok_ead4a7b6-chp_613430c2-1793525899100.pptx">⬇️ دانلود فایل PPTX</a>
+              <a class="btn btn-primary btn-block" href="/api/exports/lucky-bok_089f2c0a-chp_73b78e43-1793537258408.pptx">⬇️ دانلود فایل PPTX</a>
             </div>
         </div>
         <div class="card card-pad">
           <div class="section-head"><h2>پیش‌نمایش محتوا</h2></div>
           <div style="font-size:13px;line-height:2;color:var(--ink-2)">
-            <strong>عنوان:</strong> فصل ۱: مفاهیم بنیادی انگیزش<br>
+            <strong>عنوان:</strong> فصل اول: مفاهیم بنیادی انگیزش<br>
             <strong>درس:</strong> روان‌شناسی یادگیری<br>
             <strong>نکات کلیدی:</strong>
             <ul style="margin:6px 0;padding-inline-start:18px">
-              <li>انگیزش به مجموعهای از فرایندهای درونی گفته میشود که رفتار فرد را برای رسیدن به یک هدف به ح…</li><li>در مقابل، نظریه انتظار-ارزش بیان میکند که انگیزش حاصل ضرب دو عامل است: انتظار موفقیت و ارز…</li><li>در روانشناسی، انگیزش را معمولا به دو دسته درونی و بیرونی تقسیم میکنند.…</li><li>نظریه خودتعیینگری از سه نیاز روانشناختی پایه سخن میگوید: خودمختاری، شایستگی و ارتباط.…</li>
+              <li>در روان شناسی، انگیزش را معموال به دو دسته درونی و بیرونی تقسیم می کنند.…</li><li>در مقابل، نظریه انتظار ارزش بیان می کند که انگیزش حاصل ضرب دو عامل است: انتظار موفقیت و ار…</li><li>انگیزش به مجموعه ای از فرایندهای درونی گفته می شود که رفتار فرد را برای رسیدن به یک هدف به…</li><li>نظریه خودتعیین گری از سه نیاز روان شناختی پایه سخن می گوید: خودمختاری، شایستگی و ارتباط.…</li>
             </ul>
-            <strong>نمونه پرسش:</strong> در مقابل، نظریه انتظار-ارزش بیان میکند که انگیزش حاصل ضرب دو عامل است: انتظار «ـــ...ـــ» و ارزشی که فرد برای …
+            <strong>نمونه پرسش:</strong> در روان شناسی، انگیزش را معموال به دو دسته درونی و «ـــ...ـــ» تقسیم می کنند.…
           </div>
           <p class="hint" style="margin-top:12px">فونت فایل Tahoma است تا در همه‌ی نسخه‌های PowerPoint درست نمایش داده شود.</p>
         </div>
@@ -1724,23 +1873,23 @@ p { margin: 0; }
 </section>
 
 <section data-view="chapter-text" class=""
-  data-title="فصل ۱: مفاهیم بنیادی انگیزش" data-sub="روان‌شناسی یادگیری • مبانی یادگیری و مطالعه • صفحه ۲–۳"
-  data-actions="<a class=&quot;btn btn-sm&quot; href=&quot;#/library?book=bok_ead4a7b6&quot;>→ بازگشت به فصل‌ها</a>" data-nav="library">
+  data-title="فصل اول: مفاهیم بنیادی انگیزش" data-sub="روان‌شناسی یادگیری • مبانی یادگیری و مطالعه • صفحه ۱–۲"
+  data-actions="<a class=&quot;btn btn-sm&quot; href=&quot;#/library?book=bok_089f2c0a&quot;>→ بازگشت به فصل‌ها</a>" data-nav="library">
 
-    <div class="card card-pad" style="margin-bottom:16px;background:linear-gradient(135deg,#f5f3ff,#eef2ff);border-color:#e0e7ff">
+    <div class="card card-pad card-soft-brand" style="margin-bottom:16px">
       <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap">
         <div style="width:52px;height:52px;border-radius:15px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;display:grid;place-items:center;font-weight:800;font-size:18px">
           ۱
         </div>
         <div style="flex:1;min-width:200px">
-          <div style="font-weight:700;font-size:16px">فصل ۱: مفاهیم بنیادی انگیزش</div>
+          <div style="font-weight:700;font-size:16px">فصل اول: مفاهیم بنیادی انگیزش</div>
           <div style="font-size:12.5px;color:var(--muted);margin-top:2px">
-            ۳۳۵ کلمه • حدود ۲ دقیقه مطالعه
+            ۳۲۹ کلمه • حدود ۲ دقیقه مطالعه
           </div>
         </div>
         <div style="display:flex;gap:8px;flex-wrap:wrap">
           <span class="badge badge-ok">خلاصه آماده</span>
-          <span class="badge badge-ok">۱۰ سؤال</span>
+          <span class="badge badge-ok">۶ سؤال</span>
           <span class="badge badge-brand">پاورپوینت ساخته شده</span>
           <span class="badge ">⚙️ موتور محلی</span>
         </div>
@@ -1756,54 +1905,59 @@ p { margin: 0; }
     <div id="tab-body">
       <div class="card card-pad">
         <div class="section-head"><h2>📖 متن استخراج‌شده</h2>
-          <span class="badge">۳۳۵ کلمه</span>
+          <span class="badge">۳۲۹ کلمه</span>
         </div>
         <div style="white-space:pre-wrap;font-size:13.5px;line-height:2.1;color:var(--ink-2);max-height:70vh;overflow:auto">
 
 
 
+— صفحه ۱ —
+
+فصل اول: مفاهیم بنیادی انگیزش
+انگیزش به مجموعه ای از فرایندهای درونی گفته
+می شود که رفتار فرد را برای رسیدن به یک هدف به
+حرکت درمی آورد. در روان شناسی، انگیزش را
+معموال به دو دسته درونی و بیرونی تقسیم
+می کنند. انگیزش درونی زمانی رخ می دهد که فرد
+برای لذت بردن از خود فعالیت دست به کار می شود،
+اما انگیزش بیرونی به پاداش ها و تنبیه های
+محیطی وابسته است.
+نظریه سلسله مراتب نیازها را آبراهام مزلو مطرح
+کرد. مزلو نیازهای انسان را در پنج سطح
+طبقه بندی کرد که از نیازهای فیزیولوژیک آغاز
+می شود و به نیاز به خودشکوفایی می رسد. بر اساس
+این نظریه، نیازهای سطح پایین تر باید تا حدی
+ارضا شوند تا نیازهای سطح باالتر فعال گردند.
+نظریه خودتعیین گری از سه نیاز روان شناختی پایه
+سخن می گوید: خودمختاری، شایستگی و ارتباط.
+پژوهش ها نشان می دهد که ارضای این سه نیاز،
+انگیزش درونی دانشجو را افزایش می دهد و به
+یادگیری پایدارتر منجر می شود.
+در مقابل، نظریه انتظار ارزش بیان می کند که
+انگیزش حاصل ضرب دو عامل است: انتظار موفقیت و
+ارزشی که فرد برای هدف قایل است. اگر دانشجو
+باور داشته باشد که تالش او نتیجه می دهد و هدف
+را ارزشمند بداند، احتمال درگیری او با تکالیف
+درسی بیشتر است.
+
+
+
 — صفحه ۲ —
 
-فصل ۱: مفاهیم بنیادی انگیزش
-انگیزش به مجموعهای از فرایندهای درونی گفته میشود که رفتار
-فرد را برای رسیدن به یک هدف به حرکت درمیآورد. در روانشناسی،
-انگیزش را معمولا به دو دسته درونی و بیرونی تقسیم میکنند.
-انگیزش درونی زمانی رخ میدهد که فرد برای لذت بردن از خود
-فعالیت دست به کار میشود، اما انگیزش بیرونی به پاداشها و
-تنبیههای محیطی وابسته است.
-نظریه سلسلهمراتب نیازها را آبراهام مزلو مطرح کرد. مزلو
-نیازهای انسان را در پنج سطح طبقهبندی کرد که از نیازهای
-فیزیولوژیک آغاز میشود و به نیاز به خودشکوفایی میرسد. بر اساس
-این نظریه، نیازهای سطح پایینتر باید تا حدی ارضا شوند تا
-نیازهای سطح بالاتر فعال گردند.
-نظریه خودتعیینگری از سه نیاز روانشناختی پایه سخن میگوید:
-خودمختاری، شایستگی و ارتباط. پژوهشها نشان میدهد که ارضای این
-سه نیاز، انگیزش درونی دانشجو را افزایش میدهد و به یادگیری
-پایدارتر منجر میشود.
-در مقابل، نظریه انتظار-ارزش بیان میکند که انگیزش حاصل ضرب دو
-عامل است: انتظار موفقیت و ارزشی که فرد برای هدف قایل است. اگر
-دانشجو باور داشته باشد که تلاش او نتیجه میدهد و هدف را
-ارزشمند بداند، احتمال درگیری او با تکالیف درسی بیشتر است.
-اسناد یا Attribution به باورهای فرد درباره علت موفقیت و شکست
-اشاره دارد. دانشجویانی که شکست خود را به عوامل قابل کنترل
-مانند کمبود تلاش نسبت میدهند، در برابر ناکامی مقاومتر هستند.
-در حالی که اسناد دادن شکست به توانایی ثابت، به درماندگی
-آموختهشده منجر میشود.
-یادگیری خودتنظیمی فرایندی است که در آن دانشجو اهداف خود را
-تعیین میکند، پیشرفت خود را پایش میکند و راهبردهای مطالعه را
-بر اساس بازخورد تنظیم میکند. سه مرحله اصلی خودتنظیمی عبارتند
-از: پیشاندیشی، عملکرد و خوداندیشی. خودکارآمدی که باور فرد به
-توانایی انجام یک تکلیف است، مهمترین پیشبین یادگیری خودتنظیمی
-
-
-
-— صفحه ۳ —
-
-به شمار میرود.
-کاربرد کلاسی این مباحث آن است که مدرس به جای تکیه بر پاداش
-بیرونی، شرایط تجربه شایستگی و حق انتخاب را برای دانشجو فراهم
-کند. بازخورد سازنده و هدفگذاری کوتاهمدت، دو ابزار ساده اما
-اثرگذار در این مسیر هستند.</div>
+اسناد به باورهای فرد درباره علت موفقیت و شکست
+اشاره دارد. دانشجویانی که شکست خود را به عوامل
+قابل کنترل مانند کمبود تالش نسبت می دهند، در
+برابر ناکامی مقاوم تر هستند. در حالی که اسناد
+دادن شکست به توانایی ثابت، به درماندگی
+آموخته شده منجر می شود.
+یادگیری خودتنظیمی فرایندی است که در آن دانشجو
+اهداف خود را تعیین می کند، پیشرفت خود را پایش
+می کند و راهبردهای مطالعه را بر اساس بازخورد
+تنظیم می کند. سه مرحله اصلی خودتنظیمی
+عبارت اند از پیش اندیشی، عملکرد و خوداندیشی.
+خودکارآمدی که باور فرد به توانایی انجام یک
+تکلیف است، مهم ترین پیش بین یادگیری خودتنظیمی
+به شمار می رود.</div>
       </div></div>
 </section>
 
@@ -1812,20 +1966,20 @@ p { margin: 0; }
   data-actions="<button class=&quot;btn btn-sm&quot; id=&quot;ex-rem&quot;>🔔 تنظیم یادآور</button>      <button class=&quot;btn btn-sm btn-primary&quot; id=&quot;ex-add&quot;>＋ افزودن آزمون</button>" data-nav="exams">
 
     
-      <div class="card card-pad" style="margin-bottom:16px;background:linear-gradient(135deg,#fef3c7,#fef9c3);border-color:#fde68a">
+      <div class="card card-pad card-exam" style="margin-bottom:16px">
         <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap">
           <div style="font-size:30px">📝</div>
           <div style="flex:1;min-width:220px">
-            <div style="font-size:12px;color:#92400e;font-weight:500">آزمون بعدی</div>
+            <div class="exam-tone-1" style="font-size:12px;font-weight:500">آزمون بعدی</div>
             <div style="font-weight:800;font-size:18px">میان‌ترم روان‌شناسی یادگیری</div>
-            <div style="font-size:13px;color:#78350f">
-              چهارشنبه ۱۳ آبان ۱۴۰۵ • ساعت ۱۰:۰۰
-               • سالن ۲
+            <div class="exam-tone-2" style="font-size:13px">
+              پنجشنبه ۱۴ آبان ۱۴۰۵ • ساعت ۱۰:۰۰
+               • سالن ۱
             </div>
           </div>
           <div style="text-align:center">
-            <div style="font-size:26px;font-weight:800;color:#92400e">۳ روز دیگر</div>
-            <div style="font-size:11.5px;color:#a16207">زمان مرور است!</div>
+            <div class="exam-tone-1" style="font-size:26px;font-weight:800">۴ روز دیگر</div>
+            <div class="exam-tone-2" style="font-size:11.5px">زمان مرور است!</div>
           </div>
           <a class="btn" href="#/library">📑 رفتن به فصل‌ها</a>
         </div>
@@ -1844,7 +1998,7 @@ p { margin: 0; }
     <div class="section-head"><h2>آزمون‌های پیش‌رو</h2></div>
     <div class="grid" style="gap:10px"><div class="exam-card " style="--c:#6366f1">
       <div class="exam-date">
-        <div class="day">۱۳</div>
+        <div class="day">۱۴</div>
         <div class="month">آبان</div>
       </div>
       <div class="exam-body">
@@ -1853,39 +2007,39 @@ p { margin: 0; }
           <span>📚 روان‌شناسی یادگیری</span>
           <span>🕐 ۱۰:۰۰</span>
           <span>⏳ ۹۰ دقیقه</span>
-          <span>📍 سالن ۲</span>
-          <span>🔔 ۲ روز قبل</span>
+          <span>📍 سالن ۱</span>
+          <span>🔔 ۱ روز قبل</span>
         </div>
-        <div class="exam-note">📝 فصل ۱ تا ۴</div>
+        <div class="exam-note">📝 فصل ۱ تا ۳</div>
       </div>
       <div class="exam-side">
-        <div class="exam-days urgent">۳ روز دیگر</div>
+        <div class="exam-days ">۴ روز دیگر</div>
         <div style="display:flex;gap:6px">
-          <button class="btn btn-sm btn-ghost ex-edit" data-id="exm_4cae70b3">✏️</button>
-          <button class="btn btn-sm btn-ghost ex-del" data-id="exm_4cae70b3" data-title="میان‌ترم روان‌شناسی یادگیری">🗑</button>
+          <button class="btn btn-sm btn-ghost ex-edit" data-id="exm_7abc5cef">✏️</button>
+          <button class="btn btn-sm btn-ghost ex-del" data-id="exm_7abc5cef" data-title="میان‌ترم روان‌شناسی یادگیری">🗑</button>
         </div>
       </div>
     </div><div class="exam-card " style="--c:#0d9488">
       <div class="exam-date">
-        <div class="day">۲۲</div>
+        <div class="day">۱۹</div>
         <div class="month">آبان</div>
       </div>
       <div class="exam-body">
-        <div class="exam-title">پایان‌ترم آمار</div>
+        <div class="exam-title">کوییز آمار</div>
         <div class="exam-meta">
-          <span>📚 آمار و احتمال</span>
-          <span>🕐 ۱۴:۳۰</span>
-          <span>⏳ ۱۲۰ دقیقه</span>
-          <span>📍 کلاس ۳۰۲</span>
-          <span>🔔 ۱ روز قبل</span>
+          <span>📚 آمار و روش تحقیق</span>
+          <span>🕐 ۱۶:۰۰</span>
+          <span>⏳ ۴۵ دقیقه</span>
+          <span>📍 کلاس ۱۰۵</span>
+          <span>🔔 ۱۲۰ دقیقه قبل</span>
         </div>
         
       </div>
       <div class="exam-side">
-        <div class="exam-days ">۲ هفته دیگر</div>
+        <div class="exam-days ">۱ هفته دیگر</div>
         <div style="display:flex;gap:6px">
-          <button class="btn btn-sm btn-ghost ex-edit" data-id="exm_9f02afa9">✏️</button>
-          <button class="btn btn-sm btn-ghost ex-del" data-id="exm_9f02afa9" data-title="پایان‌ترم آمار">🗑</button>
+          <button class="btn btn-sm btn-ghost ex-edit" data-id="exm_7135a0b8">✏️</button>
+          <button class="btn btn-sm btn-ghost ex-del" data-id="exm_7135a0b8" data-title="کوییز آمار">🗑</button>
         </div>
       </div>
     </div></div>
@@ -1925,6 +2079,29 @@ p { margin: 0; }
         </div>
         <button class="btn btn-primary" id="p-save">ذخیره‌ی مشخصات</button>
         <p class="hint" style="margin-top:12px">این اطلاعات روی جلد پاورپوینت و در داشبورد استفاده می‌شود.</p>
+      </div>
+
+      <div class="card card-pad">
+        <div class="section-head">
+          <h2>🎨 ظاهر برنامه</h2>
+          <span class="badge">هم‌پایه‌ی سیستم</span>
+        </div>
+        <p style="font-size:13px;color:var(--ink-2);line-height:2;margin-bottom:12px">
+          تم دلخواهت را انتخاب کن. حالت «هم‌پایه‌ی سیستم» با تنظیمات روشن/تاریک سیستم‌عامل هماهنگ می‌شود.
+        </p>
+        <div class="theme-choice">
+          
+            <button data-theme-choice="light" class="">
+              <span class="ico">☀️</span>روشن
+            </button>
+            <button data-theme-choice="dark" class="">
+              <span class="ico">🌙</span>تاریک
+            </button>
+            <button data-theme-choice="system" class="active">
+              <span class="ico">🖥️</span>هم‌پایه‌ی سیستم
+            </button>
+        </div>
+        <p class="hint" style="margin-top:12px">انتخاب تم در همین مرورگر ذخیره می‌شود.</p>
       </div>
 
       <div class="card card-pad">
@@ -2008,7 +2185,7 @@ p { margin: 0; }
           <div class="stat" style="padding:10px 0"><div class="icon">📚</div><div><div class="value">۲</div><div class="label">درس</div></div></div>
           <div class="stat" style="padding:10px 0"><div class="icon">🗓️</div><div><div class="value">۴</div><div class="label">جلسه</div></div></div>
           <div class="stat" style="padding:10px 0"><div class="icon">📄</div><div><div class="value">۱</div><div class="label">کتاب</div></div></div>
-          <div class="stat" style="padding:10px 0"><div class="icon">✅</div><div><div class="value">۱۶</div><div class="label">آزمون داده‌شده</div></div></div>
+          <div class="stat" style="padding:10px 0"><div class="icon">✅</div><div><div class="value">۵</div><div class="label">آزمون داده‌شده</div></div></div>
         </div>
         <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap">
           <a class="btn btn-sm" href="/api/calendar.ics">📅 خروجی تقویم</a>
@@ -2043,6 +2220,20 @@ p { margin: 0; }
 
 <script>
 (function () {
+  /* ---------- تم ---------- */
+  const themeBtn = document.getElementById('pv-theme');
+  function paintTheme(theme) {
+    document.documentElement.dataset.theme = theme;
+    themeBtn.textContent = theme === 'dark' ? '☀️ روشن' : '🌙 تاریک';
+    try { localStorage.setItem('lucky-preview-theme', theme); } catch (e) { /* ignore */ }
+  }
+  let saved = 'dark';
+  try { saved = localStorage.getItem('lucky-preview-theme') || 'dark'; } catch (e) { /* ignore */ }
+  paintTheme(saved);
+  themeBtn.addEventListener('click', () => {
+    paintTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark');
+  });
+
   const views = [...document.querySelectorAll('[data-view]')];
   const buttons = [...document.querySelectorAll('[data-go]')];
   const navBtns = [...document.querySelectorAll('#pv-nav .nav-item')];

@@ -175,6 +175,44 @@ else {
   else await globalThis.fetch(`/api/courses/${created.id}`, { method: 'DELETE' });
 }
 
+/* حالت تاریک */
+await go('#/settings', 500);
+const root = document.documentElement;
+const choice = (name) => document.querySelector(`[data-theme-choice="${name}"]`);
+console.log('\n=== تم تاریک ===');
+console.log('انتخاب تم در تنظیمات:', Boolean(choice('dark')), '| کلید تاگل در نوار بالا:', Boolean(document.querySelector('[data-theme-btn]')));
+if (!choice('dark')) errors.push('theme: دکمه‌های انتخاب تم در تنظیمات نیست');
+if (!document.querySelector('[data-theme-btn]')) errors.push('theme: کلید تم در نوار بالا نیست');
+
+choice('dark')?.dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
+await new Promise((r) => setTimeout(r, 250));
+console.log('پس از انتخاب تاریک → data-theme:', root.dataset.theme, '| pref:', root.dataset.themePref, '| localStorage:', window.localStorage.getItem('lucky:theme'));
+if (root.dataset.theme !== 'dark') errors.push('theme: انتخاب «تاریک» تم را عوض نکرد');
+if (window.localStorage.getItem('lucky:theme') !== 'dark') errors.push('theme: انتخاب تم ذخیره نشد');
+
+const btn = document.querySelector('[data-theme-btn]');
+btn?.dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
+await new Promise((r) => setTimeout(r, 250));
+console.log('پس از کلیک روی تاگل → data-theme:', root.dataset.theme, '| localStorage:', window.localStorage.getItem('lucky:theme'));
+if (root.dataset.theme !== 'light') errors.push('theme: تاگل نوار بالا بین روشن/تاریک جابه‌جا نکرد');
+// در حالت روشن، دکمه پیشنهاد رفتن به «حالت تاریک» را می‌دهد (آیکن ماه)
+console.log('برچسب دکمه:', btn?.getAttribute('aria-label'), '| آیکن:', btn?.textContent);
+if (!/تاریک/.test(btn?.getAttribute('aria-label') ?? '')) errors.push('theme: برچسب دکمه پس از تغییر به‌روز نشد');
+if (btn?.textContent?.trim() !== '🌙') errors.push('theme: آیکن دکمه پس از تغییر به‌روز نشد');
+
+// بررسی این‌که هیچ استایل درون‌خطی رنگی در نماها باقی نمانده باشد
+const inlineColors = [...document.querySelectorAll('#view [style]')]
+  .map((el) => el.getAttribute('style'))
+  .filter((st) => /(color|background)\s*:\s*(#[0-9a-f]{3,8}|rgb)/i.test(st));
+console.log('استایل درون‌خطی رنگی در تنظیمات:', inlineColors.length);
+if (inlineColors.length) errors.push(`theme: ${inlineColors.length} استایل درون‌خطی رنگی در تنظیمات`);
+
+// بازگشت به حالت روشن برای بقیهٔ تست‌ها
+choice('light')?.dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
+await new Promise((r) => setTimeout(r, 200));
+if (root.dataset.theme !== 'light') errors.push('theme: بازگشت به روشن انجام نشد');
+
+
 console.log(`\n--- ${errors.length} خطا ---`);
 errors.slice(0, 25).forEach((e) => console.log('✗', e));
 process.exit(errors.length ? 1 : 0);
