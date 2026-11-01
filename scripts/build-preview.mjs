@@ -113,58 +113,44 @@ for (const f of fontFiles) {
 css = css.replace(/url\('\/fonts\/[^']+'\)/g, 'local(Tahoma)');
 
 const PREVIEW_CSS = `
-/* ---------- نوار بالای پیش‌نمایش (هم‌زبان با پوستهٔ مینیمال) ---------- */
-.pv-bar {
-  position: sticky; top: 0; z-index: 400;
-  display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
-  padding: 10px 20px;
-  background: var(--card); color: var(--ink);
-  border-bottom: 1px solid var(--line);
-  font-family: 'Vazirmatn', Tahoma, sans-serif; font-size: 12.5px;
-}
-.pv-bar .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--ok); }
-.pv-bar strong { color: var(--ink); font-weight: 600; }
-.pv-bar .spacer { flex: 1; }
-.pv-bar .pv-chip {
+/* ---------- پوستهٔ پیش‌نمایش ---------- */
+.pv-bar-chip {
   border: 1px solid var(--line); border-radius: 999px;
   padding: 1px 9px; font-size: 11px; color: var(--muted);
+  font-family: 'Vazirmatn', Tahoma, sans-serif;
 }
 .pv-theme {
   display: inline-flex; align-items: center; gap: 6px;
   background: var(--card); color: var(--ink);
   border: 1px solid var(--line);
-  border-radius: var(--radius-sm); padding: 4px 12px;
-  font-family: inherit; font-size: 12px; font-weight: 500; cursor: pointer;
-  transition: background .12s;
+  border-radius: var(--radius-sm); padding: 5px 11px;
+  font-family: 'Vazirmatn', Tahoma, sans-serif; font-size: 12px; font-weight: 500; cursor: pointer;
 }
 .pv-theme:hover { background: var(--hover); }
+.pv-group {
+  font-size: 10.5px; color: var(--muted);
+  padding: 4px 10px 2px;
+  font-family: 'Vazirmatn', Tahoma, sans-serif;
+}
 .pv-screens {
-  display: flex; gap: 5px; flex-wrap: wrap;
-  padding: 10px 20px; background: var(--card); border-bottom: 1px solid var(--line);
+  display: flex; flex-direction: column; gap: 1px;
   font-family: 'Vazirmatn', Tahoma, sans-serif;
 }
 .pv-screens button {
-  border: 1px solid transparent; background: transparent; color: var(--muted); cursor: pointer;
-  border-radius: var(--radius-sm); padding: 4px 11px; font-size: 12px; font-family: inherit;
-  transition: background .12s, color .12s;
+  border: 1px solid transparent; background: transparent; color: var(--ink-2); cursor: pointer;
+  border-radius: var(--radius-sm); padding: 6px 10px; font-size: 12.5px; font-family: inherit;
+  text-align: start;
 }
 .pv-screens button:hover { background: var(--hover); color: var(--ink); }
 .pv-screens button.active { background: var(--surface); border-color: var(--line); color: var(--ink); font-weight: 600; }
-.pv-shell .app { min-height: calc(100vh - 92px); }
-.pv-shell .sidebar { height: calc(100vh - 92px); top: 92px; }
 [data-view] { display: none; }
 [data-view].active { display: block; }
 .pv-foot {
-  padding: 14px 20px; font-size: 11.5px; color: var(--muted); text-align: center;
-  border-top: 1px solid var(--line); background: var(--card);
+  margin-top: 22px; padding-top: 14px; border-top: 1px solid var(--line);
+  font-size: 11.5px; color: var(--muted); text-align: center;
   font-family: 'Vazirmatn', Tahoma, sans-serif;
 }
 .pv-foot code { background: var(--surface); padding: 1px 6px; border-radius: 5px; }
-@media (max-width: 860px) {
-  .pv-shell .app { min-height: auto; }
-  .pv-shell .sidebar { position: static; height: auto; transform: none; width: 100%; }
-  .pv-shell .sidebar nav { display: none; }
-}
 `;
 
 /* ---------- ساخت HTML نهایی ---------- */
@@ -195,54 +181,49 @@ ${PREVIEW_CSS}
 </style>
 </head>
 <body>
-<div class="pv-bar">
-  <span class="dot"></span>
-  <strong>پیش‌نمایش Lucky</strong>
-  <span class="pv-chip">فایل خودکفا — بدون سرور</span>
-  <span class="spacer"></span>
-  <span class="pv-chip">${captured.length} صفحه</span>
-  <button class="pv-theme" id="pv-theme">☀️ روشن</button>
-</div>
-
-<div class="pv-screens">
-${screenButtons}
-</div>
-
-<div class="pv-shell">
-  <div class="app">
-    <aside class="sidebar">
-      <div class="brand">
-        <div class="brand-logo">✦</div>
-        <div>
-          <div class="brand-name">Lucky</div>
-          <div class="brand-sub">دستیار مطالعه دانشجو</div>
-        </div>
-      </div>
-      <nav id="pv-nav">${first.navHtml}</nav>
-      <div class="sidebar-foot">
-        <div class="sidebar-card">
-          <strong>${first.sideName}</strong>
-          <span>${first.sideSub}</span>
-        </div>
-      </div>
-    </aside>
-
-    <main class="main">
-      <div class="topbar">
-        <div class="page-title">
-          <h1 id="pv-title">${first.title}</h1>
-          <div class="sub" id="pv-sub">${first.sub}</div>
-        </div>
-        <div class="topbar-actions" id="pv-actions">${first.actions}</div>
-      </div>
-${viewSections}
-      <div class="pv-foot">
-        این پیش‌نمایش ایستا از رابط واقعی Lucky ساخته شده است؛ دکمه‌ها و فرم‌ها فقط نمایشی هستند.
-        برای استفاده‌ی واقعی: <code dir="ltr">npm install && npm start</code>
-      </div>
-    </main>
+<header class="topbar">
+  <div class="topbar-start">
+    <button class="icon-btn" id="pv-menu" aria-label="منو" aria-expanded="false">☰</button>
+    <div class="page-title">
+      <h1 id="pv-title">${first.title}</h1>
+      <div class="sub" id="pv-sub">${first.sub}</div>
+    </div>
   </div>
-</div>
+  <div class="topbar-end">
+    <span class="pv-bar-chip">${captured.length} صفحه</span>
+    <button class="pv-theme" id="pv-theme">☀️ روشن</button>
+    <div class="topbar-actions" id="pv-actions">${first.actions}</div>
+  </div>
+</header>
+
+<main class="main">
+  <div id="view">
+${viewSections}
+    <div class="pv-foot">
+      این پیش‌نمایش ایستا از رابط واقعی Lucky ساخته شده است؛ دکمه‌ها و فرم‌ها نمایشی‌اند.
+      برای استفادهٔ واقعی: <code dir="ltr">npm install && npm start</code>
+    </div>
+  </div>
+</main>
+
+<div class="drawer-backdrop" id="pv-backdrop" hidden></div>
+<aside class="drawer" id="pv-drawer">
+  <button class="account" id="pv-account">
+    <span class="avatar">${(first.sideName || 'ل').trim().charAt(0)}</span>
+    <span class="who">
+      <strong>${first.sideName || 'خوش آمدید'}</strong>
+      <small>${first.sideSub || 'پیش‌نمایش'}</small>
+    </span>
+  </button>
+
+  <div class="pv-group">صفحه‌ها</div>
+  <nav class="pv-screens">
+${screenButtons}
+  </nav>
+
+  <div class="pv-group">منوی برنامه</div>
+  <nav id="pv-nav">${first.navHtml}</nav>
+</aside>
 
 <script>
 (function () {
@@ -259,6 +240,21 @@ ${viewSections}
   themeBtn.addEventListener('click', () => {
     paintTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark');
   });
+
+  /* کشوی منو */
+  const pvDrawer = document.getElementById('pv-drawer');
+  const pvBackdrop = document.getElementById('pv-backdrop');
+  const pvMenu = document.getElementById('pv-menu');
+  function pvOpen(open) {
+    const isOpen = open === undefined ? !document.body.classList.contains('drawer-open') : open;
+    document.body.classList.toggle('drawer-open', isOpen);
+    pvMenu.setAttribute('aria-expanded', String(isOpen));
+    pvBackdrop.hidden = !isOpen;
+  }
+  pvMenu.addEventListener('click', () => pvOpen());
+  pvBackdrop.addEventListener('click', () => pvOpen(false));
+  document.getElementById('pv-account').addEventListener('click', () => { show('dashboard'); pvOpen(false); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') pvOpen(false); });
 
   const views = [...document.querySelectorAll('[data-view]')];
   const buttons = [...document.querySelectorAll('[data-go]')];
@@ -279,7 +275,7 @@ ${viewSections}
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  buttons.forEach((b) => b.addEventListener('click', () => show(b.dataset.go)));
+  buttons.forEach((b) => b.addEventListener('click', () => { show(b.dataset.go); pvOpen(false); }));
   navBtns.forEach((b) => b.addEventListener('click', () => {
     const target = views.find((v) => v.dataset.view === b.dataset.route);
     if (target) show(b.dataset.route);

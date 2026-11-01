@@ -34,7 +34,7 @@ for (const rel of files) {
   }
 }
 
-const IGNORE = new Set(['i']); // false positive از قالب‌های ${}
+const IGNORE = new Set(['i', 'selectedBookId']); // false positive از قالب‌های ${}
 const missing = [...used.entries()].filter(([c]) => !defined.has(c) && !IGNORE.has(c));
 console.log(`کلاس‌های استفاده‌شده: ${used.size} | تعریف‌نشده در CSS: ${missing.length}`);
 for (const [c, fs_] of missing.sort((a, b) => a[0].localeCompare(b[0]))) {

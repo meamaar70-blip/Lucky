@@ -51,6 +51,8 @@ export async function libraryView(root, route, app) {
   document.getElementById('lib-add').onclick = () => uploadModal();
   root.querySelector('#lib-add2').onclick = () => uploadModal();
   root.querySelector('#lib-edit').onclick = () => chaptersModal(selected);
+  // ورود از صفحهٔ کتاب‌ها با درخواست ویرایش فصل‌بندی
+  if (route.params?.get?.('edit') === '1') chaptersModal(selected);
   root.querySelector('#lib-del').onclick = async () => {
     const ok = await ui.confirmDialog({ message: `کتاب «${selected.title}» و همه‌ی فصل‌هایش حذف شود؟` });
     if (!ok) return;

@@ -87,6 +87,10 @@ export const app = {
     const d = this.data;
     const nameEl = document.getElementById('side-name');
     const subEl = document.getElementById('side-sub');
+    const avatarEl = document.getElementById('side-avatar');
+    if (avatarEl) {
+      avatarEl.textContent = d.profile?.name ? d.profile.name.trim().charAt(0) : 'ل';
+    }
     if (d.profile?.name) {
       nameEl.textContent = d.profile.name;
       subEl.textContent = [d.profile.university, d.profile.term].filter(Boolean).join(' • ') || 'دانشجو';
@@ -144,7 +148,9 @@ async function render() {
     const target = route.name === 'chapter' ? 'library' : route.name;
     n.classList.toggle('active', n.dataset.route === target);
   });
-  document.body.classList.remove('nav-open');
+  document.body.classList.remove('drawer-open');
+  document.getElementById('drawer-backdrop').hidden = true;
+  document.getElementById('drawer').setAttribute('aria-hidden', 'true');
 
   app.setHeader(cfg.title, cfg.sub);
   window.scrollTo({ top: 0 });
@@ -159,54 +165,40 @@ async function render() {
   }
 }
 
-document.getElementById('menu-btn').addEventListener('click', () => {
-  document.body.classList.toggle('nav-open');
-  if (document.body.classList.contains('nav-open')) {
-    setTimeout(() => {
-      document.addEventListener('click', function onDoc(e) {
-        if (!e.target.closest('#sidebar') && !e.target.closest('#menu-btn')) {
-          document.body.classList.remove('nav-open');
-          document.removeEventListener('click', onDoc);
-        }
-      });
-    }, 10);
-  }
+/* ---------- کشوی منو ---------- */
+const drawer = document.getElementById('drawer');
+const backdrop = document.getElementById('drawer-backdrop');
+const menuBtn = document.getElementById('menu-btn');
+
+function openDrawer(open) {
+  const isOpen = open ?? !document.body.classList.contains('drawer-open');
+  document.body.classList.toggle('drawer-open', isOpen);
+  drawer.setAttribute('aria-hidden', String(!isOpen));
+  menuBtn.setAttribute('aria-expanded', String(isOpen));
+  backdrop.hidden = !isOpen;
+}
+
+menuBtn.addEventListener('click', (e) => {
+  e.stopPropagation();
+  openDrawer();
+});
+backdrop.addEventListener('click', () => openDrawer(false));
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && document.body.classList.contains('drawer-open')) openDrawer(false);
 });
 
-document.getElementById('sidebar').addEventListener('click', (e) => {
+drawer.addEventListener('click', (e) => {
   const btn = e.target.closest('.nav-item');
   if (btn?.dataset.route) {
     app.navigate(`#/${btn.dataset.route}`);
-    document.body.classList.remove('nav-open');
+    openDrawer(false);
   }
 });
 
-/* منوی افزودن سریع در نوار بالا */
-const addBtn = document.getElementById('add-btn');
-const addPop = document.getElementById('add-pop');
-addBtn?.addEventListener('click', (e) => {
-  e.stopPropagation();
-  const open = addPop.hidden;
-  addPop.hidden = !open;
-  addBtn.setAttribute('aria-expanded', String(open));
-});
-document.addEventListener('click', (e) => {
-  if (!addPop || addPop.hidden) return;
-  if (!e.target.closest('.add-menu')) {
-    addPop.hidden = true;
-    addBtn.setAttribute('aria-expanded', 'false');
-  }
-});
-addPop?.addEventListener('click', async (e) => {
-  const btn = e.target.closest('[data-add]');
-  if (!btn) return;
-  addPop.hidden = true;
-  addBtn.setAttribute('aria-expanded', 'false');
-  const kind = btn.dataset.add;
-  if (kind === 'course') await courseModal();
-  else if (kind === 'session') await sessionModal({});
-  else if (kind === 'exam') await examModal();
-  else if (kind === 'book') await uploadModal();
+/* اکانت بالای کشو = خانه */
+document.getElementById('account-btn').addEventListener('click', () => {
+  app.navigate('#/dashboard');
+  openDrawer(false);
 });
 
 window.addEventListener('hashchange', () => {

@@ -176,6 +176,39 @@ else {
 }
 
 
+
+/* کشوی منو */
+{
+  console.log('\n=== کشوی منو ===');
+  const menuBtn = document.getElementById('menu-btn');
+  const backdrop = document.getElementById('drawer-backdrop');
+  const drawer = document.getElementById('drawer');
+  const navRoutes = [...document.querySelectorAll('#nav .nav-item')].map((n) => n.dataset.route);
+  console.log('آیتم‌های منو:', navRoutes.join(' | '));
+  if (!menuBtn || !drawer) errors.push('drawer: دکمهٔ منو یا کشو در صفحه نیست');
+  if (navRoutes.includes('dashboard')) errors.push('drawer: «خانه» باید از منو حذف شده باشد و روی اکانت باشد');
+  if (!document.getElementById('account-btn')) errors.push('drawer: بلوک اکانت بالای کشو نیست');
+
+  menuBtn.dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
+  await new Promise((r) => setTimeout(r, 120));
+  const opened = document.body.classList.contains('drawer-open') && !backdrop.hidden;
+  console.log('باز شدن کشو:', opened);
+  if (!opened) errors.push('drawer: کشو باز نشد');
+
+  // کلیک روی «آزمون‌ها» باید کشو را ببندد و مسیر را عوض کند
+  document.querySelector('#nav .nav-item[data-route="exams"]').dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
+  await new Promise((r) => setTimeout(r, 400));
+  console.log('بستن پس از انتخاب:', !document.body.classList.contains('drawer-open'), '| مسیر:', location.hash);
+  if (document.body.classList.contains('drawer-open')) errors.push('drawer: بعد از انتخاب مسیر بسته نشد');
+  if (location.hash !== '#/exams') errors.push('drawer: ناوبری از منو کار نکرد');
+
+  // اکانت = خانه
+  document.getElementById('account-btn').dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
+  await new Promise((r) => setTimeout(r, 400));
+  console.log('اکانت → خانه:', location.hash);
+  if (location.hash !== '#/dashboard') errors.push('drawer: کلیک روی اکانت به خانه نبرد');
+}
+
 /* مرور فاصله‌دار */
 await go('#/review', 1100);
 {
