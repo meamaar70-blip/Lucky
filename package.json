@@ -14,7 +14,9 @@
     "sample": "node scripts/sample-book.mjs",
     "audit:theme": "node scripts/audit-theme.mjs",
     "audit:css": "node scripts/audit-css.mjs",
-    "test:text": "node scripts/test-text.mjs"
+    "test:text": "node scripts/test-text.mjs",
+    "icons": "node scripts/make-icons.mjs",
+    "audit:pwa": "node scripts/audit-pwa.mjs"
   },
   "engines": {
     "node": ">=20"

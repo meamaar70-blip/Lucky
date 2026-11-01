@@ -5,7 +5,6 @@ import * as ui from './ui.js';
 import { dashboardView } from './views/dashboard.js';
 import { scheduleView } from './views/schedule.js';
 import { coursesView } from './views/courses.js';
-import { libraryView } from './views/library.js';
 import { chapterView } from './views/chapter.js';
 import { examsView } from './views/exams.js';
 import { reviewView } from './views/review.js';
@@ -13,12 +12,14 @@ import { settingsView } from './views/settings.js';
 import { startReminders, examStart } from './reminders.js';
 import { courseModal, sessionModal, examModal, uploadModal } from './forms.js';
 import { initTheme } from './theme.js';
+import { initPWA, promptInstall } from './pwa.js';
 
 const ROUTES = {
   dashboard: { view: dashboardView, title: 'داشبورد', sub: 'خلاصه‌ی وضعیت مطالعه‌ی تو' },
   schedule: { view: scheduleView, title: 'برنامه هفتگی', sub: 'کلاس‌های آنلاین و حضوری این هفته' },
   courses: { view: coursesView, title: 'دروس و کتاب‌ها', sub: 'مدیریت درس‌ها و فایل PDF کتاب' },
-  library: { view: libraryView, title: 'فصل‌ها و مطالعه', sub: 'خلاصه، تست و پاورپوینت هر فصل' },
+  // فصل‌ها زیرمجموعهٔ کتاب‌ها شدند؛ مسیر قدیمی برای لینک‌های قبلی سرجایش است
+  library: { view: coursesView, title: 'درس‌ها و کتاب‌ها', sub: 'فصل، خلاصه، تست و پاورپوینت هر کتاب' },
   chapter: { view: chapterView, title: 'فصل', sub: '' },
   exams: { view: examsView, title: 'آزمون‌ها و یادآورها', sub: 'تاریخ آزمون‌ها و زمان یادآوری' },
   review: { view: reviewView, title: 'مرور امروز', sub: 'فلش‌کارت‌های فاصله‌دار از سؤال‌های فصل‌ها' },
@@ -30,6 +31,7 @@ export const app = {
 
   async init() {
     initTheme();
+    initPWA();
     try {
       this.data = await api.state();
     } catch (e) {
@@ -43,6 +45,7 @@ export const app = {
       return;
     }
     this.paintSidebar();
+    this.paintDrawerBooks();
     this.paintExamBadge();
     this.paintReviewBadge();
     render();
@@ -52,8 +55,26 @@ export const app = {
   async refresh() {
     this.data = await api.state();
     this.paintSidebar();
+    this.paintDrawerBooks();
     this.paintExamBadge();
     this.paintReviewBadge();
+  },
+
+  /** فهرست کتاب‌ها زیر آیتم «درس‌ها و کتاب‌ها» در کشو */
+  paintDrawerBooks() {
+    const box = document.getElementById('drawer-books');
+    if (!box) return;
+    const books = this.data?.books ?? [];
+    if (!books.length) { box.innerHTML = ''; box.hidden = true; return; }
+    box.hidden = false;
+    box.innerHTML = books.map((b) => {
+      const c = this.course(b.courseId);
+      const active = location.hash.includes(`book=${b.id}`);
+      return `<button class="drawer-book ${active ? 'active' : ''}" data-book="${b.id}">
+        <span class="dot" style="background:${c?.color ?? 'var(--line-strong)'}"></span>
+        <span class="t">${ui.esc(b.title)}</span>
+      </button>`;
+    }).join('');
   },
 
   /** نشانگر تعداد کارت‌های آماده‌ی مرور در منو */
@@ -145,7 +166,7 @@ async function render() {
   const view = document.getElementById('view');
 
   document.querySelectorAll('.nav-item').forEach((n) => {
-    const target = route.name === 'chapter' ? 'library' : route.name;
+    const target = route.name === 'chapter' || route.name === 'library' ? 'courses' : route.name;
     n.classList.toggle('active', n.dataset.route === target);
   });
   document.body.classList.remove('drawer-open');
@@ -188,9 +209,15 @@ document.addEventListener('keydown', (e) => {
 });
 
 drawer.addEventListener('click', (e) => {
-  const btn = e.target.closest('.nav-item');
-  if (btn?.dataset.route) {
-    app.navigate(`#/${btn.dataset.route}`);
+  const nav = e.target.closest('.nav-item');
+  if (nav?.dataset.route) {
+    app.navigate(`#/${nav.dataset.route}`);
+    openDrawer(false);
+    return;
+  }
+  const book = e.target.closest('.drawer-book');
+  if (book?.dataset.book) {
+    app.navigate(`#/courses?book=${book.dataset.book}`);
     openDrawer(false);
   }
 });

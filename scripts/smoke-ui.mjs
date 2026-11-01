@@ -68,7 +68,7 @@ snapshot('برنامه هفتگی');
 await go('#/courses');
 snapshot('دروس');
 await go('#/library');
-snapshot('کتابخانه');
+snapshot('کتاب‌ها و فصل‌ها');
 
 const state = await (await globalThis.fetch('/api/state')).json();
 const chapter = state.books[0]?.chapters?.[0];
@@ -207,6 +207,23 @@ else {
   await new Promise((r) => setTimeout(r, 400));
   console.log('اکانت → خانه:', location.hash);
   if (location.hash !== '#/dashboard') errors.push('drawer: کلیک روی اکانت به خانه نبرد');
+
+  // فهرست کتاب‌ها داخل کشو
+  const bookBtns = [...document.querySelectorAll('#drawer-books .drawer-book')];
+  console.log('کتاب‌های داخل کشو:', bookBtns.length);
+  if (!bookBtns.length) errors.push('drawer: فهرست کتاب‌ها زیر منو ساخته نشد');
+  if (bookBtns.length) {
+    const target = bookBtns[0].dataset.book;
+    document.getElementById('menu-btn').dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
+    await new Promise((r) => setTimeout(r, 120));
+    bookBtns[0].dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
+    await new Promise((r) => setTimeout(r, 500));
+    const route = location.hash;
+    const active = document.querySelector(`#view .book-row.active`)?.dataset.book;
+    console.log('انتخاب کتاب از کشو:', route, '| کتاب فعال:', active);
+    if (!route.startsWith('#/courses?book=')) errors.push('drawer: کلیک روی کتاب مسیر کتاب‌ها را باز نکرد');
+    if (active !== target) errors.push('drawer: کتاب انتخاب‌شده در صفحه اعمال نشد');
+  }
 }
 
 /* مرور فاصله‌دار */

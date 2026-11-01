@@ -40,6 +40,8 @@ export async function coursesView(root, route, app) {
   }
 
   const books = d.books;
+  const fromUrl = route.params?.get?.('book');
+  if (fromUrl && books.some((b) => b.id === fromUrl)) selectedBookId = fromUrl;
   if (selectedBookId && !books.some((b) => b.id === selectedBookId)) selectedBookId = null;
   if (!selectedBookId && books.length) selectedBookId = books[0].id;
   const book = books.find((b) => b.id === selectedBookId) ?? null;
@@ -166,6 +168,7 @@ export async function coursesView(root, route, app) {
   root.querySelectorAll('[data-book]').forEach((btn) => {
     btn.onclick = () => {
       selectedBookId = btn.dataset.book;
+      app.navigate(`#/courses?book=${btn.dataset.book}`);
       rerender();
     };
   });

@@ -890,6 +890,12 @@ app.use('/fonts', express.static(path.join(ROOT, 'node_modules/@fontsource/vazir
   maxAge: '30d',
   fallthrough: true,
 }));
+// Service Worker و manifest نباید کش طولانی شوند تا به‌روزرسانی برنامه فوری باشد
+app.get(['/sw.js', '/manifest.webmanifest'], (req, res, next) => {
+  res.set('Cache-Control', 'no-cache');
+  next();
+});
+
 app.use(express.static(path.join(ROOT, 'public'), { extensions: ['html'] }));
 app.get('*', (req, res, next) => {
   if (req.path.startsWith('/api/')) return next();

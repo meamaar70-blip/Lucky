@@ -6,7 +6,12 @@
   <title>Lucky — دستیار مطالعه دانشجو</title>
   <meta name="description" content="ثبت برنامه کلاسی، آپلود کتاب درس و ساخت خلاصه، تست و پاورپوینت فصل‌به‌فصل" />
   <meta name="theme-color" content="#fbfbfa" />
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%2317171b'/%3E%3Ctext x='50' y='70' font-size='58' text-anchor='middle' fill='white' font-family='sans-serif'%3E%E2%9C%A6%3C/text%3E%3C/svg%3E" />
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Lucky" />
   <link rel="stylesheet" href="/css/app.css" />
   <script>
     /* اعمال تم پیش از رندر تا صفحه سفید/سیاه نپرد */
@@ -26,11 +31,12 @@
     <div class="topbar-start">
       <button class="icon-btn" id="menu-btn" aria-label="منو" aria-expanded="false" aria-controls="drawer">☰</button>
       <div class="page-title">
-        <h1 id="page-title">خانه</h1>
+        <h1 id="page-title">Lucky</h1>
         <div class="sub" id="page-sub"></div>
       </div>
     </div>
     <div class="topbar-end">
+      <button class="btn btn-sm" id="install-btn" hidden>نصب برنامه</button>
       <button class="theme-btn" data-theme-btn title="حالت تاریک" aria-label="تغییر تم">🌙</button>
       <div class="topbar-actions" id="topbar-actions"></div>
       <div class="add-menu">
@@ -64,7 +70,7 @@
     <nav id="nav">
       <button class="nav-item" data-route="schedule">برنامه هفتگی</button>
       <button class="nav-item" data-route="courses">درس‌ها و کتاب‌ها</button>
-      <button class="nav-item" data-route="library">فصل‌ها و مطالعه</button>
+      <div class="drawer-books" id="drawer-books"></div>
       <button class="nav-item" data-route="review">مرور <span class="badge-count" id="nav-review-count"></span></button>
       <button class="nav-item" data-route="exams">آزمون‌ها <span class="badge-count" id="nav-exam-count"></span></button>
     </nav>

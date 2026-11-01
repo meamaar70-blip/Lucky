@@ -1,0 +1,26 @@
+{
+  "name": "Lucky — دستیار مطالعه دانشجو",
+  "short_name": "Lucky",
+  "description": "برنامه کلاسی، کتاب PDF هر درس، خلاصه و تست و پاورپوینت فصل‌به‌فصل، فلش‌کارت و یادآور",
+  "lang": "fa",
+  "dir": "rtl",
+  "start_url": "/#/dashboard",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "orientation": "portrait-primary",
+  "background_color": "#fbfbfa",
+  "theme_color": "#17171b",
+  "categories": ["education", "productivity"],
+  "icons": [
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" },
+    { "src": "/icons/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ],
+  "shortcuts": [
+    { "name": "مرور امروز", "short_name": "مرور", "url": "/#/review", "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }] },
+    { "name": "برنامه هفتگی", "short_name": "برنامه", "url": "/#/schedule", "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }] },
+    { "name": "کتاب‌ها", "short_name": "کتاب‌ها", "url": "/#/courses", "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }] }
+  ]
+}
