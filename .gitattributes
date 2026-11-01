@@ -1,0 +1,16 @@
+* text=auto eol=lf
+
+# فایل‌های ویندوزی باید CRLF باشند وگرنه cmd.exe درست اجرا نمی‌کند
+# bat/cmd با CRLF ذخیره می‌شوند تا دانلود مستقیم از GitHub هم در cmd درست اجرا شود
+*.bat -text
+*.cmd -text
+*.ps1 -text
+
+# باینری‌ها
+*.png binary
+*.apk binary
+*.woff2 binary
+*.pdf binary
+
+# بستهٔ آمادهٔ ویندوز
+*.zip binary

@@ -1,0 +1,11 @@
+node_modules
+data
+apk
+preview.html
+samples
+docs
+scripts
+android
+.github
+.git
+*.log

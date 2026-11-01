@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- آدرس پیش‌فرض سرور. اگر خالی باشد، اپ در اولین اجرا آدرس را می‌پرسد.
+     در GitHub Actions با متغیر مخزن LUCKY_SERVER_URL پر می‌شود. -->
+<resources>
+    <string name="default_server" translatable="false"></string>
+</resources>

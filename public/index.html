@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Lucky — دستیار مطالعه دانشجو</title>
+  <meta name="description" content="ثبت برنامه کلاسی، آپلود کتاب درس و ساخت خلاصه، تست و پاورپوینت فصل‌به‌فصل" />
+  <meta name="theme-color" content="#fbfbfa" />
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Lucky" />
+  <link rel="stylesheet" href="/css/app.css" />
+  <script>
+    /* اعمال تم پیش از رندر تا صفحه سفید/سیاه نپرد */
+    (function () {
+      try {
+        var pref = localStorage.getItem('lucky:theme') || 'system';
+        var dark = pref === 'dark' ||
+          (pref === 'system' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+        document.documentElement.dataset.themePref = pref;
+      } catch (e) { /* ignore */ }
+    })();
+  </script>
+</head>
+<body>
+  <a class="skip" href="#view">پرش به محتوای اصلی</a>
+  <header class="topbar">
+    <div class="topbar-start">
+      <button class="icon-btn" id="menu-btn" aria-label="منو" aria-expanded="false" aria-controls="drawer">☰</button>
+      <div class="page-title">
+        <h1 id="page-title">Lucky</h1>
+        <div class="sub" id="page-sub"></div>
+      </div>
+    </div>
+    <div class="topbar-end">
+      <button class="btn btn-sm" id="install-btn" hidden>نصب برنامه</button>
+      <button class="theme-btn" data-theme-btn title="حالت تاریک" aria-label="تغییر تم">🌙</button>
+      <div class="topbar-actions" id="topbar-actions"></div>
+      <div class="add-menu">
+        <button class="btn btn-primary btn-sm" id="add-btn" aria-haspopup="true" aria-expanded="false">+ افزودن</button>
+        <div class="add-menu-pop" id="add-pop" hidden>
+          <button data-add="course">درس تازه</button>
+          <button data-add="session">کلاس هفتگی</button>
+          <button data-add="exam">آزمون</button>
+          <div class="sep"></div>
+          <button data-add="book">بارگذاری PDF کتاب</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+    <div id="view" aria-live="polite"></div>
+  </main>
+
+  <div class="drawer-backdrop" id="drawer-backdrop" hidden></div>
+
+  <aside class="drawer" id="drawer" aria-label="منوی اصلی">
+    <button class="account" id="account-btn" title="خانه">
+      <span class="avatar" id="side-avatar">ل</span>
+      <span class="who">
+        <strong id="side-name">خوش آمدید</strong>
+        <small id="side-sub">نامت را در تنظیمات وارد کن</small>
+      </span>
+    </button>
+
+    <nav id="nav">
+      <button class="nav-item" data-route="schedule">برنامه هفتگی</button>
+      <button class="nav-item" data-route="courses">درس‌ها و کتاب‌ها</button>
+      <div class="drawer-books" id="drawer-books"></div>
+      <button class="nav-item" data-route="review">مرور <span class="badge-count" id="nav-review-count"></span></button>
+      <button class="nav-item" data-route="exams">آزمون‌ها <span class="badge-count" id="nav-exam-count"></span></button>
+    </nav>
+
+    <div class="drawer-foot">
+      <button class="nav-item" data-route="settings">تنظیمات</button>
+    </div>
+  </aside>
+
+  <div class="reminders" id="reminders" aria-live="assertive"></div>
+  <div class="toasts" id="toasts"></div>
+  <div id="modal-root"></div>
+
+  <script type="module" src="/js/app.js"></script>
+</body>
+</html>

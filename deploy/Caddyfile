@@ -1,0 +1,29 @@
+# HTTPS خودکار + پروکسی به Lucky
+# متغیر DOMAIN از docker-compose می‌آید.
+
+{$DOMAIN} {
+	encode zstd gzip
+
+	# آپلود PDF: سقف ۲۰۰ مگابایت
+	request_body {
+		max_size 200MB
+	}
+
+	# تایم‌اوت طولانی‌تر برای پردازش PDF و ساخت پاورپوینت
+	reverse_proxy lucky:3000 {
+		transport http {
+			read_timeout 10m
+			write_timeout 10m
+		}
+	}
+
+	header {
+		# Service Worker و manifest نباید کش طولانی شوند
+		@nocache path /sw.js /manifest.webmanifest
+		header @nocache Cache-Control "no-cache"
+
+		-Server
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+}

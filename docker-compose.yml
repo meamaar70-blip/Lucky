@@ -1,0 +1,49 @@
+# اجرای Lucky روی سرور همراه با HTTPS خودکار (Caddy)
+#
+# ۱) دامنه را به آی‌پی سرور وصل کن (رکورد A).
+# ۲) در همین پوشه: cp deploy/.env.example .env  و دامنه/ایمیل را بنویس.
+# ۳) docker compose up -d
+#
+# اگر سرور خودش nginx یا SSL دارد، سرویس caddy را حذف کن و فقط lucky را
+# با پورت 127.0.0.1:3000 بالا بیاور.
+
+services:
+  lucky:
+    build: .
+    container_name: lucky
+    restart: unless-stopped
+    environment:
+      PORT: 3000
+      HOST: 0.0.0.0
+      LUCKY_DATA_DIR: /data
+    volumes:
+      - lucky-data:/data
+    # پورت فقط روی loopback باز می‌شود؛ ترافیک از Caddy/nginx می‌آید
+    ports:
+      - '127.0.0.1:3000:3000'
+    healthcheck:
+      test: ['CMD', 'node', '-e', "fetch('http://127.0.0.1:3000/api/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  caddy:
+    image: caddy:2-alpine
+    container_name: lucky-caddy
+    restart: unless-stopped
+    depends_on:
+      - lucky
+    ports:
+      - '80:80'
+      - '443:443'
+    environment:
+      DOMAIN: ${DOMAIN:-example.com}
+    volumes:
+      - ./deploy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+
+volumes:
+  lucky-data:
+  caddy-data:
+  caddy-config:

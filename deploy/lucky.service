@@ -1,0 +1,29 @@
+# اجرای Lucky بدون داکر (systemd)
+# sudo cp deploy/lucky.service /etc/systemd/system/
+# sudo systemctl daemon-reload && sudo systemctl enable --now lucky
+
+[Unit]
+Description=Lucky Study
+After=network.target
+
+[Service]
+Type=simple
+User=lucky
+Group=lucky
+WorkingDirectory=/opt/lucky
+Environment=NODE_ENV=production
+Environment=PORT=3000
+Environment=HOST=127.0.0.1
+Environment=LUCKY_DATA_DIR=/var/lib/lucky
+ExecStart=/usr/bin/node server/index.js
+Restart=always
+RestartSec=3
+# سخت‌سازی
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/lucky
+
+[Install]
+WantedBy=multi-user.target

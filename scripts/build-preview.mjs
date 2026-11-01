@@ -1,0 +1,312 @@
+// scripts/build-preview.mjs
+// ساخت پیش‌نمایش HTML خودکفا از رابط واقعی برنامه (بدون نیاز به سرور)
+// اجرا: node scripts/build-preview.mjs   (سرور باید روی ۳۰۰۰ بالا باشد)
+//
+// خروجی: preview.html — همه‌ی صفحه‌ها، CSS و فونت‌ها درون یک فایل.
+
+import { JSDOM } from 'jsdom';
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const BASE = process.env.BASE_URL ?? 'http://localhost:3000';
+const OUT = path.join(ROOT, 'preview.html');
+
+const read = (p) => fs.readFile(path.join(ROOT, p), 'utf8');
+
+/* ---------- بررسی در دسترس بودن سرور ---------- */
+try {
+  const res = await fetch(`${BASE}/api/health`);
+  if (!res.ok) throw new Error(String(res.status));
+} catch {
+  console.error(`✗ سرور روی ${BASE} پاسخ نمی‌دهد. اول \`npm start\` را اجرا کن.`);
+  process.exit(1);
+}
+
+/* ---------- آماده‌سازی jsdom ---------- */
+const html = await read('public/index.html');
+const dom = new JSDOM(html, { url: `${BASE}/#/dashboard`, pretendToBeVisual: true });
+const { window } = dom;
+
+globalThis.window = window;
+globalThis.document = window.document;
+globalThis.location = window.location;
+globalThis.history = window.history;
+globalThis.HTMLElement = window.HTMLElement;
+globalThis.Element = window.Element;
+globalThis.Node = window.Node;
+globalThis.Event = window.Event;
+globalThis.CustomEvent = window.CustomEvent;
+globalThis.XMLHttpRequest = window.XMLHttpRequest;
+try { Object.defineProperty(globalThis, 'navigator', { value: window.navigator, configurable: true }); } catch { /* ignore */ }
+globalThis.getComputedStyle = window.getComputedStyle.bind(window);
+window.scrollTo = () => {};
+window.print = () => {};
+
+const nativeFetch = globalThis.fetch;
+globalThis.fetch = (url, opts) => nativeFetch(String(url).startsWith('http') ? url : BASE + url, opts);
+window.fetch = globalThis.fetch;
+
+const errors = [];
+console.error = (...a) => errors.push(a.map(String).join(' '));
+
+await import('../public/js/app.js').catch((e) => errors.push(String(e.stack)));
+await new Promise((r) => setTimeout(r, 1200));
+
+const state = await (await globalThis.fetch('/api/state')).json();
+const chapterId = state.books?.[0]?.chapters?.[0]?.id ?? null;
+
+/* ---------- ضبط صفحه‌ها ---------- */
+const SCREENS = [
+  { id: 'dashboard', hash: '#/dashboard', label: 'داشبورد', nav: 'dashboard', icon: '🏠' },
+  { id: 'schedule', hash: '#/schedule', label: 'برنامه هفتگی', nav: 'schedule', icon: '🗓️' },
+  { id: 'courses', hash: '#/courses', label: 'دروس و کتاب‌ها', nav: 'courses', icon: '📚' },
+  { id: 'library', hash: `#/courses${state.books?.[0] ? `?book=${state.books[0].id}` : ''}`, label: 'کتاب انتخاب‌شده', nav: 'courses', icon: '📑' },
+  ...(chapterId ? [
+    { id: 'chapter-summary', hash: `#/chapter/${chapterId}?tab=summary`, label: 'فصل — خلاصه', nav: 'courses', icon: '📝', chapter: true },
+    { id: 'chapter-quiz', hash: `#/chapter/${chapterId}?tab=quiz`, label: 'فصل — تست', nav: 'courses', icon: '✅', chapter: true },
+    { id: 'chapter-pptx', hash: `#/chapter/${chapterId}?tab=pptx`, label: 'فصل — پاورپوینت', nav: 'courses', icon: '📊', chapter: true },
+    { id: 'chapter-text', hash: `#/chapter/${chapterId}?tab=text`, label: 'فصل — متن', nav: 'courses', icon: '📖', chapter: true },
+  ] : []),
+  { id: 'review', hash: '#/review', label: 'مرور امروز', nav: 'review', icon: '🔁' },
+  { id: 'exams', hash: '#/exams', label: 'آزمون‌ها و یادآورها', nav: 'exams', icon: '📝' },
+  { id: 'settings', hash: '#/settings', label: 'تنظیمات', nav: 'settings', icon: '⚙️' },
+];
+
+const captured = [];
+for (const s of SCREENS) {
+  location.hash = s.hash;
+  window.dispatchEvent(new window.HashChangeEvent('hashchange'));
+  await new Promise((r) => setTimeout(r, s.id === 'chapter-text' ? 1100 : 750));
+  // در صفحه‌ی مرور، پاسخ را نمایش می‌دهیم تا هر دو حالت کارت دیده شود
+  if (s.id === 'review') {
+    document.getElementById('reveal')?.dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
+    await new Promise((r) => setTimeout(r, 250));
+  }
+  const view = document.getElementById('view');
+  captured.push({
+    ...s,
+    html: view?.innerHTML ?? '',
+    title: document.getElementById('page-title')?.textContent ?? s.label,
+    sub: document.getElementById('page-sub')?.textContent ?? '',
+    actions: document.getElementById('topbar-actions')?.innerHTML ?? '',
+    navHtml: document.getElementById('nav')?.innerHTML ?? '',
+    sideName: document.getElementById('side-name')?.textContent ?? '',
+    sideSub: document.getElementById('side-sub')?.textContent ?? '',
+    nodes: view?.querySelectorAll('*').length ?? 0,
+  });
+  process.stdout.write(`  ✓ ${s.label} (${captured.at(-1).nodes} node)\n`);
+}
+
+/* ---------- درون‌ریزی CSS و فونت‌ها ---------- */
+let css = await read('public/css/app.css');
+const fontFiles = [
+  'vazirmatn-arabic-400-normal.woff2', 'vazirmatn-arabic-500-normal.woff2', 'vazirmatn-arabic-700-normal.woff2',
+  'vazirmatn-latin-400-normal.woff2', 'vazirmatn-latin-500-normal.woff2', 'vazirmatn-latin-700-normal.woff2',
+];
+for (const f of fontFiles) {
+  const buf = await fs.readFile(path.join(ROOT, 'node_modules/@fontsource/vazirmatn/files', f));
+  css = css.split(`url('/fonts/${f}')`).join(`url(data:font/woff2;base64,${buf.toString('base64')})`);
+}
+// فونت‌های درون‌ریزی‌نشده (اگر بود) به فونت سیستم برمی‌گردند
+css = css.replace(/url\('\/fonts\/[^']+'\)/g, 'local(Tahoma)');
+
+const PREVIEW_CSS = `
+/* ---------- پوستهٔ پیش‌نمایش ---------- */
+.pv-bar-chip {
+  border: 1px solid var(--line); border-radius: 999px;
+  padding: 1px 9px; font-size: 11px; color: var(--muted);
+  font-family: 'Vazirmatn', Tahoma, sans-serif;
+}
+.pv-theme {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--card); color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm); padding: 5px 11px;
+  font-family: 'Vazirmatn', Tahoma, sans-serif; font-size: 12px; font-weight: 500; cursor: pointer;
+}
+.pv-theme:hover { background: var(--hover); }
+.pv-group {
+  font-size: 10.5px; color: var(--muted);
+  padding: 4px 10px 2px;
+  font-family: 'Vazirmatn', Tahoma, sans-serif;
+}
+.pv-screens {
+  display: flex; flex-direction: column; gap: 1px;
+  font-family: 'Vazirmatn', Tahoma, sans-serif;
+}
+.pv-screens button {
+  border: 1px solid transparent; background: transparent; color: var(--ink-2); cursor: pointer;
+  border-radius: var(--radius-sm); padding: 6px 10px; font-size: 12.5px; font-family: inherit;
+  text-align: start;
+}
+.pv-screens button:hover { background: var(--hover); color: var(--ink); }
+.pv-screens button.active { background: var(--surface); border-color: var(--line); color: var(--ink); font-weight: 600; }
+[data-view] { display: none; }
+[data-view].active { display: block; }
+.pv-foot {
+  margin-top: 22px; padding-top: 14px; border-top: 1px solid var(--line);
+  font-size: 11.5px; color: var(--muted); text-align: center;
+  font-family: 'Vazirmatn', Tahoma, sans-serif;
+}
+.pv-foot code { background: var(--surface); padding: 1px 6px; border-radius: 5px; }
+`;
+
+/* ---------- ساخت HTML نهایی ---------- */
+const first = captured[0];
+const screenButtons = captured.map((s, i) => `
+  <button data-go="${s.id}" class="${i === 0 ? 'active' : ''}">${s.icon} ${s.label}</button>`).join('');
+
+const viewSections = captured.map((s, i) => `
+<section data-view="${s.id}" class="${i === 0 ? 'active' : ''}"
+  data-title="${escapeAttr(s.title)}" data-sub="${escapeAttr(s.sub)}"
+  data-actions="${escapeAttr(s.actions)}" data-nav="${s.nav}">
+${s.html}
+</section>`).join('\n');
+
+function escapeAttr(str) {
+  return String(str ?? '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/\n/g, ' ');
+}
+
+const out = `<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>پیش‌نمایش Lucky — دستیار مطالعه دانشجو</title>
+<style>
+${css}
+${PREVIEW_CSS}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-start">
+    <button class="icon-btn" id="pv-menu" aria-label="منو" aria-expanded="false">☰</button>
+    <div class="page-title">
+      <h1 id="pv-title">${first.title}</h1>
+      <div class="sub" id="pv-sub">${first.sub}</div>
+    </div>
+  </div>
+  <div class="topbar-end">
+    <span class="pv-bar-chip">${captured.length} صفحه</span>
+    <button class="pv-theme" id="pv-theme">☀️ روشن</button>
+    <div class="topbar-actions" id="pv-actions">${first.actions}</div>
+  </div>
+</header>
+
+<main class="main">
+  <div id="view">
+${viewSections}
+    <div class="pv-foot">
+      این پیش‌نمایش ایستا از رابط واقعی Lucky ساخته شده است؛ دکمه‌ها و فرم‌ها نمایشی‌اند.
+      برای استفادهٔ واقعی: <code dir="ltr">npm install && npm start</code>
+    </div>
+  </div>
+</main>
+
+<div class="drawer-backdrop" id="pv-backdrop" hidden></div>
+<aside class="drawer" id="pv-drawer">
+  <button class="account" id="pv-account">
+    <span class="avatar">${(first.sideName || 'ل').trim().charAt(0)}</span>
+    <span class="who">
+      <strong>${first.sideName || 'خوش آمدید'}</strong>
+      <small>${first.sideSub || 'پیش‌نمایش'}</small>
+    </span>
+  </button>
+
+  <div class="pv-group">صفحه‌ها</div>
+  <nav class="pv-screens">
+${screenButtons}
+  </nav>
+
+  <div class="pv-group">منوی برنامه</div>
+  <nav id="pv-nav">${first.navHtml}</nav>
+</aside>
+
+<script>
+(function () {
+  /* ---------- تم ---------- */
+  const themeBtn = document.getElementById('pv-theme');
+  function paintTheme(theme) {
+    document.documentElement.dataset.theme = theme;
+    themeBtn.textContent = theme === 'dark' ? '☀️ روشن' : '🌙 تاریک';
+    try { localStorage.setItem('lucky-preview-theme', theme); } catch (e) { /* ignore */ }
+  }
+  let saved = 'dark';
+  try { saved = localStorage.getItem('lucky-preview-theme') || 'dark'; } catch (e) { /* ignore */ }
+  paintTheme(saved);
+  themeBtn.addEventListener('click', () => {
+    paintTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark');
+  });
+
+  /* کشوی منو */
+  const pvDrawer = document.getElementById('pv-drawer');
+  const pvBackdrop = document.getElementById('pv-backdrop');
+  const pvMenu = document.getElementById('pv-menu');
+  function pvOpen(open) {
+    const isOpen = open === undefined ? !document.body.classList.contains('drawer-open') : open;
+    document.body.classList.toggle('drawer-open', isOpen);
+    pvMenu.setAttribute('aria-expanded', String(isOpen));
+    pvBackdrop.hidden = !isOpen;
+  }
+  pvMenu.addEventListener('click', () => pvOpen());
+  pvBackdrop.addEventListener('click', () => pvOpen(false));
+  document.getElementById('pv-account').addEventListener('click', () => { show('dashboard'); pvOpen(false); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') pvOpen(false); });
+
+  const views = [...document.querySelectorAll('[data-view]')];
+  const buttons = [...document.querySelectorAll('[data-go]')];
+  const navBtns = [...document.querySelectorAll('#pv-nav .nav-item')];
+  const title = document.getElementById('pv-title');
+  const sub = document.getElementById('pv-sub');
+  const actions = document.getElementById('pv-actions');
+
+  function show(id) {
+    const view = views.find((v) => v.dataset.view === id);
+    if (!view) return;
+    views.forEach((v) => v.classList.toggle('active', v === view));
+    buttons.forEach((b) => b.classList.toggle('active', b.dataset.go === id));
+    navBtns.forEach((b) => b.classList.toggle('active', b.dataset.route === view.dataset.nav));
+    title.textContent = view.dataset.title || '';
+    sub.textContent = view.dataset.sub || '';
+    actions.innerHTML = view.dataset.actions || '';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  buttons.forEach((b) => b.addEventListener('click', () => { show(b.dataset.go); pvOpen(false); }));
+  navBtns.forEach((b) => b.addEventListener('click', () => {
+    const target = views.find((v) => v.dataset.view === b.dataset.route);
+    if (target) show(b.dataset.route);
+  }));
+
+  // تب‌های صفحه‌ی فصل
+  document.addEventListener('click', (e) => {
+    const tab = e.target.closest('[data-tab]');
+    if (tab) {
+      const id = 'chapter-' + tab.dataset.tab;
+      if (views.some((v) => v.dataset.view === id)) { show(id); return; }
+    }
+    const link = e.target.closest('a[href^="#/"]');
+    if (link) {
+      e.preventDefault();
+      const route = link.getAttribute('href').replace(/^#\\//, '').split('?')[0].split('/')[0];
+      const target = views.find((v) => v.dataset.view === route);
+      if (target) show(route);
+    }
+  });
+})();
+</script>
+</body>
+</html>`;
+
+await fs.writeFile(OUT, out, 'utf8');
+const size = (await fs.stat(OUT)).size;
+console.log(`\n✓ پیش‌نمایش ساخته شد: preview.html (${(size / 1024).toFixed(0)} کیلوبایت، ${captured.length} صفحه)`);
+if (errors.length) {
+  console.log(`هشدار: ${errors.length} پیام خطا در کنسول هنگام ضبط صفحه‌ها`);
+  errors.slice(0, 5).forEach((e) => console.log('  -', e.slice(0, 160)));
+}
+// موتور یادآور برنامه یک setInterval فعال دارد؛ برای خروج تمیز اجرای Node را می‌بندیم
+process.exit(0);
