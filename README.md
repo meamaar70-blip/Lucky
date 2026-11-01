@@ -97,7 +97,7 @@ npm start          # http://localhost:3000
 
 
 ### اجرا روی سرور (اینترنت)
-- **ویندوز:** `deploy/windows/README.md` + بستهٔ آمادهٔ `lucky-server-windows.zip` در Releases
+- **ویندوز:** `deploy/windows/README.md` + بستهٔ آمادهٔ `deploy/windows/lucky-server-windows.zip`
 - **لینوکس با یک دستور:** `bash deploy/install-vps.sh` (داکر + HTTPS خودکار)
 - `Dockerfile` + `docker-compose.yml` با Caddy برای HTTPS خودکار: `docker compose up -d --build`
 - گزینه‌های بدون داکر: `deploy/lucky.service` (systemd) و `deploy/nginx.conf`

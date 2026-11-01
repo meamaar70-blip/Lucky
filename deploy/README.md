@@ -5,8 +5,8 @@
 اگر VPS تو **ویندوز** است، راهنمای اختصاصی و قدم‌به‌قدم اینجاست:
 [`deploy/windows/README.md`](windows/README.md)
 
-فایل لازم برای کپی روی ویندوز: `lucky-server-windows.zip` از صفحهٔ **Releases**
-(یا ساخت دوباره با `bash deploy/windows/bundle.sh`).
+فایل لازم برای کپی روی ویندوز: `deploy/windows/lucky-server-windows.zip` (داخل همین مخزن)
+— برای ساخت دوباره: `bash deploy/windows/bundle.sh`.
 
 خلاصه: Node.js 20 نصب کن → zip را در `C:\lucky` باز کن → `npm ci --omit=dev` →
 `start-lucky.bat` → `firewall.bat` → `caddy.exe` برای HTTPS → `install-service.bat`.

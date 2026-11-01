@@ -10,3 +10,6 @@
 *.apk binary
 *.woff2 binary
 *.pdf binary
+
+# بستهٔ آمادهٔ ویندوز
+*.zip binary
