@@ -584,7 +584,7 @@ p { margin: 0; }
 /* ---------- یادآورها ---------- */
 #reminders {
   position: fixed;
-  inset-block-start: 18px;
+  inset-block-end: 22px;
   inset-inline-start: 50%;
   transform: translateX(-50%);
   z-index: 300;
@@ -606,7 +606,7 @@ p { margin: 0; }
   box-shadow: var(--shadow-lg);
   animation: reminderIn .28s cubic-bezier(.2, .9, .3, 1.15);
 }
-@keyframes reminderIn { from { transform: translateY(-14px); opacity: 0; } }
+@keyframes reminderIn { from { transform: translateY(14px); opacity: 0; } }
 .reminder.class { border-inline-start: 5px solid var(--brand); }
 .reminder.exam { border-inline-start: 5px solid #d97706; }
 .reminder-icon { font-size: 22px; line-height: 1.2; }
@@ -685,5 +685,5 @@ p { margin: 0; }
 @media (max-width: 760px) {
   .exam-card { flex-wrap: wrap; }
   .exam-side { width: 100%; flex-direction: row; justify-content: space-between; }
-  #reminders { inset-block-start: 10px; }
+  #reminders { inset-block-end: 92px; }
 }
