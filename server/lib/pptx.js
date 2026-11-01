@@ -123,14 +123,17 @@ export async function buildPresentation({ courseTitle, chapter, summary, quiz, p
 
   /* ---------- ۲. نقشه‌ی فصل ---------- */
   const sections = (summary.sections ?? []).filter((s) => s.title);
+  const termTitles = (summary.terms ?? []).map((t) => t.term).filter(Boolean);
   const agendaTitles = sections.length
     ? sections.map((s) => s.title)
-    : (summary.keyPoints ?? []).slice(0, 6).map((p, i) => `نکته‌ی کلیدی ${toFaDigits(i + 1)}`);
+    : (termTitles.length >= 3
+      ? termTitles.slice(0, 8)
+      : (summary.keyPoints ?? []).slice(0, 6).map((p) => String(typeof p === 'string' ? p : p.text).split(/\s+/).slice(0, 6).join(' ')));
 
   if (agendaTitles.length) {
     const s = pptx.addSlide();
     slideNo += 1;
-    header(s, 'نقشه‌ی فصل');
+    header(s, sections.length ? 'نقشه‌ی فصل' : 'موضوعات کلیدی فصل');
     const items = agendaTitles.slice(0, 8);
     items.forEach((t, i) => {
       const col = i % 2;
