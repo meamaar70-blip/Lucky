@@ -1,25 +1,159 @@
-// public/js/views/settings.js
+// public/js/views/settings.js — تنظیمات (نمای ساده و کم‌حجم)
 
 import { api } from '../api.js';
 import * as ui from '../ui.js';
-import { permissionState, ensurePermission, sendTestReminder, nextExam } from '../reminders.js';
+import { permissionState, ensurePermission, sendTestReminder } from '../reminders.js';
 import { THEMES, getPref, setTheme } from '../theme.js';
 
 const PRESETS = [
   { label: 'OpenAI', url: 'https://api.openai.com', model: 'gpt-4o-mini' },
   { label: 'OpenRouter', url: 'https://openrouter.ai/api', model: 'openai/gpt-4o-mini' },
   { label: 'Groq', url: 'https://api.groq.com/openai', model: 'llama-3.3-70b-versatile' },
-  { label: 'Ollama (محلی)', url: 'http://localhost:11434', model: 'llama3.1' },
+  { label: 'Ollama', url: 'http://localhost:11434', model: 'llama3.1' },
 ];
 
 export async function settingsView(root, route, app) {
-  app.setHeader('تنظیمات', 'مشخصات، اتصال هوش مصنوعی و داده‌ها');
+  app.setHeader('تنظیمات', 'مشخصات، ظاهر، یادآورها و هوش مصنوعی');
   const d = app.data;
+  const perm = permissionState();
 
-  root.innerHTML = `<div class="grid cols-2" style="align-items:start"><div class="card card-pad"><div class="section-head"><h2>مشخصات من</h2></div><div class="field"><label>نام و نام خانوادگی</label><input class="input" id="p-name" maxlength="80" value="${ui.esc(d.profile.name)}" placeholder="مثلاً: سارا محمدی" /></div><div class="row"><div class="field"><label>دانشگاه</label><input class="input" id="p-uni" maxlength="80" value="${ui.esc(d.profile.university)}" placeholder="دانشگاه …" /></div><div class="field"><label>رشته</label><input class="input" id="p-field" maxlength="80" value="${ui.esc(d.profile.field)}" placeholder="رشته‌ی تحصیلی" /></div></div><div class="field"><label>ترم</label><input class="input" id="p-term" maxlength="80" value="${ui.esc(d.profile.term)}" placeholder="مثلاً: نیم‌سال اول ۱۴۰۴-۱۴۰۵" /></div><button class="btn btn-primary" id="p-save">ذخیره‌ی مشخصات</button><p class="hint" style="margin-top:12px">این اطلاعات روی جلد پاورپوینت و در داشبورد استفاده می‌شود.</p></div><div class="card card-pad"><div class="section-head"><h2>ظاهر برنامه</h2><span class="badge">${THEMES.find((t) => t.key === getPref())?.label ?? 'سیستم'}</span></div><p style="font-size:13px;color:var(--ink-2);line-height:2;margin-bottom:12px">تم دلخواهت را انتخاب کن. حالت «هم‌پایه‌ی سیستم» با تنظیمات روشن/تاریک سیستم‌عامل هماهنگ می‌شود.</p><div class="theme-choice">${THEMES.map((t) => `<button data-theme-choice="${t.key}" class="${getPref() === t.key ? 'active' : ''}"><span class="ico">${t.icon}</span>${t.label}</button>`).join('')}</div><p class="hint" style="margin-top:12px">انتخاب تم در همین مرورگر ذخیره می‌شود.</p></div><div class="card card-pad"><div class="section-head"><h2>هوش مصنوعی (اختیاری)</h2><span class="badge ${d.ai.enabled ? 'badge-ok' : ''}">${d.ai.enabled ? 'متصل' : 'تنظیم نشده'}</span></div><p style="font-size:13px;color:var(--ink-2);line-height:2;margin-bottom:12px">بدون این بخش هم همه‌چیز کار می‌کند (خلاصه و تست با موتور محلی ساخته می‌شوند).
-          اگر سرویس سازگار با OpenAI داری، این‌جا وصل کن تا خلاصه‌ها بازنویسی‌شده و تست‌ها مفهومی‌تر شوند.</p><div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px">${PRESETS.map((p) => `<button class="btn btn-sm preset" data-url="${p.url}" data-model="${p.model}">${p.label}</button>`).join('')}</div><div class="field"><label>آدرس سرویس (Base URL)</label><input class="input" id="ai-url" dir="ltr" placeholder="https://api.openai.com" value="${ui.esc(d.ai.baseUrl)}" /></div><div class="field"><label>نام مدل</label><input class="input" id="ai-model" dir="ltr" placeholder="gpt-4o-mini" value="${ui.esc(d.ai.model)}" /></div><div class="field"><label>کلید API</label><input class="input" id="ai-key" dir="ltr" type="password"
-            placeholder="${d.ai.hasKey ? '•••••••• (ذخیره شده — برای تغییر مقدار جدید بنویس)' : 'sk-…'}" /><span class="note">کلید فقط روی همین سرور ذخیره می‌شود و در پاسخ‌ها نمایش داده نمی‌شود.</span></div><div style="display:flex;gap:8px"><button class="btn btn-primary" id="ai-save">ذخیره</button><button class="btn" id="ai-test">تست اتصال</button><button class="btn btn-ghost" id="ai-clear">حذف تنظیمات</button></div><p id="ai-result" style="font-size:12.5px;margin-top:10px"></p></div><div class="card card-pad"><div class="section-head"><h2>یادآور کلاس و آزمون</h2><span class="badge ${d.reminders?.enabled ? 'badge-ok' : 'badge-danger'}">${d.reminders?.enabled ? 'فعال' : 'خاموش'}</span></div><label class="switch-row"><input type="checkbox" id="r-enabled" ${d.reminders?.enabled ? 'checked' : ''} /><span>یادآوری فعال باشد</span></label><label class="switch-row"><input type="checkbox" id="r-browser" ${d.reminders?.browser ? 'checked' : ''} /><span>اعلان مرورگر (حتی وقتی تب در پس‌زمینه است)</span></label><label class="switch-row"><input type="checkbox" id="r-sound" ${d.reminders?.sound ? 'checked' : ''} /><span>صدای هشدار</span></label><div class="row" style="margin-top:10px"><div class="field"><label>یادآوری کلاس</label><select class="select" id="r-class">${[0, 5, 10, 15, 20, 30, 45, 60].map((m) => `<option value="${m}" ${Number(d.reminders?.classLead) === m ? 'selected' : ''}>${m === 0 ? 'بدون یادآوری' : `${ui.faNum(m)} دقیقه قبل`}</option>`).join('')}</select></div><div class="field"><label>یادآوری آزمون</label><select class="select" id="r-exam">${[0, 30, 120, 720, 1440, 2880, 4320].map((m) => `<option value="${m}" ${Number(d.reminders?.examLead) === m ? 'selected' : ''}>${m === 0 ? 'بدون یادآوری' : m >= 1440 ? `${ui.faNum(m / 1440)} روز قبل` : m >= 60 ? `${ui.faNum(m / 60)} ساعت قبل` : `${ui.faNum(m)} دقیقه قبل`}</option>`).join('')}</select></div></div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px"><button class="btn btn-primary" id="r-save">ذخیره‌ی تنظیمات</button><button class="btn" id="r-perm">${permissionState() === 'granted' ? 'اعلان مجاز است' : 'فعال‌سازی اعلان مرورگر'}</button><button class="btn" id="r-test">تست یادآور</button></div><p class="hint" style="margin-top:12px">یادآورها در همین مرورگر اجرا می‌شوند و تا وقتی Lucky در یک تب باز است کار می‌کنند.
-          برای یادآوری روی گوشی، از <a href="/api/calendar.ics">خروجی تقویم (ICS)</a> استفاده کن؛ کلاس‌ها و آزمون‌ها با هشدار داخل تقویم ثبت می‌شوند.</p></div><div class="card card-pad"><div class="section-head"><h2>داده‌های من</h2></div><div class="grid cols-2" style="gap:10px"><div class="stat" style="padding:10px 0"><div class="icon"></div><div><div class="value">${ui.faNum(d.courses.length)}</div><div class="label">درس</div></div></div><div class="stat" style="padding:10px 0"><div class="icon"></div><div><div class="value">${ui.faNum(d.sessions.length)}</div><div class="label">جلسه</div></div></div><div class="stat" style="padding:10px 0"><div class="icon"></div><div><div class="value">${ui.faNum(d.books.length)}</div><div class="label">کتاب</div></div></div><div class="stat" style="padding:10px 0"><div class="icon"></div><div><div class="value">${ui.faNum(d.attempts.length)}</div><div class="label">آزمون داده‌شده</div></div></div></div><div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap"><a class="btn btn-sm" href="/api/calendar.ics">خروجی تقویم</a><a class="btn btn-sm" href="/api/calendar.ics">خروجی تقویم</a><a class="btn btn-sm" href="#/library">رفتن به فصل‌ها</a></div><p class="hint" style="margin-top:12px">همه‌ی داده‌ها در پوشه‌ی <code>data/</code> روی همین سرور ذخیره می‌شوند (فایل <code>db.json</code> و پوشه‌های uploads و exports).</p></div><div class="card card-pad"><div class="section-head"><h2>ℹدرباره‌ی Lucky</h2></div><p style="font-size:13px;color:var(--ink-2);line-height:2">Lucky برنامه‌ی کلاسی دانشجو را ثبت می‌کند، PDF کتاب هر درس را می‌خواند، فصل‌ها را خودکار تشخیص می‌دهد و برای هر فصل<strong>خلاصه</strong>، <strong>تست تعاملی</strong> و <strong>پاورپوینت</strong> می‌سازد.</p><ul style="font-size:13px;color:var(--ink-2);line-height:2.1;padding-inline-start:18px"><li>موتور محلی: انتخاب جمله‌های مهم بر اساس وزن واژه‌ها و ساختار متن فارسی.</li><li>موتور هوش مصنوعی: بازنویسی خلاصه، تعریف اصطلاحات و طراحی سؤال مفهومی.</li><li>پاورپوینت با چیدمان راست‌به‌چپ و فونت Tahoma ساخته می‌شود.</li></ul><p class="hint">نسخه ۱.۰ — ساخته‌شده برای مطالعه‌ی سریع‌تر و منظم‌تر</p></div></div>`;
+  root.innerHTML = `
+    <div class="settings-wrap">
+
+      <!-- مشخصات -->
+      <section class="card card-pad">
+        <div class="section-head"><h2>مشخصات</h2></div>
+        <div class="field">
+          <label class="label">نام و نام خانوادگی</label>
+          <input class="input" id="p-name" maxlength="80" value="${ui.esc(d.profile.name)}" placeholder="مثلاً سارا محمدی" />
+        </div>
+        <div class="row">
+          <div class="field">
+            <label class="label">دانشگاه</label>
+            <input class="input" id="p-uni" maxlength="80" value="${ui.esc(d.profile.university)}" placeholder="دانشگاه" />
+          </div>
+          <div class="field">
+            <label class="label">رشته</label>
+            <input class="input" id="p-field" maxlength="80" value="${ui.esc(d.profile.field)}" placeholder="رشته" />
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">ترم</label>
+          <input class="input" id="p-term" maxlength="80" value="${ui.esc(d.profile.term)}" placeholder="نیم‌سال اول ۱۴۰۴" />
+        </div>
+        <button class="btn btn-primary" id="p-save">ذخیره</button>
+        <p class="hint" style="margin-top:10px">روی جلد پاورپوینت و کارت اکانت استفاده می‌شود.</p>
+      </section>
+
+      <!-- ظاهر -->
+      <section class="card card-pad">
+        <div class="section-head">
+          <h2>ظاهر</h2>
+          <span class="badge">${THEMES.find((t) => t.key === getPref())?.label ?? 'سیستم'}</span>
+        </div>
+        <div class="theme-choice">
+          ${THEMES.map((t) => `<button data-theme-choice="${t.key}" class="${getPref() === t.key ? 'active' : ''}"><span class="ico">${t.icon}</span>${t.label}</button>`).join('')}
+        </div>
+        <p class="hint" style="margin-top:10px">در همین مرورگر ذخیره می‌شود؛ «هم‌پایه‌ی سیستم» با تنظیمات سیستم‌عامل هماهنگ است.</p>
+      </section>
+
+      <!-- یادآورها -->
+      <section class="card card-pad">
+        <div class="section-head">
+          <h2>یادآورها</h2>
+          <span class="badge ${d.reminders?.enabled ? 'badge-ok' : 'badge-danger'}">${d.reminders?.enabled ? 'فعال' : 'خاموش'}</span>
+        </div>
+
+        <label class="switch-row">
+          <span><span class="t">یادآوری فعال باشد</span></span>
+          <input type="checkbox" id="r-enabled" ${d.reminders?.enabled ? 'checked' : ''} />
+        </label>
+        <label class="switch-row">
+          <span><span class="t">اعلان مرورگر</span><span class="sub">حتی وقتی تب در پس‌زمینه است</span></span>
+          <input type="checkbox" id="r-browser" ${d.reminders?.browser ? 'checked' : ''} />
+        </label>
+        <label class="switch-row">
+          <span><span class="t">صدای هشدار</span></span>
+          <input type="checkbox" id="r-sound" ${d.reminders?.sound ? 'checked' : ''} />
+        </label>
+
+        <div class="row" style="margin-top:12px">
+          <div class="field">
+            <label class="label">یادآوری کلاس</label>
+            <select class="select" id="r-class">
+              ${[0, 5, 10, 15, 20, 30, 45, 60].map((m) => `<option value="${m}" ${Number(d.reminders?.classLead) === m ? 'selected' : ''}>${m === 0 ? 'بدون یادآوری' : `${ui.faNum(m)} دقیقه قبل`}</option>`).join('')}
+            </select>
+          </div>
+          <div class="field">
+            <label class="label">یادآوری آزمون</label>
+            <select class="select" id="r-exam">
+              ${[0, 30, 120, 720, 1440, 2880, 4320].map((m) => `<option value="${m}" ${Number(d.reminders?.examLead) === m ? 'selected' : ''}>${m === 0 ? 'بدون یادآوری' : m >= 1440 ? `${ui.faNum(m / 1440)} روز قبل` : m >= 60 ? `${ui.faNum(m / 60)} ساعت قبل` : `${ui.faNum(m)} دقیقه قبل`}</option>`).join('')}
+            </select>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:2px">
+          <button class="btn btn-primary" id="r-save">ذخیره</button>
+          <button class="btn" id="r-perm">${perm === 'granted' ? 'اعلان مجاز است' : 'فعال‌سازی اعلان'}</button>
+          <button class="btn btn-ghost" id="r-test">تست یادآور</button>
+        </div>
+        <p class="hint" style="margin-top:10px">یادآورها تا وقتی Lucky در یک تب باز است کار می‌کنند. برای یادآوری روی گوشی از
+          <a href="/api/calendar.ics">خروجی تقویم</a> استفاده کن.</p>
+      </section>
+
+      <!-- هوش مصنوعی -->
+      <details class="card card-pad acc">
+        <summary>
+          <span>هوش مصنوعی <span class="meta">(اختیاری)</span></span>
+          <span class="badge ${d.ai.enabled ? 'badge-ok' : ''}">${d.ai.enabled ? 'متصل' : 'تنظیم نشده'}</span>
+        </summary>
+        <div class="acc-body">
+          <p class="hint" style="margin-bottom:12px">بدون این بخش هم همه‌چیز کار می‌کند. اگر سرویس سازگار با OpenAI داری، وصل کن تا خلاصه‌ها و تست‌ها بهتر شوند.</p>
+          <div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:12px">
+            ${PRESETS.map((p) => `<button class="btn btn-sm preset" data-url="${p.url}" data-model="${p.model}">${p.label}</button>`).join('')}
+          </div>
+          <div class="field">
+            <label class="label">آدرس سرویس</label>
+            <input class="input" id="ai-url" dir="ltr" placeholder="https://api.openai.com" value="${ui.esc(d.ai.baseUrl)}" />
+          </div>
+          <div class="field">
+            <label class="label">مدل</label>
+            <input class="input" id="ai-model" dir="ltr" placeholder="gpt-4o-mini" value="${ui.esc(d.ai.model)}" />
+          </div>
+          <div class="field">
+            <label class="label">کلید API</label>
+            <input class="input" id="ai-key" dir="ltr" type="password"
+              placeholder="${d.ai.hasKey ? '•••••••• (ذخیره شده)' : 'sk-…'}" />
+            <span class="meta">کلید فقط روی همین سرور ذخیره می‌شود.</span>
+          </div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap">
+            <button class="btn btn-primary" id="ai-save">ذخیره</button>
+            <button class="btn" id="ai-test">تست اتصال</button>
+            <button class="btn btn-ghost" id="ai-clear">حذف</button>
+          </div>
+          <p id="ai-result" class="meta" style="margin-top:8px"></p>
+        </div>
+      </details>
+
+      <!-- داده‌ها -->
+      <section class="card card-pad">
+        <div class="section-head"><h2>داده‌ها</h2></div>
+        <div class="data-line">
+          <span>${ui.faNum(d.courses.length)} درس</span>
+          <span>${ui.faNum(d.sessions.length)} جلسه</span>
+          <span>${ui.faNum(d.books.length)} کتاب</span>
+          <span>${ui.faNum(d.review?.total ?? 0)} کارت مرور</span>
+          <span>${ui.faNum(d.attempts.length)} آزمون داده‌شده</span>
+        </div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:10px">
+          <a class="btn btn-sm" href="/api/calendar.ics">خروجی تقویم</a>
+          <a class="btn btn-sm" href="#/library">رفتن به فصل‌ها</a>
+        </div>
+        <p class="hint" style="margin-top:10px">داده‌ها در پوشه‌ی <code>data/</code> روی همین سرور ذخیره می‌شوند.</p>
+      </section>
+
+      <p class="hint" style="text-align:center;padding:4px 0">Lucky — نسخه ۱.۰</p>
+    </div>`;
 
   /* مشخصات */
   root.querySelector('#p-save').onclick = async (e) => {
@@ -101,24 +235,24 @@ export async function settingsView(root, route, app) {
         await api.saveAi(payload);
         keyInput.value = '';
         await app.refresh();
-        resultEl.innerHTML = '<span style="color:var(--accent)">تنظیمات ذخیره شد</span>';
+        resultEl.textContent = 'تنظیمات ذخیره شد';
         ui.toast('تنظیمات هوش مصنوعی ذخیره شد', 'ok');
         settingsView(root, route, app);
       } catch (err) {
-        resultEl.innerHTML = `<span style="color:var(--danger)">${ui.esc(err.message)}</span>`;
+        resultEl.textContent = err.message;
       }
     }, 'در حال ذخیره…');
   };
 
   root.querySelector('#ai-test').onclick = async (e) => {
     const btn = e.currentTarget;
-    resultEl.innerHTML = '';
+    resultEl.textContent = '';
     await app.busy(btn, async () => {
       try {
         const out = await api.testAi();
-        resultEl.innerHTML = `<span style="color:var(--accent)">اتصال برقرار است — پاسخ: ${ui.esc(out.message ?? 'ok')}</span>`;
+        resultEl.textContent = `اتصال برقرار است — ${out.message ?? 'ok'}`;
       } catch (err) {
-        resultEl.innerHTML = `<span style="color:var(--danger)">${ui.esc(err.message)}</span>`;
+        resultEl.textContent = err.message;
       }
     }, 'در حال تست…');
   };

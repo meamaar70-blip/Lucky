@@ -13,7 +13,8 @@
     "seed": "node scripts/seed-demo.mjs",
     "sample": "node scripts/sample-book.mjs",
     "audit:theme": "node scripts/audit-theme.mjs",
-    "audit:css": "node scripts/audit-css.mjs"
+    "audit:css": "node scripts/audit-css.mjs",
+    "test:text": "node scripts/test-text.mjs"
   },
   "engines": {
     "node": ">=20"

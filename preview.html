@@ -1159,6 +1159,69 @@ select.input, .select { appearance: none; background-image: none; padding-inline
   .agenda-row .time { min-width: 38px; font-size: 11.5px; }
 }
 
+
+/* ---------- آزمون‌ها (فشرده) ---------- */
+.exam-rows { display: flex; flex-direction: column; }
+.exam-row {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--line-2);
+  flex-wrap: wrap;
+}
+.exam-row:last-child { border-bottom: 0; }
+.exam-row.past { opacity: .6; }
+.exam-row .date-chip {
+  display: flex; flex-direction: column; align-items: center;
+  min-width: 40px;
+  line-height: 1.3;
+}
+.exam-row .date-chip .d { font-size: 15px; font-weight: 700; }
+.exam-row .date-chip .m { font-size: 9.5px; color: var(--muted); }
+.exam-row .tag { width: 3px; height: 28px; border-radius: 2px; flex: 0 0 auto; }
+.exam-row .body { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.exam-row .body .t { font-size: 13px; font-weight: 500; }
+.exam-row .count { font-size: 11.5px; color: var(--muted); white-space: nowrap; }
+.exam-row .actions { display: flex; gap: 2px; }
+
+.next-exam { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.next-exam .t { font-size: 16px; font-weight: 600; }
+.next-exam .days { display: flex; flex-direction: column; align-items: center; }
+.next-exam .days .v { font-size: 15px; font-weight: 700; }
+.next-exam .days .l { font-size: 10.5px; color: var(--muted); }
+
+
+/* ---------- تنظیمات ---------- */
+.settings-wrap { display: flex; flex-direction: column; gap: 12px; max-width: 720px; }
+.acc summary {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  cursor: pointer;
+  font-size: 14.5px;
+  font-weight: 600;
+  list-style: none;
+}
+.acc summary::-webkit-details-marker { display: none; }
+.acc summary::after {
+  content: '+';
+  margin-inline-start: 8px;
+  color: var(--muted);
+  font-weight: 400;
+}
+.acc[open] summary::after { content: '−'; }
+.acc-body { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--line-2); }
+
+.data-line {
+  display: flex; gap: 14px; flex-wrap: wrap;
+  font-size: 12.5px; color: var(--ink-2);
+}
+.data-line span { position: relative; padding-inline-start: 12px; }
+.data-line span::before {
+  content: '';
+  position: absolute; inset-inline-start: 0; top: 50%;
+  width: 4px; height: 4px; border-radius: 50%;
+  background: var(--line-strong);
+  transform: translateY(-50%);
+}
+
 /* ---------- ریسپانسیو ---------- */
 @media (max-width: 1080px) {
   .grid.cols-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -1267,15 +1330,15 @@ select.input, .select { appearance: none; background-image: none; padding-inline
           <span>کلاس ۱۰۵</span>
           <span>دکتر کاظمی</span>
         </div>
-        <div class="count">۱۸ دقیقه دیگر</div>
+        <div class="count">۱۴ دقیقه دیگر</div>
         
       </div>
         
     <div class="card review-cta">
-      <div class="review-cta-icon">۱۵</div>
+      <div class="review-cta-icon">۲۲</div>
       <div style="flex:1;min-width:0">
         <div style="font-size:13.5px;font-weight:600">کارت آماده‌ی مرور</div>
-        <div class="meta">۱۵ کارت امروز نوبتش است</div>
+        <div class="meta">۲۲ کارت امروز نوبتش است</div>
       </div>
       <button class="btn btn-sm btn-primary" id="dash-review">
         شروع
@@ -1358,7 +1421,7 @@ select.input, .select { appearance: none; background-image: none; padding-inline
         <span class="d">یک‌شنبه<span class="badge badge-brand">امروز</span></span>
         <span class="meta">۱ کلاس</span>
       </div>
-      <div class="agenda-row" data-id="ses_d86591ef">
+      <div class="agenda-row" data-id="ses_4a302703">
           <span class="time">۱۴:۰۰<small>۱۶:۰۰</small></span>
           <span class="tag" style="background:#0d9488"></span>
           <span class="body">
@@ -1373,7 +1436,7 @@ select.input, .select { appearance: none; background-image: none; padding-inline
         <span class="d">دوشنبه</span>
         <span class="meta">۱ کلاس</span>
       </div>
-      <div class="agenda-row" data-id="ses_b292e205">
+      <div class="agenda-row" data-id="ses_ffa1ca47">
           <span class="time">۰۸:۰۰<small>۱۰:۰۰</small></span>
           <span class="tag" style="background:#6366f1"></span>
           <span class="body">
@@ -1388,7 +1451,7 @@ select.input, .select { appearance: none; background-image: none; padding-inline
         <span class="d">سه‌شنبه</span>
         <span class="meta">۱ کلاس</span>
       </div>
-      <div class="agenda-row" data-id="ses_30de819a">
+      <div class="agenda-row" data-id="ses_85e22ca0">
           <span class="time">۱۶:۰۰<small>۱۷:۳۰</small></span>
           <span class="tag" style="background:#0d9488"></span>
           <span class="body">
@@ -1403,7 +1466,7 @@ select.input, .select { appearance: none; background-image: none; padding-inline
         <span class="d">چهارشنبه</span>
         <span class="meta">۱ کلاس</span>
       </div>
-      <div class="agenda-row" data-id="ses_24610020">
+      <div class="agenda-row" data-id="ses_4b9d425d">
           <span class="time">۱۰:۰۰<small>۱۲:۰۰</small></span>
           <span class="tag" style="background:#6366f1"></span>
           <span class="body">
@@ -1432,7 +1495,7 @@ select.input, .select { appearance: none; background-image: none; padding-inline
             <h2>کتاب‌ها</h2>
             <button class="btn btn-sm btn-ghost" id="add-book-2">+ PDF</button>
           </div>
-          <div class="book-list"><button class="book-row active" data-book="bok_c1ac007b">
+          <div class="book-list"><button class="book-row active" data-book="bok_18eb20c8">
           <span class="book-tag" style="background:#6366f1"></span>
           <span class="book-main">
             <span class="book-title">مبانی یادگیری و مطالعه</span>
@@ -1449,18 +1512,18 @@ select.input, .select { appearance: none; background-image: none; padding-inline
             <div style="font-size:13px;font-weight:500">روان‌شناسی یادگیری</div>
             <div class="meta">دکتر رضایی • ۲ جلسه</div>
           </div>
-          <button class="btn btn-sm btn-ghost" data-course-session="crs_b4df6968">کلاس</button>
-          <button class="btn btn-sm btn-ghost c-edit" data-id="crs_b4df6968">ویرایش</button>
-          <button class="btn btn-sm btn-ghost c-del" data-id="crs_b4df6968" data-title="روان‌شناسی یادگیری">حذف</button>
+          <button class="btn btn-sm btn-ghost" data-course-session="crs_bc388b5f">کلاس</button>
+          <button class="btn btn-sm btn-ghost c-edit" data-id="crs_bc388b5f">ویرایش</button>
+          <button class="btn btn-sm btn-ghost c-del" data-id="crs_bc388b5f" data-title="روان‌شناسی یادگیری">حذف</button>
         </div><div class="course-line">
           <span class="book-tag" style="background:#0d9488"></span>
           <div style="flex:1;min-width:0">
             <div style="font-size:13px;font-weight:500">آمار و روش تحقیق</div>
             <div class="meta">دکتر کاظمی • ۲ جلسه</div>
           </div>
-          <button class="btn btn-sm btn-ghost" data-course-session="crs_dcffe0ca">کلاس</button>
-          <button class="btn btn-sm btn-ghost c-edit" data-id="crs_dcffe0ca">ویرایش</button>
-          <button class="btn btn-sm btn-ghost c-del" data-id="crs_dcffe0ca" data-title="آمار و روش تحقیق">حذف</button>
+          <button class="btn btn-sm btn-ghost" data-course-session="crs_c03f8a6e">کلاس</button>
+          <button class="btn btn-sm btn-ghost c-edit" data-id="crs_c03f8a6e">ویرایش</button>
+          <button class="btn btn-sm btn-ghost c-del" data-id="crs_c03f8a6e" data-title="آمار و روش تحقیق">حذف</button>
         </div>
     </div>
       </div>
@@ -1471,7 +1534,7 @@ select.input, .select { appearance: none; background-image: none; padding-inline
             <h2 style="font-size:16px">مبانی یادگیری و مطالعه</h2>
             <div class="meta">۸ صفحه • ۴ فصل • <span class="badge badge-ok">۴ فصل</span></div>
           </div>
-          <a class="btn btn-sm" href="#/library?book=bok_c1ac007b">رفتن به فصل‌ها</a>
+          <a class="btn btn-sm" href="#/library?book=bok_18eb20c8">رفتن به فصل‌ها</a>
         </div>
 
         <div class="book-actions">
@@ -1506,9 +1569,9 @@ select.input, .select { appearance: none; background-image: none; padding-inline
                   
                 </div>
                 <div class="chapter-row-actions">
-                  <button class="btn btn-sm btn-ghost" data-build="summary" data-ch="chp_40cad29b">خلاصه</button>
-                  <button class="btn btn-sm btn-ghost" data-build="quiz" data-ch="chp_40cad29b">تست</button>
-                  <a class="btn btn-sm btn-ghost" href="#/chapter/chp_40cad29b?tab=summary">باز کردن</a>
+                  <button class="btn btn-sm btn-ghost" data-build="summary" data-ch="chp_7b99d565">خلاصه</button>
+                  <button class="btn btn-sm btn-ghost" data-build="quiz" data-ch="chp_7b99d565">تست</button>
+                  <a class="btn btn-sm btn-ghost" href="#/chapter/chp_7b99d565?tab=summary">باز کردن</a>
                 </div>
               </div>
               <div class="chapter-row">
@@ -1526,9 +1589,9 @@ select.input, .select { appearance: none; background-image: none; padding-inline
                   
                 </div>
                 <div class="chapter-row-actions">
-                  <button class="btn btn-sm btn-ghost" data-build="summary" data-ch="chp_e243d583">خلاصه</button>
-                  <button class="btn btn-sm btn-ghost" data-build="quiz" data-ch="chp_e243d583">تست</button>
-                  <a class="btn btn-sm btn-ghost" href="#/chapter/chp_e243d583?tab=summary">باز کردن</a>
+                  <button class="btn btn-sm btn-ghost" data-build="summary" data-ch="chp_c100a4ac">خلاصه</button>
+                  <button class="btn btn-sm btn-ghost" data-build="quiz" data-ch="chp_c100a4ac">تست</button>
+                  <a class="btn btn-sm btn-ghost" href="#/chapter/chp_c100a4ac?tab=summary">باز کردن</a>
                 </div>
               </div>
               <div class="chapter-row">
@@ -1546,9 +1609,9 @@ select.input, .select { appearance: none; background-image: none; padding-inline
                   
                 </div>
                 <div class="chapter-row-actions">
-                  <button class="btn btn-sm btn-ghost" data-build="summary" data-ch="chp_f7efc72d">خلاصه</button>
-                  <button class="btn btn-sm btn-ghost" data-build="quiz" data-ch="chp_f7efc72d">تست</button>
-                  <a class="btn btn-sm btn-ghost" href="#/chapter/chp_f7efc72d?tab=summary">باز کردن</a>
+                  <button class="btn btn-sm btn-ghost" data-build="summary" data-ch="chp_4b562f88">خلاصه</button>
+                  <button class="btn btn-sm btn-ghost" data-build="quiz" data-ch="chp_4b562f88">تست</button>
+                  <a class="btn btn-sm btn-ghost" href="#/chapter/chp_4b562f88?tab=summary">باز کردن</a>
                 </div>
               </div>
               <div class="chapter-row">
@@ -1566,9 +1629,9 @@ select.input, .select { appearance: none; background-image: none; padding-inline
                   
                 </div>
                 <div class="chapter-row-actions">
-                  <button class="btn btn-sm btn-ghost" data-build="summary" data-ch="chp_84d6ceef">خلاصه</button>
-                  <button class="btn btn-sm btn-ghost" data-build="quiz" data-ch="chp_84d6ceef">تست</button>
-                  <a class="btn btn-sm btn-ghost" href="#/chapter/chp_84d6ceef?tab=summary">باز کردن</a>
+                  <button class="btn btn-sm btn-ghost" data-build="summary" data-ch="chp_d6b1d68a">خلاصه</button>
+                  <button class="btn btn-sm btn-ghost" data-build="quiz" data-ch="chp_d6b1d68a">تست</button>
+                  <a class="btn btn-sm btn-ghost" href="#/chapter/chp_d6b1d68a?tab=summary">باز کردن</a>
                 </div>
               </div>
             </div>
@@ -1579,23 +1642,23 @@ select.input, .select { appearance: none; background-image: none; padding-inline
 <section data-view="library" class=""
   data-title="فصل‌ها و مطالعه" data-sub="۱ کتاب • ۴ فصل"
   data-actions="<button class=&quot;btn btn-sm btn-primary&quot; id=&quot;lib-add&quot;>بارگذاری کتاب</button>" data-nav="library">
-<div class="split"><div><div class="section-head"><h2>کتاب‌ها</h2><button class="btn btn-sm btn-ghost" id="lib-add2">＋</button></div><div class="card" style="padding:10px"><div class="book-item active" data-book="bok_c1ac007b"><div class="cover" style="background:linear-gradient(135deg,#6366f133,#6366f166);color:#6366f1"></div><div class="info"><div class="t">مبانی یادگیری و مطالعه</div><div class="s">روان‌شناسی یادگیری • ۴ فصل</div></div></div></div></div><div><div class="card card-pad" style="margin-bottom:16px"><div class="section-head" style="margin-bottom:6px"><div><h2 style="display:flex;gap:8px;align-items:center"><span style="width:10px;height:10px;border-radius:50%;background:#6366f1"></span>مبانی یادگیری و مطالعه</h2><div style="font-size:12.5px;color:var(--muted);margin-top:2px">روان‌شناسی یادگیری • ۸ صفحه • ۴ فصل
+<div class="split"><div><div class="section-head"><h2>کتاب‌ها</h2><button class="btn btn-sm btn-ghost" id="lib-add2">＋</button></div><div class="card" style="padding:10px"><div class="book-item active" data-book="bok_18eb20c8"><div class="cover" style="background:linear-gradient(135deg,#6366f133,#6366f166);color:#6366f1"></div><div class="info"><div class="t">مبانی یادگیری و مطالعه</div><div class="s">روان‌شناسی یادگیری • ۴ فصل</div></div></div></div></div><div><div class="card card-pad" style="margin-bottom:16px"><div class="section-head" style="margin-bottom:6px"><div><h2 style="display:flex;gap:8px;align-items:center"><span style="width:10px;height:10px;border-radius:50%;background:#6366f1"></span>مبانی یادگیری و مطالعه</h2><div style="font-size:12.5px;color:var(--muted);margin-top:2px">روان‌شناسی یادگیری • ۸ صفحه • ۴ فصل
                 
                 </div></div><div style="display:flex;gap:6px"><button class="btn btn-sm" id="lib-edit">ویرایش فصل‌ها</button><button class="btn btn-sm btn-danger" id="lib-del">حذف</button></div></div></div><div class="grid" style="gap:10px"><div class="chapter-card"><div class="chapter-num">۱</div><div class="body"><div class="title">فصل اول: مفاهیم بنیادی انگیزش</div><div class="meta"><span>صفحه ۱ تا ۲</span><span>۳۲۹ کلمه</span><span>~۲ دقیقه</span>
-              <span class="badge badge-ok">خلاصه + تست آماده</span></div></div><div class="actions"><button class="btn btn-sm ch-go" data-id="chp_40cad29b" data-tab="summary">خلاصه</button><button class="btn btn-sm ch-go" data-id="chp_40cad29b" data-tab="quiz">تست</button><button class="btn btn-sm ch-go" data-id="chp_40cad29b" data-tab="pptx">پاورپوینت</button></div></div><div class="chapter-card"><div class="chapter-num">۲</div><div class="body"><div class="title">فصل دوم: حافظه و پردازش اطلاعات</div><div class="meta"><span>صفحه ۳ تا ۴</span><span>۲۵۰ کلمه</span><span>~۱ دقیقه</span>
-              <span class="badge badge-ok">تست آماده</span></div></div><div class="actions"><button class="btn btn-sm ch-go" data-id="chp_e243d583" data-tab="summary">خلاصه</button><button class="btn btn-sm ch-go" data-id="chp_e243d583" data-tab="quiz">تست</button><button class="btn btn-sm ch-go" data-id="chp_e243d583" data-tab="pptx">پاورپوینت</button></div></div><div class="chapter-card"><div class="chapter-num">۳</div><div class="body"><div class="title">فصل سوم: روش‌های مطالعه و مدیریت زمان</div><div class="meta"><span>صفحه ۵ تا ۶</span><span>۲۶۲ کلمه</span><span>~۱ دقیقه</span>
-              <span class="badge badge-ok">تست آماده</span></div></div><div class="actions"><button class="btn btn-sm ch-go" data-id="chp_f7efc72d" data-tab="summary">خلاصه</button><button class="btn btn-sm ch-go" data-id="chp_f7efc72d" data-tab="quiz">تست</button><button class="btn btn-sm ch-go" data-id="chp_f7efc72d" data-tab="pptx">پاورپوینت</button></div></div><div class="chapter-card"><div class="chapter-num">۴</div><div class="body"><div class="title">فصل چهارم: ارزیابی و آمادگی برای آزمون</div><div class="meta"><span>صفحه ۷ تا ۸</span><span>۲۱۹ کلمه</span><span>~۱ دقیقه</span>
-              <span class="badge badge-ok">تست آماده</span></div></div><div class="actions"><button class="btn btn-sm ch-go" data-id="chp_84d6ceef" data-tab="summary">خلاصه</button><button class="btn btn-sm ch-go" data-id="chp_84d6ceef" data-tab="quiz">تست</button><button class="btn btn-sm ch-go" data-id="chp_84d6ceef" data-tab="pptx">پاورپوینت</button></div></div></div><p class="hint" style="margin-top:16px">روی «خلاصه» بزن تا متن فصل در چند ثانیه خلاصه شود؛ بعد از آن می‌توانی تست همان فصل را بسازی یا پاورپوینت آماده‌ی ارائه دانلود کنی.</p></div></div>
+              <span class="badge badge-ok">خلاصه + تست آماده</span></div></div><div class="actions"><button class="btn btn-sm ch-go" data-id="chp_7b99d565" data-tab="summary">خلاصه</button><button class="btn btn-sm ch-go" data-id="chp_7b99d565" data-tab="quiz">تست</button><button class="btn btn-sm ch-go" data-id="chp_7b99d565" data-tab="pptx">پاورپوینت</button></div></div><div class="chapter-card"><div class="chapter-num">۲</div><div class="body"><div class="title">فصل دوم: حافظه و پردازش اطلاعات</div><div class="meta"><span>صفحه ۳ تا ۴</span><span>۲۵۰ کلمه</span><span>~۱ دقیقه</span>
+              <span class="badge badge-ok">تست آماده</span></div></div><div class="actions"><button class="btn btn-sm ch-go" data-id="chp_c100a4ac" data-tab="summary">خلاصه</button><button class="btn btn-sm ch-go" data-id="chp_c100a4ac" data-tab="quiz">تست</button><button class="btn btn-sm ch-go" data-id="chp_c100a4ac" data-tab="pptx">پاورپوینت</button></div></div><div class="chapter-card"><div class="chapter-num">۳</div><div class="body"><div class="title">فصل سوم: روش‌های مطالعه و مدیریت زمان</div><div class="meta"><span>صفحه ۵ تا ۶</span><span>۲۶۲ کلمه</span><span>~۱ دقیقه</span>
+              <span class="badge badge-ok">تست آماده</span></div></div><div class="actions"><button class="btn btn-sm ch-go" data-id="chp_4b562f88" data-tab="summary">خلاصه</button><button class="btn btn-sm ch-go" data-id="chp_4b562f88" data-tab="quiz">تست</button><button class="btn btn-sm ch-go" data-id="chp_4b562f88" data-tab="pptx">پاورپوینت</button></div></div><div class="chapter-card"><div class="chapter-num">۴</div><div class="body"><div class="title">فصل چهارم: ارزیابی و آمادگی برای آزمون</div><div class="meta"><span>صفحه ۷ تا ۸</span><span>۲۱۹ کلمه</span><span>~۱ دقیقه</span>
+              <span class="badge badge-ok">تست آماده</span></div></div><div class="actions"><button class="btn btn-sm ch-go" data-id="chp_d6b1d68a" data-tab="summary">خلاصه</button><button class="btn btn-sm ch-go" data-id="chp_d6b1d68a" data-tab="quiz">تست</button><button class="btn btn-sm ch-go" data-id="chp_d6b1d68a" data-tab="pptx">پاورپوینت</button></div></div></div><p class="hint" style="margin-top:16px">روی «خلاصه» بزن تا متن فصل در چند ثانیه خلاصه شود؛ بعد از آن می‌توانی تست همان فصل را بسازی یا پاورپوینت آماده‌ی ارائه دانلود کنی.</p></div></div>
 </section>
 
 <section data-view="chapter-summary" class=""
   data-title="فصل اول: مفاهیم بنیادی انگیزش" data-sub="روان‌شناسی یادگیری • مبانی یادگیری و مطالعه • صفحه ۱–۲"
-  data-actions="<a class=&quot;btn btn-sm&quot; href=&quot;#/library?book=bok_c1ac007b&quot;>بازگشت به فصل‌ها</a>" data-nav="library">
+  data-actions="<a class=&quot;btn btn-sm&quot; href=&quot;#/library?book=bok_18eb20c8&quot;>بازگشت به فصل‌ها</a>" data-nav="library">
 <div class="card card-pad card-soft-brand" style="margin-bottom:16px"><div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap"><div style="width:52px;height:52px;border-radius:15px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;display:grid;place-items:center;font-weight:800;font-size:18px">۱</div><div style="flex:1;min-width:200px"><div style="font-weight:700;font-size:16px">فصل اول: مفاهیم بنیادی انگیزش</div><div style="font-size:12.5px;color:var(--muted);margin-top:2px">۳۲۹ کلمه • حدود ۲ دقیقه مطالعه</div></div><div style="display:flex;gap:8px;flex-wrap:wrap"><span class="badge badge-ok">خلاصه آماده</span>
           <span class="badge badge-ok">۶ سؤال</span>
           <span class="badge badge-brand">پاورپوینت ساخته شده</span><span class="badge ">موتور محلی</span></div></div></div><div class="tabs"><button class="tab active" data-tab="summary">خلاصه</button><button class="tab" data-tab="quiz">تست</button><button class="tab" data-tab="pptx">پاورپوینت</button><button class="tab" data-tab="text">متن فصل</button></div><div id="tab-body">
       <div class="card card-pad" style="margin-bottom:16px"><div style="display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap"><div class="field" style="margin:0;flex:0 0 150px"><label>حجم خلاصه</label><select class="select" id="sum-depth"><option value="short">کوتاه (مرور سریع)</option><option value="medium" selected="">متوسط</option><option value="long">مفصل (امتحان)</option></select></div><div class="field" style="margin:0;flex:0 0 190px"><label>موتور تولید</label><select class="select" id="sum-engine"><option value="auto">خودکار (پیشنهادی)</option><option value="local">موتور محلی</option></select></div><button class="btn btn-primary" id="sum-run" style="flex:0 0 auto">ساخت دوباره</button><button class="btn" id="sum-copy">کپی متن</button><button class="btn" id="sum-print">چاپ</button></div><p class="hint" style="margin-top:12px">موتور محلی جمله‌های مهم فصل را بر اساس ساختار متن انتخاب می‌کند (بدون نیاز به اینترنت). برای خلاصه‌ی بازنویسی‌شده، هوش مصنوعی را در تنظیمات وصل کن.</p></div>
-      <div class="card card-pad" style="margin-bottom:16px"><div class="section-head"><h2>خلاصه‌ی فصل</h2><div style="display:flex;gap:6px;align-items:center"><span class="badge">موتور محلی</span><span class="badge">۳۸٪ از متن</span><span class="badge">۴۱ دقیقه پیش</span></div></div><p class="summary-text" id="sum-text">انگیزش به مجموعه ای از فرایندهای درونی گفته می شود که رفتار فرد را برای رسیدن به یک هدف به حرکت درمی آورد. در روان شناسی، انگیزش را معموال به دو دسته درونی و بیرونی تقسیم می کنند. انگیزش درونی زمانی رخ می دهد که فرد برای لذت بردن از خود فعالیت دست به کار می شود، اما انگیزش بیرونی به پاداش ها و تنبیه های محیطی وابسته است. نظریه خودتعیین گری از سه نیاز روان شناختی پایه سخن می گوید: خودمختاری، شایستگی و ارتباط. در مقابل، نظریه انتظار ارزش بیان می کند که انگیزش حاصل ضرب دو عامل است: انتظار موفقیت و ارزشی که فرد برای هدف قایل است. اگر دانشجو باور داشته باشد که تالش او نتیجه می دهد و هدف را ارزشمند بداند، احتمال درگیری او با تکالیف درسی بیشتر است.</p></div><div class="card card-pad" style="margin-bottom:16px"><div class="section-head"><h2>نکات کلیدی</h2><span class="badge">۷ نکته</span></div><div class="points"><div class="point"><div class="n">۱</div><div style="font-size:13.5px;line-height:2">در روان شناسی، انگیزش را معموال به دو دسته درونی و بیرونی تقسیم می کنند.
+      <div class="card card-pad" style="margin-bottom:16px"><div class="section-head"><h2>خلاصه‌ی فصل</h2><div style="display:flex;gap:6px;align-items:center"><span class="badge">موتور محلی</span><span class="badge">۳۸٪ از متن</span><span class="badge">۱ دقیقه پیش</span></div></div><p class="summary-text" id="sum-text">انگیزش به مجموعه ای از فرایندهای درونی گفته می شود که رفتار فرد را برای رسیدن به یک هدف به حرکت درمی آورد. در روان شناسی، انگیزش را معمولا به دو دسته درونی و بیرونی تقسیم می کنند. انگیزش درونی زمانی رخ می دهد که فرد برای لذت بردن از خود فعالیت دست به کار می شود، اما انگیزش بیرونی به پاداش ها و تنبیه های محیطی وابسته است. نظریه خودتعیین گری از سه نیاز روان شناختی پایه سخن می گوید: خودمختاری، شایستگی و ارتباط. در مقابل، نظریه انتظار ارزش بیان می کند که انگیزش حاصل ضرب دو عامل است: انتظار موفقیت و ارزشی که فرد برای هدف قایل است. اگر دانشجو باور داشته باشد که تالش او نتیجه می دهد و هدف را ارزشمند بداند، احتمال درگیری او با تکالیف درسی بیشتر است.</p></div><div class="card card-pad" style="margin-bottom:16px"><div class="section-head"><h2>نکات کلیدی</h2><span class="badge">۷ نکته</span></div><div class="points"><div class="point"><div class="n">۱</div><div style="font-size:13.5px;line-height:2">در روان شناسی، انگیزش را معمولا به دو دسته درونی و بیرونی تقسیم می کنند.
                   <span class="badge" style="margin-inline-start:6px">صفحه ۱</span></div></div><div class="point"><div class="n">۲</div><div style="font-size:13.5px;line-height:2">در مقابل، نظریه انتظار ارزش بیان می کند که انگیزش حاصل ضرب دو عامل است: انتظار موفقیت و ارزشی که فرد برای هدف قایل است.
                   <span class="badge" style="margin-inline-start:6px">صفحه ۱</span></div></div><div class="point"><div class="n">۳</div><div style="font-size:13.5px;line-height:2">انگیزش به مجموعه ای از فرایندهای درونی گفته می شود که رفتار فرد را برای رسیدن به یک هدف به حرکت درمی آورد.
                   <span class="badge" style="margin-inline-start:6px">صفحه ۱</span></div></div><div class="point"><div class="n">۴</div><div style="font-size:13.5px;line-height:2">نظریه خودتعیین گری از سه نیاز روان شناختی پایه سخن می گوید: خودمختاری، شایستگی و ارتباط.
@@ -1604,36 +1667,36 @@ select.input, .select { appearance: none; background-image: none; padding-inline
                   <span class="badge" style="margin-inline-start:6px">صفحه ۱</span></div></div><div class="point"><div class="n">۷</div><div style="font-size:13.5px;line-height:2">پژوهش ها نشان می دهد که ارضای این سه نیاز، انگیزش درونی دانشجو را افزایش می دهد و به یادگیری پایدارتر منجر می شود.
                   <span class="badge" style="margin-inline-start:6px">صفحه ۱</span></div></div></div></div>
 
-      <div class="card card-pad"><div class="section-head"><h2>اصطلاح‌های مهم</h2><span class="badge">۱۲ اصطلاح</span></div><div class="term-row"><div class="k">یادگیری خودتنظیمی</div><div class="v">یادگیری خودتنظیمی فرایندی است که در آن دانشجو اهداف خود را تعیین می کند، پیشرفت خود را پایش می کند و راهبردهای مطالعه را بر اساس بازخورد تنظیم می کند.</div></div><div class="term-row"><div class="k">انگیزش درونی</div><div class="v">انگیزش درونی زمانی رخ می دهد که فرد برای لذت بردن از خود فعالیت دست به کار می شود، اما انگیزش بیرونی به پاداش ها و تنبیه های محیطی وابسته است.</div></div><div class="term-row"><div class="k">نیازهای سطح</div><div class="v">بر اساس این نظریه، نیازهای سطح پایین تر باید تا حدی ارضا شوند تا نیازهای سطح باالتر فعال گردند.</div></div><div class="term-row"><div class="k">نظریه</div><div class="v">نظریه سلسله مراتب نیازها را آبراهام مزلو مطرح کرد.</div></div><div class="term-row"><div class="k">دانشجو</div><div class="v">پژوهش ها نشان می دهد که ارضای این سه نیاز، انگیزش درونی دانشجو را افزایش می دهد و به یادگیری پایدارتر منجر می شود.</div></div><div class="term-row"><div class="k">فرد</div><div class="v">انگیزش به مجموعه ای از فرایندهای درونی گفته می شود که رفتار فرد را برای رسیدن به یک هدف به حرکت درمی آورد.</div></div><div class="term-row"><div class="k">نیاز</div><div class="v">نظریه سلسله مراتب نیازها را آبراهام مزلو مطرح کرد.</div></div><div class="term-row"><div class="k">شکست</div><div class="v">اسناد به باورهای فرد درباره علت موفقیت و شکست اشاره دارد.</div></div><div class="term-row"><div class="k">توانایی</div><div class="v">در حالی که اسناد دادن شکست به توانایی ثابت، به درماندگی آموخته شده منجر می شود.</div></div><div class="term-row"><div class="k">هدف</div><div class="v">انگیزش به مجموعه ای از فرایندهای درونی گفته می شود که رفتار فرد را برای رسیدن به یک هدف به حرکت درمی آورد.</div></div><div class="term-row"><div class="k">بیرونی</div><div class="v">در روان شناسی، انگیزش را معموال به دو دسته درونی و بیرونی تقسیم می کنند.</div></div><div class="term-row"><div class="k">موفقیت</div><div class="v">در مقابل، نظریه انتظار ارزش بیان می کند که انگیزش حاصل ضرب دو عامل است: انتظار موفقیت و ارزشی که فرد برای هدف قایل است.</div></div></div></div>
+      <div class="card card-pad"><div class="section-head"><h2>اصطلاح‌های مهم</h2><span class="badge">۱۲ اصطلاح</span></div><div class="term-row"><div class="k">یادگیری خودتنظیمی</div><div class="v">یادگیری خودتنظیمی فرایندی است که در آن دانشجو اهداف خود را تعیین می کند، پیشرفت خود را پایش می کند و راهبردهای مطالعه را بر اساس بازخورد تنظیم می کند.</div></div><div class="term-row"><div class="k">انگیزش درونی</div><div class="v">انگیزش درونی زمانی رخ می دهد که فرد برای لذت بردن از خود فعالیت دست به کار می شود، اما انگیزش بیرونی به پاداش ها و تنبیه های محیطی وابسته است.</div></div><div class="term-row"><div class="k">نیازهای سطح</div><div class="v">بر اساس این نظریه، نیازهای سطح پایین تر باید تا حدی ارضا شوند تا نیازهای سطح بالاتر فعال گردند.</div></div><div class="term-row"><div class="k">نظریه</div><div class="v">نظریه سلسله مراتب نیازها را آبراهام مزلو مطرح کرد.</div></div><div class="term-row"><div class="k">دانشجو</div><div class="v">پژوهش ها نشان می دهد که ارضای این سه نیاز، انگیزش درونی دانشجو را افزایش می دهد و به یادگیری پایدارتر منجر می شود.</div></div><div class="term-row"><div class="k">فرد</div><div class="v">انگیزش به مجموعه ای از فرایندهای درونی گفته می شود که رفتار فرد را برای رسیدن به یک هدف به حرکت درمی آورد.</div></div><div class="term-row"><div class="k">نیاز</div><div class="v">نظریه سلسله مراتب نیازها را آبراهام مزلو مطرح کرد.</div></div><div class="term-row"><div class="k">شکست</div><div class="v">اسناد به باورهای فرد درباره علت موفقیت و شکست اشاره دارد.</div></div><div class="term-row"><div class="k">توانایی</div><div class="v">در حالی که اسناد دادن شکست به توانایی ثابت، به درماندگی آموخته شده منجر می شود.</div></div><div class="term-row"><div class="k">هدف</div><div class="v">انگیزش به مجموعه ای از فرایندهای درونی گفته می شود که رفتار فرد را برای رسیدن به یک هدف به حرکت درمی آورد.</div></div><div class="term-row"><div class="k">بیرونی</div><div class="v">در روان شناسی، انگیزش را معمولا به دو دسته درونی و بیرونی تقسیم می کنند.</div></div><div class="term-row"><div class="k">موفقیت</div><div class="v">در مقابل، نظریه انتظار ارزش بیان می کند که انگیزش حاصل ضرب دو عامل است: انتظار موفقیت و ارزشی که فرد برای هدف قایل است.</div></div></div></div>
 </section>
 
 <section data-view="chapter-quiz" class=""
   data-title="فصل اول: مفاهیم بنیادی انگیزش" data-sub="روان‌شناسی یادگیری • مبانی یادگیری و مطالعه • صفحه ۱–۲"
-  data-actions="<a class=&quot;btn btn-sm&quot; href=&quot;#/library?book=bok_c1ac007b&quot;>بازگشت به فصل‌ها</a>" data-nav="library">
+  data-actions="<a class=&quot;btn btn-sm&quot; href=&quot;#/library?book=bok_18eb20c8&quot;>بازگشت به فصل‌ها</a>" data-nav="library">
 <div class="card card-pad card-soft-brand" style="margin-bottom:16px"><div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap"><div style="width:52px;height:52px;border-radius:15px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;display:grid;place-items:center;font-weight:800;font-size:18px">۱</div><div style="flex:1;min-width:200px"><div style="font-weight:700;font-size:16px">فصل اول: مفاهیم بنیادی انگیزش</div><div style="font-size:12.5px;color:var(--muted);margin-top:2px">۳۲۹ کلمه • حدود ۲ دقیقه مطالعه</div></div><div style="display:flex;gap:8px;flex-wrap:wrap"><span class="badge badge-ok">خلاصه آماده</span>
           <span class="badge badge-ok">۶ سؤال</span>
           <span class="badge badge-brand">پاورپوینت ساخته شده</span><span class="badge ">موتور محلی</span></div></div></div><div class="tabs"><button class="tab" data-tab="summary">خلاصه</button><button class="tab active" data-tab="quiz">تست</button><button class="tab" data-tab="pptx">پاورپوینت</button><button class="tab" data-tab="text">متن فصل</button></div><div id="tab-body">
-      <div class="card card-pad" style="margin-bottom:14px;display:flex;gap:10px;align-items:center;flex-wrap:wrap"><span class="badge badge-brand">۶ سؤال</span><span class="badge">۴ چهارگزینه‌ای</span><span class="badge">۲ درست/نادرست</span><span class="badge">۰ پاسخ کوتاه</span><span class="badge">موتور محلی</span><div style="margin-inline-start:auto;font-size:12.5px;color:var(--muted)">پاسخ‌داده‌شده: ۰ از ۶</div></div><div id="quiz-list"><div class="quiz-q" data-q="q1"><div class="qhead"><div style="display:flex;gap:8px;align-items:center"><span class="badge badge-brand">سؤال ۱</span><span class="badge">چهارگزینه‌ای</span><span class="badge">آسان</span></div></div><div class="qtext">در روان شناسی، انگیزش را معموال به دو دسته درونی و «ـــ...ـــ» تقسیم می کنند.</div><div class="opt" data-opt="0" data-qid="q1"><span class="key">۱</span><span>توانایی</span></div><div class="opt" data-opt="1" data-qid="q1"><span class="key">۲</span><span>اسناد</span></div><div class="opt" data-opt="2" data-qid="q1"><span class="key">۳</span><span>بیرونی</span></div><div class="opt" data-opt="3" data-qid="q1"><span class="key">۴</span><span>دانشجو</span></div>
-      </div><div class="quiz-q" data-q="q2"><div class="qhead"><div style="display:flex;gap:8px;align-items:center"><span class="badge badge-brand">سؤال ۲</span><span class="badge">چهارگزینه‌ای</span><span class="badge">آسان</span></div></div><div class="qtext">در مقابل، نظریه انتظار ارزش بیان می کند که انگیزش حاصل ضرب دو عامل است: انتظار «ـــ...ـــ» و ارزشی که فرد برای هدف قایل است.</div><div class="opt" data-opt="0" data-qid="q2"><span class="key">۱</span><span>اسناد</span></div><div class="opt" data-opt="1" data-qid="q2"><span class="key">۲</span><span>بیرونی</span></div><div class="opt" data-opt="2" data-qid="q2"><span class="key">۳</span><span>توانایی</span></div><div class="opt" data-opt="3" data-qid="q2"><span class="key">۴</span><span>موفقیت</span></div>
-      </div><div class="quiz-q" data-q="q3"><div class="qhead"><div style="display:flex;gap:8px;align-items:center"><span class="badge badge-brand">سؤال ۳</span><span class="badge">چهارگزینه‌ای</span><span class="badge">آسان</span></div></div><div class="qtext">«ـــ...ـــ» خودتعیین گری از سه نیاز روان شناختی پایه سخن می گوید: خودمختاری، شایستگی و ارتباط.</div><div class="opt" data-opt="0" data-qid="q3"><span class="key">۱</span><span>توانایی</span></div><div class="opt" data-opt="1" data-qid="q3"><span class="key">۲</span><span>نظریه</span></div><div class="opt" data-opt="2" data-qid="q3"><span class="key">۳</span><span>بیرونی</span></div><div class="opt" data-opt="3" data-qid="q3"><span class="key">۴</span><span>موفقیت</span></div>
-      </div><div class="quiz-q" data-q="q4"><div class="qhead"><div style="display:flex;gap:8px;align-items:center"><span class="badge badge-brand">سؤال ۴</span><span class="badge">چهارگزینه‌ای</span><span class="badge">سخت</span></div></div><div class="qtext">«ـــ...ـــ» زمانی رخ می دهد که فرد برای لذت بردن از خود فعالیت دست به کار می شود، اما انگیزش بیرونی به پاداش ها و تنبیه های محیطی وابسته است.</div><div class="opt" data-opt="0" data-qid="q4"><span class="key">۱</span><span>یادگیری خودتنظیمی</span></div><div class="opt" data-opt="1" data-qid="q4"><span class="key">۲</span><span>انگیزش درونی</span></div><div class="opt" data-opt="2" data-qid="q4"><span class="key">۳</span><span>اسناد</span></div><div class="opt" data-opt="3" data-qid="q4"><span class="key">۴</span><span>نیازهای سطح</span></div>
-      </div><div class="quiz-q" data-q="q5"><div class="qhead"><div style="display:flex;gap:8px;align-items:center"><span class="badge badge-brand">سؤال ۵</span><span class="badge">درست/نادرست</span><span class="badge">متوسط</span></div></div><div class="qtext">اسناد به باورهای فرد درباره علت موفقیت و شکست اشاره دارد.</div><div class="opt" data-opt="0" data-qid="q5"><span class="key">۱</span><span>درست</span></div><div class="opt" data-opt="1" data-qid="q5"><span class="key">۲</span><span>نادرست</span></div>
-      </div><div class="quiz-q" data-q="q6"><div class="qhead"><div style="display:flex;gap:8px;align-items:center"><span class="badge badge-brand">سؤال ۶</span><span class="badge">درست/نادرست</span><span class="badge">متوسط</span></div></div><div class="qtext">پژوهش ها نشان می دهد که ارضای این سه نیاز، نیازهای سطح دانشجو را افزایش می دهد و به یادگیری پایدارتر منجر می شود.</div><div class="opt" data-opt="0" data-qid="q6"><span class="key">۱</span><span>درست</span></div><div class="opt" data-opt="1" data-qid="q6"><span class="key">۲</span><span>نادرست</span></div>
+      <div class="card card-pad" style="margin-bottom:14px;display:flex;gap:10px;align-items:center;flex-wrap:wrap"><span class="badge badge-brand">۶ سؤال</span><span class="badge">۴ چهارگزینه‌ای</span><span class="badge">۲ درست/نادرست</span><span class="badge">۰ پاسخ کوتاه</span><span class="badge">موتور محلی</span><div style="margin-inline-start:auto;font-size:12.5px;color:var(--muted)">پاسخ‌داده‌شده: ۰ از ۶</div></div><div id="quiz-list"><div class="quiz-q" data-q="q1"><div class="qhead"><div style="display:flex;gap:8px;align-items:center"><span class="badge badge-brand">سؤال ۱</span><span class="badge">چهارگزینه‌ای</span><span class="badge">آسان</span></div></div><div class="qtext">در روان شناسی، انگیزش را معمولا به دو دسته درونی و «ـــ...ـــ» تقسیم می کنند.</div><div class="opt" data-opt="0" data-qid="q1"><span class="key">۱</span><span>نظریه</span></div><div class="opt" data-opt="1" data-qid="q1"><span class="key">۲</span><span>توانایی</span></div><div class="opt" data-opt="2" data-qid="q1"><span class="key">۳</span><span>اسناد</span></div><div class="opt" data-opt="3" data-qid="q1"><span class="key">۴</span><span>بیرونی</span></div>
+      </div><div class="quiz-q" data-q="q2"><div class="qhead"><div style="display:flex;gap:8px;align-items:center"><span class="badge badge-brand">سؤال ۲</span><span class="badge">چهارگزینه‌ای</span><span class="badge">آسان</span></div></div><div class="qtext">در مقابل، نظریه انتظار ارزش بیان می کند که انگیزش حاصل ضرب دو عامل است: انتظار «ـــ...ـــ» و ارزشی که فرد برای هدف قایل است.</div><div class="opt" data-opt="0" data-qid="q2"><span class="key">۱</span><span>دانشجو</span></div><div class="opt" data-opt="1" data-qid="q2"><span class="key">۲</span><span>توانایی</span></div><div class="opt" data-opt="2" data-qid="q2"><span class="key">۳</span><span>بیرونی</span></div><div class="opt" data-opt="3" data-qid="q2"><span class="key">۴</span><span>موفقیت</span></div>
+      </div><div class="quiz-q" data-q="q3"><div class="qhead"><div style="display:flex;gap:8px;align-items:center"><span class="badge badge-brand">سؤال ۳</span><span class="badge">چهارگزینه‌ای</span><span class="badge">آسان</span></div></div><div class="qtext">«ـــ...ـــ» خودتعیین گری از سه نیاز روان شناختی پایه سخن می گوید: خودمختاری، شایستگی و ارتباط.</div><div class="opt" data-opt="0" data-qid="q3"><span class="key">۱</span><span>اسناد</span></div><div class="opt" data-opt="1" data-qid="q3"><span class="key">۲</span><span>موفقیت</span></div><div class="opt" data-opt="2" data-qid="q3"><span class="key">۳</span><span>توانایی</span></div><div class="opt" data-opt="3" data-qid="q3"><span class="key">۴</span><span>نظریه</span></div>
+      </div><div class="quiz-q" data-q="q4"><div class="qhead"><div style="display:flex;gap:8px;align-items:center"><span class="badge badge-brand">سؤال ۴</span><span class="badge">چهارگزینه‌ای</span><span class="badge">سخت</span></div></div><div class="qtext">«ـــ...ـــ» زمانی رخ می دهد که فرد برای لذت بردن از خود فعالیت دست به کار می شود، اما انگیزش بیرونی به پاداش ها و تنبیه های محیطی وابسته است.</div><div class="opt" data-opt="0" data-qid="q4"><span class="key">۱</span><span>یادگیری خودتنظیمی</span></div><div class="opt" data-opt="1" data-qid="q4"><span class="key">۲</span><span>اسناد</span></div><div class="opt" data-opt="2" data-qid="q4"><span class="key">۳</span><span>نیازهای سطح</span></div><div class="opt" data-opt="3" data-qid="q4"><span class="key">۴</span><span>انگیزش درونی</span></div>
+      </div><div class="quiz-q" data-q="q5"><div class="qhead"><div style="display:flex;gap:8px;align-items:center"><span class="badge badge-brand">سؤال ۵</span><span class="badge">درست/نادرست</span><span class="badge">متوسط</span></div></div><div class="qtext">اسناد به باورهای فرد درباره علت نظریه و شکست اشاره دارد.</div><div class="opt" data-opt="0" data-qid="q5"><span class="key">۱</span><span>درست</span></div><div class="opt" data-opt="1" data-qid="q5"><span class="key">۲</span><span>نادرست</span></div>
+      </div><div class="quiz-q" data-q="q6"><div class="qhead"><div style="display:flex;gap:8px;align-items:center"><span class="badge badge-brand">سؤال ۶</span><span class="badge">درست/نادرست</span><span class="badge">متوسط</span></div></div><div class="qtext">یادگیری خودتنظیمی فرایندی است که در آن دانشجو اهداف خود را تعیین می کند، پیشرفت خود را پایش می کند و راهبردهای مطالعه را بر اساس بازخورد تنظیم می کند.</div><div class="opt" data-opt="0" data-qid="q6"><span class="key">۱</span><span>درست</span></div><div class="opt" data-opt="1" data-qid="q6"><span class="key">۲</span><span>نادرست</span></div>
       </div></div><button class="btn btn-primary btn-block" id="quiz-submit" style="margin-top:8px">پایان و مشاهده‌ی نتیجه</button></div>
 </section>
 
 <section data-view="chapter-pptx" class=""
   data-title="فصل اول: مفاهیم بنیادی انگیزش" data-sub="روان‌شناسی یادگیری • مبانی یادگیری و مطالعه • صفحه ۱–۲"
-  data-actions="<a class=&quot;btn btn-sm&quot; href=&quot;#/library?book=bok_c1ac007b&quot;>بازگشت به فصل‌ها</a>" data-nav="library">
+  data-actions="<a class=&quot;btn btn-sm&quot; href=&quot;#/library?book=bok_18eb20c8&quot;>بازگشت به فصل‌ها</a>" data-nav="library">
 <div class="card card-pad card-soft-brand" style="margin-bottom:16px"><div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap"><div style="width:52px;height:52px;border-radius:15px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;display:grid;place-items:center;font-weight:800;font-size:18px">۱</div><div style="flex:1;min-width:200px"><div style="font-weight:700;font-size:16px">فصل اول: مفاهیم بنیادی انگیزش</div><div style="font-size:12.5px;color:var(--muted);margin-top:2px">۳۲۹ کلمه • حدود ۲ دقیقه مطالعه</div></div><div style="display:flex;gap:8px;flex-wrap:wrap"><span class="badge badge-ok">خلاصه آماده</span>
           <span class="badge badge-ok">۶ سؤال</span>
           <span class="badge badge-brand">پاورپوینت ساخته شده</span><span class="badge ">موتور محلی</span></div></div></div><div class="tabs"><button class="tab" data-tab="summary">خلاصه</button><button class="tab" data-tab="quiz">تست</button><button class="tab active" data-tab="pptx">پاورپوینت</button><button class="tab" data-tab="text">متن فصل</button></div><div id="tab-body"><div class="grid cols-2" style="align-items:start"><div class="card card-pad"><div class="section-head"><h2>ساخت پاورپوینت</h2></div><p style="font-size:13.5px;color:var(--ink-2);line-height:2">یک فایل <code>.pptx</code> راست‌به‌چپ و آماده‌ی ارائه ساخته می‌شود؛ از روی خلاصه و تست همین فصل.
-            </p><div style="margin:14px 0"><div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dashed var(--line);font-size:13px"><span> جلد ارائه</span></div><div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dashed var(--line);font-size:13px"><span> نقشه‌ی فصل</span></div><div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dashed var(--line);font-size:13px"><span>۷ نکات کلیدی</span></div><div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dashed var(--line);font-size:13px"><span>۱۲ اصطلاحات</span></div><div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dashed var(--line);font-size:13px"><span> خلاصه</span></div><div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dashed var(--line);font-size:13px"><span>۶ پرسش‌های مرور</span></div></div><button class="btn btn-primary btn-block" id="pptx-run">ساخت دوباره‌ی فایل</button><div class="card card-pad" style="margin-top:14px;background:var(--accent-soft);border-color:var(--accent-line)"><div style="font-weight:600;margin-bottom:4px">آخرین فایل ساخته‌شده</div><div style="font-size:12.5px;color:var(--muted);margin-bottom:10px">۱۲ اسلاید • ۴۱ دقیقه پیش</div><a class="btn btn-primary btn-block" href="/api/exports/lucky-bok_c1ac007b-chp_40cad29b-1793538064700.pptx">دانلود فایل PPTX</a></div></div><div class="card card-pad"><div class="section-head"><h2>پیش‌نمایش محتوا</h2></div><div style="font-size:13px;line-height:2;color:var(--ink-2)"><strong>عنوان:</strong> فصل اول: مفاهیم بنیادی انگیزش<br><strong>درس:</strong> روان‌شناسی یادگیری<br><strong>نکات کلیدی:</strong><ul style="margin:6px 0;padding-inline-start:18px"><li>در روان شناسی، انگیزش را معموال به دو دسته درونی و بیرونی تقسیم می کنند.…</li><li>در مقابل، نظریه انتظار ارزش بیان می کند که انگیزش حاصل ضرب دو عامل است: انتظار موفقیت و ار…</li><li>انگیزش به مجموعه ای از فرایندهای درونی گفته می شود که رفتار فرد را برای رسیدن به یک هدف به…</li><li>نظریه خودتعیین گری از سه نیاز روان شناختی پایه سخن می گوید: خودمختاری، شایستگی و ارتباط.…</li></ul><strong>نمونه پرسش:</strong> در روان شناسی، انگیزش را معموال به دو دسته درونی و «ـــ...ـــ» تقسیم می کنند.…</div><p class="hint" style="margin-top:12px">فونت فایل Tahoma است تا در همه‌ی نسخه‌های PowerPoint درست نمایش داده شود.</p></div></div></div>
+            </p><div style="margin:14px 0"><div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dashed var(--line);font-size:13px"><span> جلد ارائه</span></div><div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dashed var(--line);font-size:13px"><span> نقشه‌ی فصل</span></div><div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dashed var(--line);font-size:13px"><span>۷ نکات کلیدی</span></div><div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dashed var(--line);font-size:13px"><span>۱۲ اصطلاحات</span></div><div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dashed var(--line);font-size:13px"><span> خلاصه</span></div><div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dashed var(--line);font-size:13px"><span>۶ پرسش‌های مرور</span></div></div><button class="btn btn-primary btn-block" id="pptx-run">ساخت دوباره‌ی فایل</button><div class="card card-pad" style="margin-top:14px;background:var(--accent-soft);border-color:var(--accent-line)"><div style="font-weight:600;margin-bottom:4px">آخرین فایل ساخته‌شده</div><div style="font-size:12.5px;color:var(--muted);margin-bottom:10px">۱۲ اسلاید • ۱ دقیقه پیش</div><a class="btn btn-primary btn-block" href="/api/exports/lucky-bok_18eb20c8-chp_7b99d565-1793540704698.pptx">دانلود فایل PPTX</a></div></div><div class="card card-pad"><div class="section-head"><h2>پیش‌نمایش محتوا</h2></div><div style="font-size:13px;line-height:2;color:var(--ink-2)"><strong>عنوان:</strong> فصل اول: مفاهیم بنیادی انگیزش<br><strong>درس:</strong> روان‌شناسی یادگیری<br><strong>نکات کلیدی:</strong><ul style="margin:6px 0;padding-inline-start:18px"><li>در روان شناسی، انگیزش را معمولا به دو دسته درونی و بیرونی تقسیم می کنند.…</li><li>در مقابل، نظریه انتظار ارزش بیان می کند که انگیزش حاصل ضرب دو عامل است: انتظار موفقیت و ار…</li><li>انگیزش به مجموعه ای از فرایندهای درونی گفته می شود که رفتار فرد را برای رسیدن به یک هدف به…</li><li>نظریه خودتعیین گری از سه نیاز روان شناختی پایه سخن می گوید: خودمختاری، شایستگی و ارتباط.…</li></ul><strong>نمونه پرسش:</strong> در روان شناسی، انگیزش را معمولا به دو دسته درونی و «ـــ...ـــ» تقسیم می کنند.…</div><p class="hint" style="margin-top:12px">فونت فایل Tahoma است تا در همه‌ی نسخه‌های PowerPoint درست نمایش داده شود.</p></div></div></div>
 </section>
 
 <section data-view="chapter-text" class=""
   data-title="فصل اول: مفاهیم بنیادی انگیزش" data-sub="روان‌شناسی یادگیری • مبانی یادگیری و مطالعه • صفحه ۱–۲"
-  data-actions="<a class=&quot;btn btn-sm&quot; href=&quot;#/library?book=bok_c1ac007b&quot;>بازگشت به فصل‌ها</a>" data-nav="library">
+  data-actions="<a class=&quot;btn btn-sm&quot; href=&quot;#/library?book=bok_18eb20c8&quot;>بازگشت به فصل‌ها</a>" data-nav="library">
 <div class="card card-pad card-soft-brand" style="margin-bottom:16px"><div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap"><div style="width:52px;height:52px;border-radius:15px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;display:grid;place-items:center;font-weight:800;font-size:18px">۱</div><div style="flex:1;min-width:200px"><div style="font-weight:700;font-size:16px">فصل اول: مفاهیم بنیادی انگیزش</div><div style="font-size:12.5px;color:var(--muted);margin-top:2px">۳۲۹ کلمه • حدود ۲ دقیقه مطالعه</div></div><div style="display:flex;gap:8px;flex-wrap:wrap"><span class="badge badge-ok">خلاصه آماده</span>
           <span class="badge badge-ok">۶ سؤال</span>
           <span class="badge badge-brand">پاورپوینت ساخته شده</span><span class="badge ">موتور محلی</span></div></div></div><div class="tabs"><button class="tab" data-tab="summary">خلاصه</button><button class="tab" data-tab="quiz">تست</button><button class="tab" data-tab="pptx">پاورپوینت</button><button class="tab active" data-tab="text">متن فصل</button></div><div id="tab-body"><div class="card card-pad"><div class="section-head"><h2>متن استخراج‌شده</h2><span class="badge">۳۲۹ کلمه</span></div><div style="white-space:pre-wrap;font-size:13.5px;line-height:2.1;color:var(--ink-2);max-height:70vh;overflow:auto">
@@ -1646,7 +1709,7 @@ select.input, .select { appearance: none; background-image: none; padding-inline
 انگیزش به مجموعه ای از فرایندهای درونی گفته
 می شود که رفتار فرد را برای رسیدن به یک هدف به
 حرکت درمی آورد. در روان شناسی، انگیزش را
-معموال به دو دسته درونی و بیرونی تقسیم
+معمولا به دو دسته درونی و بیرونی تقسیم
 می کنند. انگیزش درونی زمانی رخ می دهد که فرد
 برای لذت بردن از خود فعالیت دست به کار می شود،
 اما انگیزش بیرونی به پاداش ها و تنبیه های
@@ -1656,7 +1719,7 @@ select.input, .select { appearance: none; background-image: none; padding-inline
 طبقه بندی کرد که از نیازهای فیزیولوژیک آغاز
 می شود و به نیاز به خودشکوفایی می رسد. بر اساس
 این نظریه، نیازهای سطح پایین تر باید تا حدی
-ارضا شوند تا نیازهای سطح باالتر فعال گردند.
+ارضا شوند تا نیازهای سطح بالاتر فعال گردند.
 نظریه خودتعیین گری از سه نیاز روان شناختی پایه
 سخن می گوید: خودمختاری، شایستگی و ارتباط.
 پژوهش ها نشان می دهد که ارضای این سه نیاز،
@@ -1692,35 +1755,228 @@ select.input, .select { appearance: none; background-image: none; padding-inline
 <section data-view="review" class=""
   data-title="مرور امروز" data-sub="فلش‌کارت‌های فاصله‌دار از سؤال‌های فصل‌ها"
   data-actions="" data-nav="review">
-<div class="review-wrap"><div class="card card-pad review-top"><div class="review-top-main"><div><h2 style="margin-bottom:2px">مرور امروز</h2><div class="review-sub"><span class="badge badge-brand">۱۵ کارت آماده‌ی مرور</span><span class="badge">۲۴ کارت</span><span class="badge">امروز: ۱۱ مرور</span></div></div><button class="btn btn-sm btn-ghost" id="review-restart">شروع دوباره</button></div><div class="review-progress" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"><div class="review-progress-bar" style="width:0%"></div></div><div class="review-meta">۱ از ۱۵
-         • فصل دوم: حافظه و پردازش اطلاعات</div></div>
-      <div class="flashcard revealed" id="flashcard"><div class="flash-tags"><span class="badge badge-brand">روان‌شناسی یادگیری</span><span class="badge">فصل دوم: حافظه و پردازش اطلاعات</span><span class="badge">متوسط</span>
-        <span class="badge badge-warn">کارت تازه</span></div><div class="flash-prompt">جای خالی را با گزینه‌ی درست کامل کنید:</div><div class="flash-statement">حافظه حسی اطالعات را برای کسری از ثانیه نگه می دارد و فقط بخشی از آن به «ـــ...ـــ» راه می یابد.</div><div class="flash-options"><div class="flash-opt correct"><span class="key">۱</span><span>حافظه کاری</span><span class="tick"></span></div><div class="flash-opt "><span class="key">۲</span><span>بازیابی</span></div><div class="flash-opt "><span class="key">۳</span><span>مطالعه</span></div><div class="flash-opt "><span class="key">۴</span><span>فاصله</span></div></div>
+<div class="review-wrap"><div class="card card-pad review-top"><div class="review-top-main"><div><h2 style="margin-bottom:2px">مرور امروز</h2><div class="review-sub"><span class="badge badge-brand">۲۲ کارت آماده‌ی مرور</span><span class="badge">۲۴ کارت</span><span class="badge">امروز: ۱۳ مرور</span></div></div><button class="btn btn-sm btn-ghost" id="review-restart">شروع دوباره</button></div><div class="review-progress" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"><div class="review-progress-bar" style="width:0%"></div></div><div class="review-meta">۱ از ۲۰
+         • فصل اول: مفاهیم بنیادی انگیزش</div></div>
+      <div class="flashcard revealed" id="flashcard"><div class="flash-tags"><span class="badge badge-brand">روان‌شناسی یادگیری</span><span class="badge">فصل اول: مفاهیم بنیادی انگیزش</span><span class="badge">آسان</span>
+        <span class="badge badge-warn">کارت تازه</span></div><div class="flash-prompt">جای خالی را با گزینه‌ی درست کامل کنید:</div><div class="flash-statement">«ـــ...ـــ» خودتعیین گری از سه نیاز روان شناختی پایه سخن می گوید: خودمختاری، شایستگی و ارتباط.</div><div class="flash-options"><div class="flash-opt "><span class="key">۱</span><span>اسناد</span></div><div class="flash-opt "><span class="key">۲</span><span>موفقیت</span></div><div class="flash-opt "><span class="key">۳</span><span>توانایی</span></div><div class="flash-opt correct"><span class="key">۴</span><span>نظریه</span><span class="tick"></span></div></div>
 
-      <div class="flash-answer"><strong>پاسخ:</strong> حافظه کاری</div><div class="flash-explain"><span class="k">از متن کتاب:</span> حافظه حسی اطالعات را برای کسری از ثانیه نگه می دارد و فقط بخشی از آن به حافظه کاری راه می یابد.</div>
+      <div class="flash-answer"><strong>پاسخ:</strong> نظریه</div><div class="flash-explain"><span class="k">از متن کتاب:</span> نظریه خودتعیین گری از سه نیاز روان شناختی پایه سخن می گوید: خودمختاری، شایستگی و ارتباط.</div>
       </div>
       <div class="grade-bar"><button class="grade-btn again" data-grade="0"><span class="g-ico"></span><span class="g-t">یادم نبود</span><small>10 دقیقه</small></button><button class="grade-btn hard" data-grade="3"><span class="g-ico"></span><span class="g-t">سخت بود</span><small>فردا</small></button><button class="grade-btn good" data-grade="4"><span class="g-ico"></span><span class="g-t">خوب</span><small>2 روز</small></button><button class="grade-btn easy" data-grade="5"><span class="g-ico"></span><span class="g-t">آسان</span><small>4 روز</small></button></div><div class="grade-hint">با کلیدهای ۱ تا ۴ هم می‌توانی نمره بدهی</div></div>
 </section>
 
 <section data-view="exams" class=""
-  data-title="آزمون‌ها و یادآورها" data-sub="۲ آزمون پیش‌رو"
-  data-actions="<button class=&quot;btn btn-sm&quot; id=&quot;ex-rem&quot;>تنظیم یادآور</button><button class=&quot;btn btn-sm btn-primary&quot; id=&quot;ex-add&quot;>＋ افزودن آزمون</button>" data-nav="exams">
+  data-title="آزمون‌ها" data-sub="۲ آزمون پیش‌رو"
+  data-actions="<button class=&quot;btn btn-sm&quot; id=&quot;ex-rem&quot;>یادآورها</button>      <button class=&quot;btn btn-sm btn-primary&quot; id=&quot;ex-add&quot;>+ آزمون</button>" data-nav="exams">
 
-    <div class="card card-pad card-exam" style="margin-bottom:16px"><div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap"><div style="font-size:30px"></div><div style="flex:1;min-width:220px"><div class="exam-tone-1" style="font-size:12px;font-weight:500">آزمون بعدی</div><div style="font-weight:800;font-size:18px">میان‌ترم روان‌شناسی یادگیری</div><div class="exam-tone-2" style="font-size:13px">پنجشنبه ۱۴ آبان ۱۴۰۵ • ساعت ۱۰:۰۰
-               • سالن ۱</div></div><div style="text-align:center"><div class="exam-tone-1" style="font-size:26px;font-weight:800">۴ روز دیگر</div><div class="exam-tone-2" style="font-size:11.5px">زمان مرور است!</div></div><a class="btn" href="#/library">رفتن به فصل‌ها</a></div></div><div class="card card-pad" style="margin-bottom:16px;display:flex;gap:12px;align-items:center;flex-wrap:wrap"><span class="badge badge-ok">یادآور فعال</span><span class="badge">کلاس: ۱۵ دقیقه قبل</span><span class="badge">آزمون: ۱ روز قبل</span><span class="badge badge-warn">اعلان مرورگر فعال نشده</span><button class="btn btn-sm" id="ex-ask-perm" style="margin-inline-start:auto">فعال‌سازی اعلان‌ها</button></div><div class="section-head"><h2>آزمون‌های پیش‌رو</h2></div><div class="grid" style="gap:10px"><div class="exam-card " style="--c:#6366f1"><div class="exam-date"><div class="day">۱۴</div><div class="month">آبان</div></div><div class="exam-body"><div class="exam-title">میان‌ترم روان‌شناسی یادگیری</div><div class="exam-meta"><span>روان‌شناسی یادگیری</span><span>۱۰:۰۰</span><span>⏳ ۹۰ دقیقه</span><span>سالن ۱</span>
-          <span>۱ روز قبل</span></div><div class="exam-note">فصل ۱ تا ۳</div></div><div class="exam-side"><div class="exam-days ">۴ روز دیگر</div><div style="display:flex;gap:6px"><button class="btn btn-sm btn-ghost ex-edit" data-id="exm_0fe0a72a"></button><button class="btn btn-sm btn-ghost ex-del" data-id="exm_0fe0a72a" data-title="میان‌ترم روان‌شناسی یادگیری"></button></div></div></div><div class="exam-card " style="--c:#0d9488"><div class="exam-date"><div class="day">۱۹</div><div class="month">آبان</div></div><div class="exam-body"><div class="exam-title">کوییز آمار</div><div class="exam-meta"><span>آمار و روش تحقیق</span><span>۱۶:۰۰</span><span>⏳ ۴۵ دقیقه</span><span>کلاس ۱۰۵</span>
-          <span>۱۲۰ دقیقه قبل</span></div></div><div class="exam-side"><div class="exam-days ">۱ هفته دیگر</div><div style="display:flex;gap:6px"><button class="btn btn-sm btn-ghost ex-edit" data-id="exm_0af44b13"></button><button class="btn btn-sm btn-ghost ex-del" data-id="exm_0af44b13" data-title="کوییز آمار"></button></div></div></div></div>
-
-    <p class="hint" style="margin-top:18px">یادآورها تا وقتی این صفحه یا تب مرورگر باز است کار می‌کنند (اعلان مرورگر + اعلان داخل برنامه + صدا).
-      برای یادآوری روی گوشی، از «خروجی تقویم» در برنامه‌ی هفتگی استفاده کن؛ فایل <code>.ics</code> شامل هشدار کلاس‌ها و آزمون‌ها است.</p>
+    <div class="grid" style="gap:12px">
+      <div class="card card-pad next-exam">
+        <div style="flex:1;min-width:0">
+          <div class="meta">آزمون بعدی</div>
+          <div class="t">میان‌ترم روان‌شناسی یادگیری</div>
+          <div class="meta">پنجشنبه ۱۴ آبان ۱۴۰۵ • ساعت ۱۰:۰۰ • سالن ۱</div>
+        </div>
+        <div class="days">
+          <span class="v">۴ روز دیگر</span>
+          <span class="l">زمان مرور</span>
+        </div>
+        <button class="btn btn-sm" id="ex-go-library">فصل‌ها</button>
+      </div>
+      
+    <div class="card card-pad" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+      <span class="badge badge-ok">یادآور فعال</span>
+      <span class="badge">کلاس ۱۵ دقیقه قبل</span>
+      <span class="badge">آزمون ۱ روز قبل</span>
+      <span class="badge badge-warn">اعلان فعال نشده</span>
+      <button class="btn btn-sm" id="ex-ask-perm" style="margin-inline-start:auto">فعال‌سازی اعلان</button>
+    </div>
+      <div class="card card-pad">
+        <div class="section-head"><h2>پیش‌رو</h2><span class="meta">۲ آزمون</span></div>
+        <div class="exam-rows"><div class="exam-row ">
+      <span class="date-chip">
+        <span class="d">۱۴</span>
+        <span class="m">آبان</span>
+      </span>
+      <span class="tag" style="background:#6366f1"></span>
+      <div class="body">
+        <div class="t">میان‌ترم روان‌شناسی یادگیری</div>
+        <div class="meta">
+          روان‌شناسی یادگیری • ساعت ۱۰:۰۰ • سالن ۱ • ۹۰ دقیقه
+        </div>
+        <div class="meta">فصل ۱ تا ۳</div>
+      </div>
+      <span class="count">۴ روز دیگر</span>
+      <span class="badge">۱ روز قبل</span>
+      <span class="actions">
+        <button class="btn btn-sm btn-ghost ex-edit" data-id="exm_feed59a2">ویرایش</button>
+        <button class="btn btn-sm btn-ghost ex-del" data-id="exm_feed59a2" data-title="میان‌ترم روان‌شناسی یادگیری">حذف</button>
+      </span>
+    </div><div class="exam-row ">
+      <span class="date-chip">
+        <span class="d">۱۹</span>
+        <span class="m">آبان</span>
+      </span>
+      <span class="tag" style="background:#0d9488"></span>
+      <div class="body">
+        <div class="t">کوییز آمار</div>
+        <div class="meta">
+          آمار و روش تحقیق • ساعت ۱۶:۰۰ • کلاس ۱۰۵ • ۴۵ دقیقه
+        </div>
+        
+      </div>
+      <span class="count">۱ هفته دیگر</span>
+      <span class="badge">۱۲۰ دقیقه قبل</span>
+      <span class="actions">
+        <button class="btn btn-sm btn-ghost ex-edit" data-id="exm_ef1c6ae3">ویرایش</button>
+        <button class="btn btn-sm btn-ghost ex-del" data-id="exm_ef1c6ae3" data-title="کوییز آمار">حذف</button>
+      </span>
+    </div></div>
+      </div>
+      
+      <p class="hint">یادآورها تا وقتی صفحه باز است کار می‌کنند (اعلان مرورگر + بنر داخل برنامه + صدا).
+        برای یادآوری روی گوشی، از «افزودن به تقویم» در برنامه‌ی هفتگی استفاده کن؛ فایل <code>.ics</code> هشدار کلاس‌ها و آزمون‌ها را دارد.</p>
+    </div>
 </section>
 
 <section data-view="settings" class=""
-  data-title="تنظیمات" data-sub="مشخصات، اتصال هوش مصنوعی و داده‌ها"
+  data-title="تنظیمات" data-sub="مشخصات، ظاهر، یادآورها و هوش مصنوعی"
   data-actions="" data-nav="settings">
-<div class="grid cols-2" style="align-items:start"><div class="card card-pad"><div class="section-head"><h2>مشخصات من</h2></div><div class="field"><label>نام و نام خانوادگی</label><input class="input" id="p-name" maxlength="80" value="سارا محمدی" placeholder="مثلاً: سارا محمدی"></div><div class="row"><div class="field"><label>دانشگاه</label><input class="input" id="p-uni" maxlength="80" value="دانشگاه تهران" placeholder="دانشگاه …"></div><div class="field"><label>رشته</label><input class="input" id="p-field" maxlength="80" value="روان‌شناسی" placeholder="رشته‌ی تحصیلی"></div></div><div class="field"><label>ترم</label><input class="input" id="p-term" maxlength="80" value="نیم‌سال اول ۱۴۰۴" placeholder="مثلاً: نیم‌سال اول ۱۴۰۴-۱۴۰۵"></div><button class="btn btn-primary" id="p-save">ذخیره‌ی مشخصات</button><p class="hint" style="margin-top:12px">این اطلاعات روی جلد پاورپوینت و در داشبورد استفاده می‌شود.</p></div><div class="card card-pad"><div class="section-head"><h2>ظاهر برنامه</h2><span class="badge">هم‌پایه‌ی سیستم</span></div><p style="font-size:13px;color:var(--ink-2);line-height:2;margin-bottom:12px">تم دلخواهت را انتخاب کن. حالت «هم‌پایه‌ی سیستم» با تنظیمات روشن/تاریک سیستم‌عامل هماهنگ می‌شود.</p><div class="theme-choice"><button data-theme-choice="light" class=""><span class="ico">☀️</span>روشن</button><button data-theme-choice="dark" class=""><span class="ico">🌙</span>تاریک</button><button data-theme-choice="system" class="active"><span class="ico">🖥️</span>هم‌پایه‌ی سیستم</button></div><p class="hint" style="margin-top:12px">انتخاب تم در همین مرورگر ذخیره می‌شود.</p></div><div class="card card-pad"><div class="section-head"><h2>هوش مصنوعی (اختیاری)</h2><span class="badge ">تنظیم نشده</span></div><p style="font-size:13px;color:var(--ink-2);line-height:2;margin-bottom:12px">بدون این بخش هم همه‌چیز کار می‌کند (خلاصه و تست با موتور محلی ساخته می‌شوند).
-          اگر سرویس سازگار با OpenAI داری، این‌جا وصل کن تا خلاصه‌ها بازنویسی‌شده و تست‌ها مفهومی‌تر شوند.</p><div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px"><button class="btn btn-sm preset" data-url="https://api.openai.com" data-model="gpt-4o-mini">OpenAI</button><button class="btn btn-sm preset" data-url="https://openrouter.ai/api" data-model="openai/gpt-4o-mini">OpenRouter</button><button class="btn btn-sm preset" data-url="https://api.groq.com/openai" data-model="llama-3.3-70b-versatile">Groq</button><button class="btn btn-sm preset" data-url="http://localhost:11434" data-model="llama3.1">Ollama (محلی)</button></div><div class="field"><label>آدرس سرویس (Base URL)</label><input class="input" id="ai-url" dir="ltr" placeholder="https://api.openai.com" value=""></div><div class="field"><label>نام مدل</label><input class="input" id="ai-model" dir="ltr" placeholder="gpt-4o-mini" value=""></div><div class="field"><label>کلید API</label><input class="input" id="ai-key" dir="ltr" type="password" placeholder="sk-…"><span class="note">کلید فقط روی همین سرور ذخیره می‌شود و در پاسخ‌ها نمایش داده نمی‌شود.</span></div><div style="display:flex;gap:8px"><button class="btn btn-primary" id="ai-save">ذخیره</button><button class="btn" id="ai-test">تست اتصال</button><button class="btn btn-ghost" id="ai-clear">حذف تنظیمات</button></div><p id="ai-result" style="font-size:12.5px;margin-top:10px"></p></div><div class="card card-pad"><div class="section-head"><h2>یادآور کلاس و آزمون</h2><span class="badge badge-ok">فعال</span></div><label class="switch-row"><input type="checkbox" id="r-enabled" checked=""><span>یادآوری فعال باشد</span></label><label class="switch-row"><input type="checkbox" id="r-browser" checked=""><span>اعلان مرورگر (حتی وقتی تب در پس‌زمینه است)</span></label><label class="switch-row"><input type="checkbox" id="r-sound" checked=""><span>صدای هشدار</span></label><div class="row" style="margin-top:10px"><div class="field"><label>یادآوری کلاس</label><select class="select" id="r-class"><option value="0">بدون یادآوری</option><option value="5">۵ دقیقه قبل</option><option value="10">۱۰ دقیقه قبل</option><option value="15" selected="">۱۵ دقیقه قبل</option><option value="20">۲۰ دقیقه قبل</option><option value="30">۳۰ دقیقه قبل</option><option value="45">۴۵ دقیقه قبل</option><option value="60">۶۰ دقیقه قبل</option></select></div><div class="field"><label>یادآوری آزمون</label><select class="select" id="r-exam"><option value="0">بدون یادآوری</option><option value="30">۳۰ دقیقه قبل</option><option value="120">۲ ساعت قبل</option><option value="720">۱۲ ساعت قبل</option><option value="1440" selected="">۱ روز قبل</option><option value="2880">۲ روز قبل</option><option value="4320">۳ روز قبل</option></select></div></div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px"><button class="btn btn-primary" id="r-save">ذخیره‌ی تنظیمات</button><button class="btn" id="r-perm">فعال‌سازی اعلان مرورگر</button><button class="btn" id="r-test">تست یادآور</button></div><p class="hint" style="margin-top:12px">یادآورها در همین مرورگر اجرا می‌شوند و تا وقتی Lucky در یک تب باز است کار می‌کنند.
-          برای یادآوری روی گوشی، از <a href="/api/calendar.ics">خروجی تقویم (ICS)</a> استفاده کن؛ کلاس‌ها و آزمون‌ها با هشدار داخل تقویم ثبت می‌شوند.</p></div><div class="card card-pad"><div class="section-head"><h2>داده‌های من</h2></div><div class="grid cols-2" style="gap:10px"><div class="stat" style="padding:10px 0"><div class="icon"></div><div><div class="value">۲</div><div class="label">درس</div></div></div><div class="stat" style="padding:10px 0"><div class="icon"></div><div><div class="value">۴</div><div class="label">جلسه</div></div></div><div class="stat" style="padding:10px 0"><div class="icon"></div><div><div class="value">۱</div><div class="label">کتاب</div></div></div><div class="stat" style="padding:10px 0"><div class="icon"></div><div><div class="value">۱۵</div><div class="label">آزمون داده‌شده</div></div></div></div><div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap"><a class="btn btn-sm" href="/api/calendar.ics">خروجی تقویم</a><a class="btn btn-sm" href="/api/calendar.ics">خروجی تقویم</a><a class="btn btn-sm" href="#/library">رفتن به فصل‌ها</a></div><p class="hint" style="margin-top:12px">همه‌ی داده‌ها در پوشه‌ی <code>data/</code> روی همین سرور ذخیره می‌شوند (فایل <code>db.json</code> و پوشه‌های uploads و exports).</p></div><div class="card card-pad"><div class="section-head"><h2>ℹدرباره‌ی Lucky</h2></div><p style="font-size:13px;color:var(--ink-2);line-height:2">Lucky برنامه‌ی کلاسی دانشجو را ثبت می‌کند، PDF کتاب هر درس را می‌خواند، فصل‌ها را خودکار تشخیص می‌دهد و برای هر فصل<strong>خلاصه</strong>، <strong>تست تعاملی</strong> و <strong>پاورپوینت</strong> می‌سازد.</p><ul style="font-size:13px;color:var(--ink-2);line-height:2.1;padding-inline-start:18px"><li>موتور محلی: انتخاب جمله‌های مهم بر اساس وزن واژه‌ها و ساختار متن فارسی.</li><li>موتور هوش مصنوعی: بازنویسی خلاصه، تعریف اصطلاحات و طراحی سؤال مفهومی.</li><li>پاورپوینت با چیدمان راست‌به‌چپ و فونت Tahoma ساخته می‌شود.</li></ul><p class="hint">نسخه ۱.۰ — ساخته‌شده برای مطالعه‌ی سریع‌تر و منظم‌تر</p></div></div>
+
+    <div class="settings-wrap">
+
+      <!-- مشخصات -->
+      <section class="card card-pad">
+        <div class="section-head"><h2>مشخصات</h2></div>
+        <div class="field">
+          <label class="label">نام و نام خانوادگی</label>
+          <input class="input" id="p-name" maxlength="80" value="سارا محمدی" placeholder="مثلاً سارا محمدی">
+        </div>
+        <div class="row">
+          <div class="field">
+            <label class="label">دانشگاه</label>
+            <input class="input" id="p-uni" maxlength="80" value="دانشگاه تهران" placeholder="دانشگاه">
+          </div>
+          <div class="field">
+            <label class="label">رشته</label>
+            <input class="input" id="p-field" maxlength="80" value="روان‌شناسی" placeholder="رشته">
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">ترم</label>
+          <input class="input" id="p-term" maxlength="80" value="نیم‌سال اول ۱۴۰۴" placeholder="نیم‌سال اول ۱۴۰۴">
+        </div>
+        <button class="btn btn-primary" id="p-save">ذخیره</button>
+        <p class="hint" style="margin-top:10px">روی جلد پاورپوینت و کارت اکانت استفاده می‌شود.</p>
+      </section>
+
+      <!-- ظاهر -->
+      <section class="card card-pad">
+        <div class="section-head">
+          <h2>ظاهر</h2>
+          <span class="badge">هم‌پایه‌ی سیستم</span>
+        </div>
+        <div class="theme-choice">
+          <button data-theme-choice="light" class=""><span class="ico">☀️</span>روشن</button><button data-theme-choice="dark" class=""><span class="ico">🌙</span>تاریک</button><button data-theme-choice="system" class="active"><span class="ico">🖥️</span>هم‌پایه‌ی سیستم</button>
+        </div>
+        <p class="hint" style="margin-top:10px">در همین مرورگر ذخیره می‌شود؛ «هم‌پایه‌ی سیستم» با تنظیمات سیستم‌عامل هماهنگ است.</p>
+      </section>
+
+      <!-- یادآورها -->
+      <section class="card card-pad">
+        <div class="section-head">
+          <h2>یادآورها</h2>
+          <span class="badge badge-ok">فعال</span>
+        </div>
+
+        <label class="switch-row">
+          <span><span class="t">یادآوری فعال باشد</span></span>
+          <input type="checkbox" id="r-enabled" checked="">
+        </label>
+        <label class="switch-row">
+          <span><span class="t">اعلان مرورگر</span><span class="sub">حتی وقتی تب در پس‌زمینه است</span></span>
+          <input type="checkbox" id="r-browser" checked="">
+        </label>
+        <label class="switch-row">
+          <span><span class="t">صدای هشدار</span></span>
+          <input type="checkbox" id="r-sound" checked="">
+        </label>
+
+        <div class="row" style="margin-top:12px">
+          <div class="field">
+            <label class="label">یادآوری کلاس</label>
+            <select class="select" id="r-class">
+              <option value="0">بدون یادآوری</option><option value="5">۵ دقیقه قبل</option><option value="10">۱۰ دقیقه قبل</option><option value="15" selected="">۱۵ دقیقه قبل</option><option value="20">۲۰ دقیقه قبل</option><option value="30">۳۰ دقیقه قبل</option><option value="45">۴۵ دقیقه قبل</option><option value="60">۶۰ دقیقه قبل</option>
+            </select>
+          </div>
+          <div class="field">
+            <label class="label">یادآوری آزمون</label>
+            <select class="select" id="r-exam">
+              <option value="0">بدون یادآوری</option><option value="30">۳۰ دقیقه قبل</option><option value="120">۲ ساعت قبل</option><option value="720">۱۲ ساعت قبل</option><option value="1440" selected="">۱ روز قبل</option><option value="2880">۲ روز قبل</option><option value="4320">۳ روز قبل</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:2px">
+          <button class="btn btn-primary" id="r-save">ذخیره</button>
+          <button class="btn" id="r-perm">فعال‌سازی اعلان</button>
+          <button class="btn btn-ghost" id="r-test">تست یادآور</button>
+        </div>
+        <p class="hint" style="margin-top:10px">یادآورها تا وقتی Lucky در یک تب باز است کار می‌کنند. برای یادآوری روی گوشی از
+          <a href="/api/calendar.ics">خروجی تقویم</a> استفاده کن.</p>
+      </section>
+
+      <!-- هوش مصنوعی -->
+      <details class="card card-pad acc">
+        <summary>
+          <span>هوش مصنوعی <span class="meta">(اختیاری)</span></span>
+          <span class="badge ">تنظیم نشده</span>
+        </summary>
+        <div class="acc-body">
+          <p class="hint" style="margin-bottom:12px">بدون این بخش هم همه‌چیز کار می‌کند. اگر سرویس سازگار با OpenAI داری، وصل کن تا خلاصه‌ها و تست‌ها بهتر شوند.</p>
+          <div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:12px">
+            <button class="btn btn-sm preset" data-url="https://api.openai.com" data-model="gpt-4o-mini">OpenAI</button><button class="btn btn-sm preset" data-url="https://openrouter.ai/api" data-model="openai/gpt-4o-mini">OpenRouter</button><button class="btn btn-sm preset" data-url="https://api.groq.com/openai" data-model="llama-3.3-70b-versatile">Groq</button><button class="btn btn-sm preset" data-url="http://localhost:11434" data-model="llama3.1">Ollama</button>
+          </div>
+          <div class="field">
+            <label class="label">آدرس سرویس</label>
+            <input class="input" id="ai-url" dir="ltr" placeholder="https://api.openai.com" value="">
+          </div>
+          <div class="field">
+            <label class="label">مدل</label>
+            <input class="input" id="ai-model" dir="ltr" placeholder="gpt-4o-mini" value="">
+          </div>
+          <div class="field">
+            <label class="label">کلید API</label>
+            <input class="input" id="ai-key" dir="ltr" type="password" placeholder="sk-…">
+            <span class="meta">کلید فقط روی همین سرور ذخیره می‌شود.</span>
+          </div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap">
+            <button class="btn btn-primary" id="ai-save">ذخیره</button>
+            <button class="btn" id="ai-test">تست اتصال</button>
+            <button class="btn btn-ghost" id="ai-clear">حذف</button>
+          </div>
+          <p id="ai-result" class="meta" style="margin-top:8px"></p>
+        </div>
+      </details>
+
+      <!-- داده‌ها -->
+      <section class="card card-pad">
+        <div class="section-head"><h2>داده‌ها</h2></div>
+        <div class="data-line">
+          <span>۲ درس</span>
+          <span>۴ جلسه</span>
+          <span>۱ کتاب</span>
+          <span>۲۴ کارت مرور</span>
+          <span>۱۷ آزمون داده‌شده</span>
+        </div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:10px">
+          <a class="btn btn-sm" href="/api/calendar.ics">خروجی تقویم</a>
+          <a class="btn btn-sm" href="#/library">رفتن به فصل‌ها</a>
+        </div>
+        <p class="hint" style="margin-top:10px">داده‌ها در پوشه‌ی <code>data/</code> روی همین سرور ذخیره می‌شوند.</p>
+      </section>
+
+      <p class="hint" style="text-align:center;padding:4px 0">Lucky — نسخه ۱.۰</p>
+    </div>
 </section>
     <div class="pv-foot">
       این پیش‌نمایش ایستا از رابط واقعی Lucky ساخته شده است؛ دکمه‌ها و فرم‌ها نمایشی‌اند.
@@ -1760,7 +2016,7 @@ select.input, .select { appearance: none; background-image: none; padding-inline
       <button class="nav-item" data-route="schedule">برنامه هفتگی</button>
       <button class="nav-item" data-route="courses">درس‌ها و کتاب‌ها</button>
       <button class="nav-item" data-route="library">فصل‌ها و مطالعه</button>
-      <button class="nav-item" data-route="review">مرور <span class="badge badge-brand badge-count" id="nav-review-count">۱۵</span></button>
+      <button class="nav-item" data-route="review">مرور <span class="badge badge-brand badge-count" id="nav-review-count">۲۲</span></button>
       <button class="nav-item" data-route="exams">آزمون‌ها <span class="badge badge-warn badge-count" id="nav-exam-count">۱</span></button>
     </nav>
 </aside>
