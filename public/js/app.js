@@ -11,6 +11,7 @@ import { examsView } from './views/exams.js';
 import { reviewView } from './views/review.js';
 import { settingsView } from './views/settings.js';
 import { startReminders, examStart } from './reminders.js';
+import { courseModal, sessionModal, examModal, uploadModal } from './forms.js';
 import { initTheme } from './theme.js';
 
 const ROUTES = {
@@ -172,9 +173,40 @@ document.getElementById('menu-btn').addEventListener('click', () => {
   }
 });
 
-document.getElementById('nav').addEventListener('click', (e) => {
+document.getElementById('sidebar').addEventListener('click', (e) => {
   const btn = e.target.closest('.nav-item');
-  if (btn) app.navigate(`#/${btn.dataset.route}`);
+  if (btn?.dataset.route) {
+    app.navigate(`#/${btn.dataset.route}`);
+    document.body.classList.remove('nav-open');
+  }
+});
+
+/* منوی افزودن سریع در نوار بالا */
+const addBtn = document.getElementById('add-btn');
+const addPop = document.getElementById('add-pop');
+addBtn?.addEventListener('click', (e) => {
+  e.stopPropagation();
+  const open = addPop.hidden;
+  addPop.hidden = !open;
+  addBtn.setAttribute('aria-expanded', String(open));
+});
+document.addEventListener('click', (e) => {
+  if (!addPop || addPop.hidden) return;
+  if (!e.target.closest('.add-menu')) {
+    addPop.hidden = true;
+    addBtn.setAttribute('aria-expanded', 'false');
+  }
+});
+addPop?.addEventListener('click', async (e) => {
+  const btn = e.target.closest('[data-add]');
+  if (!btn) return;
+  addPop.hidden = true;
+  addBtn.setAttribute('aria-expanded', 'false');
+  const kind = btn.dataset.add;
+  if (kind === 'course') await courseModal();
+  else if (kind === 'session') await sessionModal({});
+  else if (kind === 'exam') await examModal();
+  else if (kind === 'book') await uploadModal();
 });
 
 window.addEventListener('hashchange', () => {

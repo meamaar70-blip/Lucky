@@ -73,7 +73,7 @@ for (const [name, palette] of [['روشن', light], ['تاریک', dark]]) {
 }
 
 // توکن‌های تاریک باید همه در روشن هم تعریف شده باشند و برعکس خالی نباشد
-const NON_COLOR = ['--radius', '--radius-sm', '--sidebar-w'];
+const NON_COLOR = ['--radius', '--radius-sm', '--radius-lg', '--sidebar-w', '--shadow', '--shadow-sm', '--shadow-lg'];
 const missingInDark = Object.keys(light).filter((k) => !(k in dark) && !NON_COLOR.includes(k));
 const extraInDark = Object.keys(dark).filter((k) => !(k in light));
 console.log(`\nتوکن‌های تعریف‌نشده در تم تاریک: ${missingInDark.length ? missingInDark.join(', ') : 'هیچ'}`);

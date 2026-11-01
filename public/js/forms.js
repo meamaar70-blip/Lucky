@@ -9,43 +9,15 @@ const COLORS = ['#6366f1', '#0d9488', '#f59e0b', '#ec4899', '#8b5cf6', '#0ea5e9'
 /* ---------------- درس ---------------- */
 export function courseModal(course = null) {
   const isEdit = Boolean(course);
-  const body = `
-    <div class="field">
-      <label>نام درس *</label>
-      <input class="input" id="c-title" maxlength="120" placeholder="مثلاً: روان‌شناسی یادگیری" value="${ui.esc(course?.title ?? '')}" />
-    </div>
-    <div class="row">
-      <div class="field">
-        <label>استاد</label>
-        <input class="input" id="c-teacher" maxlength="80" placeholder="نام استاد" value="${ui.esc(course?.teacher ?? '')}" />
-      </div>
-      <div class="field">
-        <label>کد درس</label>
-        <input class="input" id="c-code" maxlength="40" placeholder="اختیاری" value="${ui.esc(course?.code ?? '')}" />
-      </div>
-    </div>
-    <div class="field">
-      <label>رنگ درس</label>
-      <div class="swatches" id="c-colors" style="display:flex;gap:8px;flex-wrap:wrap">
-        ${COLORS.map((c) => `
-          <button type="button" class="swatch" data-color="${c}"
-            style="width:30px;height:30px;border-radius:9px;border:2px solid ${(course?.color ?? COLORS[0]) === c ? 'var(--ink)' : 'transparent'};background:${c};cursor:pointer"></button>
-        `).join('')}
-      </div>
-    </div>
-    <div class="field">
-      <label>یادداشت</label>
-      <textarea class="textarea" id="c-note" maxlength="300" placeholder="مثلاً: منابع آزمون، تمرین‌های مهم">${ui.esc(course?.note ?? '')}</textarea>
-    </div>`;
+  const body = `<div class="field"><label>نام درس *</label><input class="input" id="c-title" maxlength="120" placeholder="مثلاً: روان‌شناسی یادگیری" value="${ui.esc(course?.title ?? '')}" /></div><div class="row"><div class="field"><label>استاد</label><input class="input" id="c-teacher" maxlength="80" placeholder="نام استاد" value="${ui.esc(course?.teacher ?? '')}" /></div><div class="field"><label>کد درس</label><input class="input" id="c-code" maxlength="40" placeholder="اختیاری" value="${ui.esc(course?.code ?? '')}" /></div></div><div class="field"><label>رنگ درس</label><div class="swatches" id="c-colors" style="display:flex;gap:8px;flex-wrap:wrap">${COLORS.map((c) => `<button type="button" class="swatch" data-color="${c}"
+            style="width:30px;height:30px;border-radius:9px;border:2px solid ${(course?.color ?? COLORS[0]) === c ? 'var(--ink)' : 'transparent'};background:${c};cursor:pointer"></button>`).join('')}</div></div><div class="field"><label>یادداشت</label><textarea class="textarea" id="c-note" maxlength="300" placeholder="مثلاً: منابع آزمون، تمرین‌های مهم">${ui.esc(course?.note ?? '')}</textarea></div>`;
 
   let selectedColor = course?.color ?? COLORS[0];
 
   ui.openModal({
     title: isEdit ? 'ویرایش درس' : 'افزودن درس جدید',
     body,
-    footer: `
-      <button class="btn btn-primary" id="c-save">${isEdit ? 'ذخیره تغییرات' : 'افزودن درس'}</button>
-      <button class="btn btn-ghost" data-modal-close>لغو</button>`,
+    footer: `<button class="btn btn-primary" id="c-save">${isEdit ? 'ذخیره تغییرات' : 'افزودن درس'}</button><button class="btn btn-ghost" data-modal-close>لغو</button>`,
     onMount(modal, close) {
       modal.querySelectorAll('.swatch').forEach((b) => {
         b.onclick = () => {
@@ -101,46 +73,12 @@ export function sessionModal({ session = null, defaults = {} } = {}) {
     link: session?.link ?? '',
   };
 
-  const body = `
-    <div class="field">
-      <label>درس *</label>
-      <select class="select" id="s-course">
-        ${courses.map((c) => `<option value="${c.id}" ${value.courseId === c.id ? 'selected' : ''}>${ui.esc(c.title)}</option>`).join('')}
-      </select>
-    </div>
-    <div class="row">
-      <div class="field">
-        <label>روز هفته *</label>
-        <select class="select" id="s-day">
-          ${ui.DAYS.map((d, i) => `<option value="${i}" ${Number(value.weekday) === i ? 'selected' : ''}>${d}</option>`).join('')}
-        </select>
-      </div>
-      <div class="field">
-        <label>ساعت شروع *</label>
-        <input class="input" id="s-start" type="time" value="${value.start}" />
-      </div>
-      <div class="field">
-        <label>ساعت پایان *</label>
-        <input class="input" id="s-end" type="time" value="${value.end}" />
-      </div>
-    </div>
-    <div class="field">
-      <label>محل / کلاس</label>
-      <input class="input" id="s-place" maxlength="80" placeholder="مثلاً: کلاس ۲۰۵ یا آنلاین" value="${ui.esc(value.place)}" />
-    </div>
-    <div class="field">
-      <label>لینک کلاس آنلاین</label>
-      <input class="input" id="s-link" dir="ltr" placeholder="https://meet.google.com/..." value="${ui.esc(value.link)}" />
-      <span class="note">در کارت «کلاس بعدی» به‌صورت دکمه‌ی ورود نمایش داده می‌شود.</span>
-    </div>`;
+  const body = `<div class="field"><label>درس *</label><select class="select" id="s-course">${courses.map((c) => `<option value="${c.id}" ${value.courseId === c.id ? 'selected' : ''}>${ui.esc(c.title)}</option>`).join('')}</select></div><div class="row"><div class="field"><label>روز هفته *</label><select class="select" id="s-day">${ui.DAYS.map((d, i) => `<option value="${i}" ${Number(value.weekday) === i ? 'selected' : ''}>${d}</option>`).join('')}</select></div><div class="field"><label>ساعت شروع *</label><input class="input" id="s-start" type="time" value="${value.start}" /></div><div class="field"><label>ساعت پایان *</label><input class="input" id="s-end" type="time" value="${value.end}" /></div></div><div class="field"><label>محل / کلاس</label><input class="input" id="s-place" maxlength="80" placeholder="مثلاً: کلاس ۲۰۵ یا آنلاین" value="${ui.esc(value.place)}" /></div><div class="field"><label>لینک کلاس آنلاین</label><input class="input" id="s-link" dir="ltr" placeholder="https://meet.google.com/..." value="${ui.esc(value.link)}" /><span class="note">در کارت «کلاس بعدی» به‌صورت دکمه‌ی ورود نمایش داده می‌شود.</span></div>`;
 
   ui.openModal({
     title: session ? 'ویرایش جلسه' : 'افزودن کلاس به برنامه',
     body,
-    footer: `
-      <button class="btn btn-primary" id="s-save">${session ? 'ذخیره' : 'افزودن به برنامه'}</button>
-      ${session ? '<button class="btn btn-danger" id="s-del">حذف</button>' : ''}
-      <button class="btn btn-ghost" data-modal-close>لغو</button>`,
+    footer: `<button class="btn btn-primary" id="s-save">${session ? 'ذخیره' : 'افزودن به برنامه'}</button>${session ? '<button class="btn btn-danger" id="s-del">حذف</button>' : ''}<button class="btn btn-ghost" data-modal-close>لغو</button>`,
     onMount(modal, close) {
       const save = modal.querySelector('#s-save');
       save.onclick = async () => {
@@ -191,51 +129,12 @@ export function uploadModal(defaultCourseId) {
     courseModal();
     return;
   }
-  const body = `
-    <div class="field">
-      <label>درس مربوطه *</label>
-      <select class="select" id="u-course">
-        ${courses.map((c) => `<option value="${c.id}" ${defaultCourseId === c.id ? 'selected' : ''}>${ui.esc(c.title)}</option>`).join('')}
-      </select>
-    </div>
-    <div class="field">
-      <label>نام کتاب</label>
-      <input class="input" id="u-title" maxlength="120" placeholder="اگر خالی بماند، از نام فایل استفاده می‌شود" />
-    </div>
-
-    <div style="display:flex;gap:6px;margin-bottom:12px">
-      <button type="button" class="btn btn-sm" id="mode-file-btn" style="flex:1">📄 از فایل کامپیوتر</button>
-      <button type="button" class="btn btn-sm" id="mode-url-btn" style="flex:1">🔗 از لینک اینترنتی</button>
-    </div>
-
-    <div id="mode-file">
-      <label id="u-drop" class="dropzone">
-        <div style="font-size:28px">📄</div>
-        <div style="font-weight:500;margin-top:6px" id="u-filename">فایل PDF را این‌جا بکش یا کلیک کن</div>
-        <div style="font-size:12px;color:var(--muted)">حداکثر ۱۲۰ مگابایت — فایل متنی (نه اسکن‌شده)</div>
-        <input type="file" id="u-file" accept="application/pdf,.pdf" style="display:none" />
-      </label>
-    </div>
-
-    <div id="mode-url" style="display:none">
-      <div class="field" style="margin:0">
-        <label>آدرس فایل PDF</label>
-        <input class="input" id="u-url" dir="ltr" placeholder="https://example.com/book.pdf" />
-        <span class="note">سرور فایل را دانلود می‌کند؛ لینک باید مستقیم به یک PDF معتبر اشاره کند.</span>
-      </div>
-    </div>
-
-    <div id="u-progress" style="display:none;margin-top:14px">
-      <div class="progress-line"><i></i></div>
-      <p style="font-size:12.5px;color:var(--muted);margin-top:8px" id="u-status">در حال آپلود…</p>
-    </div>`;
+  const body = `<div class="field"><label>درس مربوطه *</label><select class="select" id="u-course">${courses.map((c) => `<option value="${c.id}" ${defaultCourseId === c.id ? 'selected' : ''}>${ui.esc(c.title)}</option>`).join('')}</select></div><div class="field"><label>نام کتاب</label><input class="input" id="u-title" maxlength="120" placeholder="اگر خالی بماند، از نام فایل استفاده می‌شود" /></div><div style="display:flex;gap:6px;margin-bottom:12px"><button type="button" class="btn btn-sm" id="mode-file-btn" style="flex:1">از فایل کامپیوتر</button><button type="button" class="btn btn-sm" id="mode-url-btn" style="flex:1">از لینک اینترنتی</button></div><div id="mode-file"><label id="u-drop" class="dropzone"><div style="font-size:28px"></div><div style="font-weight:500;margin-top:6px" id="u-filename">فایل PDF را این‌جا بکش یا کلیک کن</div><div style="font-size:12px;color:var(--muted)">حداکثر ۱۲۰ مگابایت — فایل متنی (نه اسکن‌شده)</div><input type="file" id="u-file" accept="application/pdf,.pdf" style="display:none" /></label></div><div id="mode-url" style="display:none"><div class="field" style="margin:0"><label>آدرس فایل PDF</label><input class="input" id="u-url" dir="ltr" placeholder="https://example.com/book.pdf" /><span class="note">سرور فایل را دانلود می‌کند؛ لینک باید مستقیم به یک PDF معتبر اشاره کند.</span></div></div><div id="u-progress" style="display:none;margin-top:14px"><div class="progress-line"><i></i></div><p style="font-size:12.5px;color:var(--muted);margin-top:8px" id="u-status">در حال آپلود…</p></div>`;
 
   ui.openModal({
     title: 'افزودن کتاب درس (PDF)',
     body,
-    footer: `
-      <button class="btn btn-primary" id="u-send" disabled>افزودن و تشخیص فصل‌ها</button>
-      <button class="btn btn-ghost" data-modal-close>لغو</button>`,
+    footer: `<button class="btn btn-primary" id="u-send" disabled>افزودن و تشخیص فصل‌ها</button><button class="btn btn-ghost" data-modal-close>لغو</button>`,
     onMount(modal, close) {
       const fileInput = modal.querySelector('#u-file');
       const drop = modal.querySelector('#u-drop');
@@ -367,40 +266,18 @@ async function waitBook(id, statusEl) {
 /* ---------------- ویرایش فصل‌ها ---------------- */
 export function chaptersModal(book) {
   const rows = book.chapters.map((c) => ({ ...c }));
-  const body = `
-    <p class="hint" style="margin-bottom:14px">
-      اگر فصل‌ها درست تشخیص داده نشده‌اند، محدوده‌ی صفحه‌ها را اصلاح کن. متن هر فصل دوباره استخراج می‌شود.
-      برای ادغام دو فصل، پایان فصل اول را تا پایان فصل دوم ببر و فصل دوم را حذف کن.
-    </p>
-    <div id="ch-list"></div>
-    <button class="btn btn-sm" id="ch-add" style="margin-top:10px">＋ افزودن فصل</button>`;
+  const body = `<p class="hint" style="margin-bottom:14px">اگر فصل‌ها درست تشخیص داده نشده‌اند، محدوده‌ی صفحه‌ها را اصلاح کن. متن هر فصل دوباره استخراج می‌شود.
+      برای ادغام دو فصل، پایان فصل اول را تا پایان فصل دوم ببر و فصل دوم را حذف کن.</p><div id="ch-list"></div><button class="btn btn-sm" id="ch-add" style="margin-top:10px">＋ افزودن فصل</button>`;
 
   ui.openModal({
     title: `ویرایش فصل‌های «${book.title}»`,
     body,
     size: 'lg',
-    footer: `
-      <button class="btn btn-primary" id="ch-save">ذخیره و بازسازی متن</button>
-      <button class="btn btn-ghost" data-modal-close>لغو</button>`,
+    footer: `<button class="btn btn-primary" id="ch-save">ذخیره و بازسازی متن</button><button class="btn btn-ghost" data-modal-close>لغو</button>`,
     onMount(modal, close) {
       const list = modal.querySelector('#ch-list');
       const renderRows = () => {
-        list.innerHTML = rows.map((c, i) => `
-          <div class="row" style="align-items:flex-end;margin-bottom:10px" data-i="${i}">
-            <div class="field" style="flex:3;margin:0">
-              <label>عنوان فصل ${ui.faNum(i + 1)}</label>
-              <input class="input ch-title" value="${ui.esc(c.title)}" />
-            </div>
-            <div class="field" style="flex:0 0 90px;margin:0">
-              <label>از صفحه</label>
-              <input class="input ch-start" type="number" min="1" value="${c.startPage}" />
-            </div>
-            <div class="field" style="flex:0 0 90px;margin:0">
-              <label>تا صفحه</label>
-              <input class="input ch-end" type="number" min="1" value="${c.endPage}" />
-            </div>
-            <button class="btn btn-sm btn-ghost ch-del" title="حذف" style="margin-bottom:2px">🗑</button>
-          </div>`).join('');
+        list.innerHTML = rows.map((c, i) => `<div class="row" style="align-items:flex-end;margin-bottom:10px" data-i="${i}"><div class="field" style="flex:3;margin:0"><label>عنوان فصل ${ui.faNum(i + 1)}</label><input class="input ch-title" value="${ui.esc(c.title)}" /></div><div class="field" style="flex:0 0 90px;margin:0"><label>از صفحه</label><input class="input ch-start" type="number" min="1" value="${c.startPage}" /></div><div class="field" style="flex:0 0 90px;margin:0"><label>تا صفحه</label><input class="input ch-end" type="number" min="1" value="${c.endPage}" /></div><button class="btn btn-sm btn-ghost ch-del" title="حذف" style="margin-bottom:2px"></button></div>`).join('');
 
         list.querySelectorAll('[data-i]').forEach((row) => {
           const i = Number(row.dataset.i);
@@ -471,53 +348,12 @@ export function examModal(exam = null) {
     remindBefore: exam?.remindBefore ?? '',
   };
 
-  const body = `
-    <div class="field">
-      <label>درس *</label>
-      <select class="select" id="e-course">
-        ${courses.map((c) => `<option value="${c.id}" ${current.courseId === c.id ? 'selected' : ''}>${ui.esc(c.title)}</option>`).join('')}
-      </select>
-    </div>
-    <div class="field">
-      <label>عنوان آزمون</label>
-      <input class="input" id="e-title" maxlength="120" placeholder="مثلاً: میان‌ترم، پایان‌ترم، کوییز ۲" value="${ui.esc(current.title)}" />
-    </div>
-    <div class="row">
-      <div class="field">
-        <label>تاریخ *</label>
-        <input class="input" id="e-date" type="date" value="${current.date}" />
-      </div>
-      <div class="field">
-        <label>ساعت شروع *</label>
-        <input class="input" id="e-time" type="time" value="${current.time}" />
-      </div>
-      <div class="field">
-        <label>مدت (دقیقه)</label>
-        <input class="input" id="e-duration" type="number" min="15" max="480" step="15" value="${current.duration}" />
-      </div>
-    </div>
-    <div class="field">
-      <label>محل برگزاری</label>
-      <input class="input" id="e-place" maxlength="100" placeholder="مثلاً: سالن ۲ یا سامانه‌ی آنلاین" value="${ui.esc(current.place)}" />
-    </div>
-    <div class="field">
-      <label>یادآوری</label>
-      <select class="select" id="e-lead">
-        ${EXAM_LEADS.map((l) => `<option value="${l.v}" ${String(current.remindBefore ?? '') === l.v ? 'selected' : ''}>${l.label}</option>`).join('')}
-      </select>
-    </div>
-    <div class="field" style="margin-bottom:0">
-      <label>یادداشت / منابع</label>
-      <textarea class="textarea" id="e-note" maxlength="300" placeholder="مثلاً: فصل ۱ تا ۴ + جزوه‌ی کلاسی">${ui.esc(current.note)}</textarea>
-    </div>`;
+  const body = `<div class="field"><label>درس *</label><select class="select" id="e-course">${courses.map((c) => `<option value="${c.id}" ${current.courseId === c.id ? 'selected' : ''}>${ui.esc(c.title)}</option>`).join('')}</select></div><div class="field"><label>عنوان آزمون</label><input class="input" id="e-title" maxlength="120" placeholder="مثلاً: میان‌ترم، پایان‌ترم، کوییز ۲" value="${ui.esc(current.title)}" /></div><div class="row"><div class="field"><label>تاریخ *</label><input class="input" id="e-date" type="date" value="${current.date}" /></div><div class="field"><label>ساعت شروع *</label><input class="input" id="e-time" type="time" value="${current.time}" /></div><div class="field"><label>مدت (دقیقه)</label><input class="input" id="e-duration" type="number" min="15" max="480" step="15" value="${current.duration}" /></div></div><div class="field"><label>محل برگزاری</label><input class="input" id="e-place" maxlength="100" placeholder="مثلاً: سالن ۲ یا سامانه‌ی آنلاین" value="${ui.esc(current.place)}" /></div><div class="field"><label>یادآوری</label><select class="select" id="e-lead">${EXAM_LEADS.map((l) => `<option value="${l.v}" ${String(current.remindBefore ?? '') === l.v ? 'selected' : ''}>${l.label}</option>`).join('')}</select></div><div class="field" style="margin-bottom:0"><label>یادداشت / منابع</label><textarea class="textarea" id="e-note" maxlength="300" placeholder="مثلاً: فصل ۱ تا ۴ + جزوه‌ی کلاسی">${ui.esc(current.note)}</textarea></div>`;
 
   ui.openModal({
     title: exam ? 'ویرایش آزمون' : 'افزودن آزمون',
     body,
-    footer: `
-      <button class="btn btn-primary" id="e-save">${exam ? 'ذخیره' : 'افزودن آزمون'}</button>
-      ${exam ? '<button class="btn btn-danger" id="e-del">حذف</button>' : ''}
-      <button class="btn btn-ghost" data-modal-close>لغو</button>`,
+    footer: `<button class="btn btn-primary" id="e-save">${exam ? 'ذخیره' : 'افزودن آزمون'}</button>${exam ? '<button class="btn btn-danger" id="e-del">حذف</button>' : ''}<button class="btn btn-ghost" data-modal-close>لغو</button>`,
     onMount(modal, close) {
       const save = modal.querySelector('#e-save');
       save.onclick = async () => {

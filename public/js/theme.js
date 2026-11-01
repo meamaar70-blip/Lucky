@@ -33,7 +33,7 @@ export function resolved(pref = getPref()) {
 
 function paintMeta(theme) {
   const meta = document.querySelector('meta[name="theme-color"]');
-  if (meta) meta.setAttribute('content', theme === 'dark' ? '#0a0e18' : '#1e1b4b');
+  if (meta) meta.setAttribute('content', theme === 'dark' ? '#0e0e10' : '#fbfbfa');
 }
 
 function paintButtons(theme) {

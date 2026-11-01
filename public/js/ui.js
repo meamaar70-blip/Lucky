@@ -54,8 +54,7 @@ export const toMin = (t) => {
   return h * 60 + (m || 0);
 };
 
-export const tz = (mins) =>
-  `${String(Math.floor(mins / 60)).padStart(2, '0')}:${String(mins % 60).padStart(2, '0')}`;
+export const tz = (mins) =>`${String(Math.floor(mins / 60)).padStart(2, '0')}:${String(mins % 60).padStart(2, '0')}`;
 
 export function duration(start, end) {
   const d = toMin(end) - toMin(start);
@@ -87,18 +86,9 @@ export function pushReminder({ key, title, body, actions = [], tone = 'class' })
   const el = document.createElement('div');
   el.className = `reminder ${tone}`;
   el.dataset.rk = key;
-  el.innerHTML = `
-    <div class="reminder-icon">${tone === 'exam' ? '📝' : '🎓'}</div>
-    <div class="reminder-body">
-      <div class="reminder-title">${esc(title)}</div>
-      <div class="reminder-text">${esc(body)}</div>
-      <div class="reminder-actions">
-        ${actions.map((a, i) => a.href
+  el.innerHTML = `<div class="reminder-icon">${tone === 'exam' ? '' : ''}</div><div class="reminder-body"><div class="reminder-title">${esc(title)}</div><div class="reminder-text">${esc(body)}</div><div class="reminder-actions">${actions.map((a, i) => a.href
           ? `<a class="btn btn-sm ${a.primary ? 'btn-primary' : ''}" href="${esc(a.href)}" ${a.href.startsWith('http') ? 'target="_blank" rel="noopener"' : ''}>${esc(a.label)}</a>`
-          : `<button class="btn btn-sm" data-ack="${i}">${esc(a.label)}</button>`).join('')}
-      </div>
-    </div>
-    <button class="reminder-x" aria-label="بستن">×</button>`;
+          : `<button class="btn btn-sm" data-ack="${i}">${esc(a.label)}</button>`).join('')}</div></div><button class="reminder-x" aria-label="بستن">×</button>`;
   el.querySelector('.reminder-x').onclick = () => el.remove();
   el.querySelectorAll('[data-ack]').forEach((b) => { b.onclick = () => el.remove(); });
   root.appendChild(el);
@@ -110,17 +100,7 @@ export function pushReminder({ key, title, body, actions = [], tone = 'class' })
 /* ---------------- مودال ---------------- */
 export function openModal({ title, body, footer = '', onMount, size }) {
   const root = document.getElementById('modal-root');
-  root.innerHTML = `
-    <div class="modal-backdrop" data-close="1">
-      <div class="modal" role="dialog" aria-modal="true" ${size === 'lg' ? 'style="max-width:760px"' : ''}>
-        <div class="modal-head">
-          <h3>${esc(title)}</h3>
-          <button class="close-x" data-close="1" aria-label="بستن">×</button>
-        </div>
-        <div class="modal-body">${body}</div>
-        ${footer ? `<div class="modal-foot">${footer}</div>` : ''}
-      </div>
-    </div>`;
+  root.innerHTML = `<div class="modal-backdrop" data-close="1"><div class="modal" role="dialog" aria-modal="true" ${size === 'lg' ? 'style="max-width:760px"' : ''}><div class="modal-head"><h3>${esc(title)}</h3><button class="close-x" data-close="1" aria-label="بستن">×</button></div><div class="modal-body">${body}</div>${footer ? `<div class="modal-foot">${footer}</div>` : ''}</div></div>`;
 
   const backdrop = root.firstElementChild;
   const close = () => { root.innerHTML = ''; document.removeEventListener('keydown', onKey); };
@@ -141,9 +121,7 @@ export function confirmDialog({ title = 'تأیید', message, okText = 'بله�
     openModal({
       title,
       body: `<p style="line-height:2">${esc(message)}</p>`,
-      footer: `
-        <button class="btn ${danger ? 'btn-danger' : 'btn-primary'}" id="cf-ok">${esc(okText)}</button>
-        <button class="btn btn-ghost" id="cf-no">لغو</button>`,
+      footer: `<button class="btn ${danger ? 'btn-danger' : 'btn-primary'}" id="cf-ok">${esc(okText)}</button><button class="btn btn-ghost" id="cf-no">لغو</button>`,
       onMount(modal, close) {
         modal.querySelector('#cf-ok').onclick = () => { close(); resolve(true); };
         modal.querySelector('#cf-no').onclick = () => { close(); resolve(false); };

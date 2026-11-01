@@ -113,52 +113,53 @@ for (const f of fontFiles) {
 css = css.replace(/url\('\/fonts\/[^']+'\)/g, 'local(Tahoma)');
 
 const PREVIEW_CSS = `
-/* ---------- نوار بالای پیش‌نمایش ---------- */
+/* ---------- نوار بالای پیش‌نمایش (هم‌زبان با پوستهٔ مینیمال) ---------- */
 .pv-bar {
   position: sticky; top: 0; z-index: 400;
-  display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
-  padding: 10px 18px;
-  background: #0f172a; color: #e2e8f0;
+  display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  padding: 10px 20px;
+  background: var(--card); color: var(--ink);
+  border-bottom: 1px solid var(--line);
   font-family: 'Vazirmatn', Tahoma, sans-serif; font-size: 12.5px;
 }
-.pv-bar .dot { width: 8px; height: 8px; border-radius: 50%; background: #34d399; box-shadow: 0 0 0 3px rgba(52,211,153,.2); }
-.pv-bar strong { color: #fff; font-weight: 700; }
+.pv-bar .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--ok); }
+.pv-bar strong { color: var(--ink); font-weight: 600; }
 .pv-bar .spacer { flex: 1; }
 .pv-bar .pv-chip {
-  background: rgba(255,255,255,.09); border: 1px solid rgba(255,255,255,.14);
-  border-radius: 999px; padding: 2px 10px; font-size: 11.5px; color: #cbd5e1;
+  border: 1px solid var(--line); border-radius: 999px;
+  padding: 1px 9px; font-size: 11px; color: var(--muted);
 }
 .pv-theme {
   display: inline-flex; align-items: center; gap: 6px;
-  background: rgba(255,255,255,.1); color: #fff;
-  border: 1px solid rgba(255,255,255,.18);
-  border-radius: 999px; padding: 5px 14px;
-  font-family: inherit; font-size: 12.5px; font-weight: 600; cursor: pointer;
-  transition: all .15s;
+  background: var(--card); color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm); padding: 4px 12px;
+  font-family: inherit; font-size: 12px; font-weight: 500; cursor: pointer;
+  transition: background .12s;
 }
-.pv-theme:hover { background: rgba(255,255,255,.2); }
+.pv-theme:hover { background: var(--hover); }
 .pv-screens {
-  display: flex; gap: 6px; flex-wrap: wrap;
-  padding: 12px 18px; background: var(--card); border-bottom: 1px solid var(--line);
+  display: flex; gap: 5px; flex-wrap: wrap;
+  padding: 10px 20px; background: var(--card); border-bottom: 1px solid var(--line);
   font-family: 'Vazirmatn', Tahoma, sans-serif;
 }
 .pv-screens button {
-  border: 1px solid var(--line); background: var(--card); color: var(--ink-2); cursor: pointer;
-  border-radius: 999px; padding: 6px 13px; font-size: 12.5px; font-family: inherit;
-  transition: all .15s;
+  border: 1px solid transparent; background: transparent; color: var(--muted); cursor: pointer;
+  border-radius: var(--radius-sm); padding: 4px 11px; font-size: 12px; font-family: inherit;
+  transition: background .12s, color .12s;
 }
-.pv-screens button:hover { border-color: var(--brand-line); background: var(--hover); }
-.pv-screens button.active { background: linear-gradient(135deg,var(--brand),var(--brand-2)); border-color: transparent; color: #fff; font-weight: 600; }
-.pv-shell .app { min-height: calc(100vh - 96px); }
-.pv-shell .sidebar { height: calc(100vh - 96px); top: 96px; }
+.pv-screens button:hover { background: var(--hover); color: var(--ink); }
+.pv-screens button.active { background: var(--surface); border-color: var(--line); color: var(--ink); font-weight: 600; }
+.pv-shell .app { min-height: calc(100vh - 92px); }
+.pv-shell .sidebar { height: calc(100vh - 92px); top: 92px; }
 [data-view] { display: none; }
 [data-view].active { display: block; }
 .pv-foot {
-  padding: 16px 20px; font-size: 12px; color: var(--muted); text-align: center;
-  border-top: 1px solid var(--line); background: var(--surface);
+  padding: 14px 20px; font-size: 11.5px; color: var(--muted); text-align: center;
+  border-top: 1px solid var(--line); background: var(--card);
   font-family: 'Vazirmatn', Tahoma, sans-serif;
 }
-.pv-foot code { background: var(--line-2); padding: 1px 6px; border-radius: 5px; }
+.pv-foot code { background: var(--surface); padding: 1px 6px; border-radius: 5px; }
 @media (max-width: 860px) {
   .pv-shell .app { min-height: auto; }
   .pv-shell .sidebar { position: static; height: auto; transform: none; width: 100%; }

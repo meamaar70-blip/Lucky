@@ -12,7 +12,8 @@
     "preview:build": "node scripts/build-preview.mjs",
     "seed": "node scripts/seed-demo.mjs",
     "sample": "node scripts/sample-book.mjs",
-    "audit:theme": "node scripts/audit-theme.mjs"
+    "audit:theme": "node scripts/audit-theme.mjs",
+    "audit:css": "node scripts/audit-css.mjs"
   },
   "engines": {
     "node": ">=20"
