@@ -34,7 +34,8 @@ async function main() {
     console.log(`ℹ️  داده از قبل وجود دارد (${state.courses.length} درس). برای بازنویسی: node scripts/seed-demo.mjs --force`);
     return;
   }
-  if (state.courses.length && FORCE) {
+  if ((state.courses.length || state.exams.length) && FORCE) {
+    for (const e of state.exams) await api('DELETE', `/api/exams/${e.id}`);
     for (const c of state.courses) await api('DELETE', `/api/courses/${c.id}`);
     console.log('• دادهٔ قبلی پاک شد');
   }
@@ -145,14 +146,20 @@ async function main() {
   await api('PUT', `/api/books/${book.id}/chapters`, { chapters });
   console.log(`• ${chapters.length} فصل ثبت شد: ` + chapters.map((c) => `${c.startPage}-${c.endPage}`).join(' | '));
 
-  // ---------- ساخت محتوا برای فصل اول ----------
+  // ---------- ساخت محتوا برای همهٔ فصل‌ها ----------
   const after = await api('GET', '/api/state');
   const freshBook = after.books.find((b) => b.id === book.id);
   const firstChapter = freshBook.chapters[0];
   await api('POST', `/api/chapters/${firstChapter.id}/summary`, {});
   console.log('• خلاصهٔ فصل اول ساخته شد');
-  await api('POST', `/api/chapters/${firstChapter.id}/quiz`, { count: 6 });
-  console.log('• آزمون فصل اول ساخته شد');
+
+  // برای هر فصل تست می‌سازیم؛ هر تست خودکار به کارت مرور تبدیل می‌شود
+  let cardCount = 0;
+  for (const [i, ch] of freshBook.chapters.entries()) {
+    const res = await api('POST', `/api/chapters/${ch.id}/quiz`, { count: 6 });
+    cardCount += res.cards?.added ?? 0;
+    console.log(`• تست ${i + 1} فصل ساخته شد${res.cards ? ` (${res.cards.added} کارت تازه)` : ''}`);
+  }
   try {
     await api('POST', `/api/chapters/${firstChapter.id}/pptx`, {});
     console.log('• پاورپوینت فصل اول ساخته شد');
@@ -163,6 +170,7 @@ async function main() {
   const final = await api('GET', '/api/state');
   console.log('\n✓ دادهٔ نمونه آماده است:');
   console.log(`   درس‌ها: ${final.courses.length} | جلسات: ${final.sessions.length} | کتاب‌ها: ${final.books.length} | آزمون‌ها: ${final.exams.length}`);
+  console.log(`   کارت‌های مرور: ${final.review?.total ?? cardCount} (${final.review?.due ?? 0} آمادهٔ مرور امروز)`);
   console.log('   آدرس برنامه: ' + BASE);
 }
 

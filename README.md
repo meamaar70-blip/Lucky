@@ -50,6 +50,17 @@
 
 ---
 
+### ۶) مرور فاصله‌دار (فلش‌کارت)
+- هر سؤالی که برای یک فصل تست ساخته می‌شود، خودکار به یک **کارت مرور** تبدیل می‌شود
+- الگوریتم **SM-2**: با هر نمره‌دهی (یادم نبود / سخت / خوب / آسان) فاصله‌ی مرور بعدی حساب می‌شود
+  (۱۰ دقیقه → ۱ روز → ۲ روز → … تا یک سال)
+- صفحه‌ی «🔁 مرور امروز»: کارت‌ها یکی‌یکی، اول سؤال و بعد از «نمایش پاسخ» گزینه‌ی درست و
+  توضیحِ برگرفته از متن کتاب؛ چهار دکمه‌ی نمره‌دهی فاصله‌ی بعدی را نشان می‌دهند
+- میان‌بر کلید: **Space** برای نمایش پاسخ و **۱ تا ۴** برای نمره‌دهی
+- کارت «مرور امروز» در داشبورد + نشان تعداد کارت‌های آماده در منو
+- کلید کارت از «شناسهٔ فصل + هش متن سؤال» ساخته می‌شود؛ اگر تست فصل را دوباره بسازی،
+  تاریخچهٔ مرور سؤال‌های یکسان حفظ می‌شود
+
 ## اجرا
 
 ```bash
@@ -152,6 +163,7 @@ server/
     persian.js        ابزارهای متن فارسی
     analyze.js        تحلیل و خلاصه‌سازی
     quizgen.js        تولید تست
+    srs.js            مرور فاصله‌دار (SM-2) و کارت‌سازی از سؤال‌های تست
     pptx.js           ساخت پاورپوینت
     llm.js            اتصال هوش مصنوعی
 public/
@@ -162,7 +174,7 @@ public/
     api.js  ui.js  forms.js
     reminders.js      موتور یادآور کلاس و آزمون (سمت مرورگر)
     theme.js          موتور تم روشن/تاریک/سیستم
-    views/            dashboard, schedule, courses, library, chapter, exams, settings
+    views/            dashboard, schedule, courses, library, chapter, review, exams, settings
 js/theme.js           موتور تم (روشن/تاریک/سیستم)، ذخیره در localStorage، رویداد themechange
 scripts/
   smoke-ui.mjs        تست دودی رابط کاربری با jsdom (شامل آزمون تم تاریک)
@@ -194,6 +206,13 @@ samples/sample-book.pdf  کتاب نمونه (۴ فصل)
 | PUT/POST | `/api/settings/ai`, `/api/settings/ai/test` | تنظیم و تست هوش مصنوعی |
 
 ---
+
+### مرور فاصله‌دار
+- `GET /api/review?limit=20` → `{ cards, stats, total }` (کارت‌های سررسیدشده + آمار)
+- `POST /api/review/grade` با `{ key, grade, responseMs }` → کارت به‌روزشده + آمار تازه
+- `POST /api/review/sync` → هم‌گام‌سازی دستی کارت‌ها با تست‌های موجود
+- آمار مرور در `GET /api/state` زیر کلید `review` می‌آید:
+  `{ total, due, learned, dueSoon, todayReviews, todayCorrect, nextDueAt, accuracy }`
 
 ## محدودیت‌های شناخته‌شده
 

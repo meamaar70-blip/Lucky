@@ -28,6 +28,8 @@ const EMPTY = {
   books: [],
   artifacts: {},
   attempts: [],
+  cards: [],
+  reviews: [],
   exams: [],
   settings: {
     ai: { baseUrl: '', apiKey: '', model: '' },

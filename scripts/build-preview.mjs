@@ -69,6 +69,7 @@ const SCREENS = [
     { id: 'chapter-pptx', hash: `#/chapter/${chapterId}?tab=pptx`, label: 'فصل — پاورپوینت', nav: 'library', icon: '📊', chapter: true },
     { id: 'chapter-text', hash: `#/chapter/${chapterId}?tab=text`, label: 'فصل — متن', nav: 'library', icon: '📖', chapter: true },
   ] : []),
+  { id: 'review', hash: '#/review', label: 'مرور امروز', nav: 'review', icon: '🔁' },
   { id: 'exams', hash: '#/exams', label: 'آزمون‌ها و یادآورها', nav: 'exams', icon: '📝' },
   { id: 'settings', hash: '#/settings', label: 'تنظیمات', nav: 'settings', icon: '⚙️' },
 ];
@@ -78,6 +79,11 @@ for (const s of SCREENS) {
   location.hash = s.hash;
   window.dispatchEvent(new window.HashChangeEvent('hashchange'));
   await new Promise((r) => setTimeout(r, s.id === 'chapter-text' ? 1100 : 750));
+  // در صفحه‌ی مرور، پاسخ را نمایش می‌دهیم تا هر دو حالت کارت دیده شود
+  if (s.id === 'review') {
+    document.getElementById('reveal')?.dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
+    await new Promise((r) => setTimeout(r, 250));
+  }
   const view = document.getElementById('view');
   captured.push({
     ...s,

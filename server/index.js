@@ -17,6 +17,7 @@ import { buildProfile, summarizeProfile, DEPTHS } from './lib/analyze.js';
 import { generateQuiz, isShortAnswerCorrect } from './lib/quizgen.js';
 import { buildPresentation } from './lib/pptx.js';
 import { llmSummary, llmQuiz, testConnection } from './lib/llm.js';
+import { syncCards, pickDue, reviewStats, gradeByKey, previewInterval } from './lib/srs.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
@@ -49,7 +50,7 @@ const wrap = (fn) => (req, res, next) => Promise.resolve(fn(req, res, next)).cat
 
 /* ---------------- وضعیت کلی ---------------- */
 app.get('/api/state', wrap(async (req, res) => {
-  const db = await readDb();
+  const db = await dbWithCards();
   const ai = await getAiConfig();
   res.json({
     profile: db.profile,
@@ -66,6 +67,7 @@ app.get('/api/state', wrap(async (req, res) => {
     attempts: db.attempts.slice(-40),
     exams: db.exams,
     reminders: db.settings.reminders,
+    review: reviewStats(db),
     ai: publicAiConfig(ai),
     depths: Object.entries(DEPTHS).map(([k, v]) => ({ key: k, label: v.label })),
   });
@@ -129,6 +131,7 @@ app.delete('/api/courses/:id', wrap(async (req, res) => {
       for (const ch of b.chapters ?? []) delete db.artifacts[ch.id];
     }
     db.books = db.books.filter((b) => b.courseId !== id);
+    syncCards(db);
   });
   for (const b of removedBooks) {
     await fs.rm(path.join(DIRS.text, b.id), { recursive: true, force: true }).catch(() => {});
@@ -544,6 +547,7 @@ app.delete('/api/books/:id', wrap(async (req, res) => {
     if (removed) {
       for (const ch of removed.chapters ?? []) delete db.artifacts[ch.id];
       db.books = db.books.filter((b) => b.id !== req.params.id);
+      syncCards(db);
     }
   });
   if (removed) {
@@ -589,6 +593,7 @@ app.put('/api/books/:id/chapters', wrap(async (req, res) => {
     const keepIds = new Set(cleaned.map((c) => c.id));
     for (const old of b.chapters ?? []) if (!keepIds.has(old.id)) delete d.artifacts[old.id];
     b.chapters = cleaned;
+    syncCards(d);
     return b.chapters;
   });
   res.json(result);
@@ -703,11 +708,12 @@ app.post('/api/chapters/:id/quiz', wrap(async (req, res) => {
   quiz.createdAt = new Date().toISOString();
   quiz.count = quiz.questions.length;
 
-  await updateDb((db) => {
+  const cardsInfo = await updateDb((db) => {
     const art = (db.artifacts[found.chapter.id] ??= {});
     art.quiz = quiz;
+    return syncCards(db, [found.chapter.id]);
   });
-  res.json({ quiz, warning });
+  res.json({ quiz, warning, cards: cardsInfo });
 }));
 
 app.post('/api/chapters/:id/pptx', wrap(async (req, res) => {
@@ -787,6 +793,69 @@ app.post('/api/chapters/:id/check-short', wrap(async (req, res) => {
 }));
 
 /* ---------------- تنظیمات هوش مصنوعی ---------------- */
+/* ---------------- مرور فاصله‌دار (فلش‌کارت) ---------------- */
+
+/** پایگاه‌داده با کارت‌های هم‌گام‌شده؛ فقط وقتی چیزی عوض شده روی دیسک نوشته می‌شود */
+async function dbWithCards() {
+  const db = await readDb();
+  const res = syncCards(db);
+  if (res.added || res.removed) {
+    return updateDb((d) => { syncCards(d); return d; });
+  }
+  return db;
+}
+
+/** کارت‌های سررسیدشده + آمار + پیش‌نمایش فاصله‌ها برای دکمه‌های نمره‌دهی */
+app.get('/api/review', wrap(async (req, res) => {
+  const limit = Math.min(100, Math.max(1, Number(req.query.limit) || 20));
+  const courseId = String(req.query.courseId ?? '');
+  const db = await dbWithCards();
+  const due = pickDue(db.cards, { limit, courseId });
+  const courses = Object.fromEntries((db.courses ?? []).map((c) => [c.id, c]));
+
+  res.json({
+    cards: due.map((c) => ({
+      key: c.key,
+      chapterId: c.chapterId,
+      chapterTitle: c.chapterTitle,
+      courseId: c.courseId,
+      courseTitle: courses[c.courseId]?.title ?? '',
+      courseColor: courses[c.courseId]?.color ?? '',
+      prompt: c.prompt,
+      statement: c.statement,
+      options: c.options,
+      answerIndex: c.answerIndex,
+      answer: c.answer,
+      explanation: c.explanation,
+      type: c.type,
+      difficulty: c.difficulty,
+      reps: c.reps,
+      intervalDays: c.intervalDays,
+      // برچسب فاصلهٔ بعدی برای هر نمره (۰ تا ۳)
+      intervals: [0, 3, 4, 5].map((g) => previewInterval(c, g)),
+    })),
+    stats: reviewStats(db),
+    total: (db.cards ?? []).length,
+  });
+}));
+
+/** ثبت نمرهٔ یک کارت (۰ = یادم نبود، ۳ = سخت، ۴ = خوب، ۵ = آسان) */
+app.post('/api/review/grade', wrap(async (req, res) => {
+  const { key, grade, responseMs = 0 } = req.body ?? {};
+  if (!key) return res.status(400).json({ error: 'کارت مشخص نیست' });
+  const g = Number(grade);
+  if (!Number.isInteger(g) || g < 0 || g > 5) return res.status(400).json({ error: 'نمره باید بین ۰ تا ۵ باشد' });
+  const result = await gradeByKey(String(key), g, { responseMs });
+  if (!result) return res.status(404).json({ error: 'کارت پیدا نشد؛ صفحه را دوباره بارگذاری کنید' });
+  res.json(result);
+}));
+
+/** هم‌گام‌سازی دستی (بعد از ساخت تست تازه) */
+app.post('/api/review/sync', wrap(async (req, res) => {
+  const result = await updateDb((d) => { const r = syncCards(d); return { ...r, stats: reviewStats(d) }; });
+  res.json(result);
+}));
+
 app.put('/api/settings/ai', wrap(async (req, res) => {
   const { baseUrl = '', apiKey, model = '' } = req.body ?? {};
   const url = String(baseUrl).trim().slice(0, 300);

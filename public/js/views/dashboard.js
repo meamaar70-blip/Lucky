@@ -182,6 +182,28 @@ export async function dashboardView(root, route, app) {
       <button class="btn btn-primary" style="margin-top:16px" id="onb-start">شروع کن</button>
     </div>`;
 
+  const review = d.review ?? { due: 0, total: 0, learned: 0, todayReviews: 0 };
+  const reviewCard = `
+    <div class="card card-pad review-cta">
+      <div class="review-cta-icon">🔁</div>
+      <div style="flex:1;min-width:0">
+        <h2 style="font-size:16px;margin-bottom:4px">${review.due > 0 ? 'مرور امروز آماده است' : 'مرور امروز'}</h2>
+        <p style="font-size:13px;color:var(--muted)">
+          ${review.total === 0
+            ? 'با ساختن تست برای هر فصل، سؤال‌هایش خودکار به فلش‌کارت تبدیل می‌شود.'
+            : review.due > 0
+              ? `${ui.faNum(review.due)} کارت امروز نوبتش است${review.todayReviews ? ` • امروز ${ui.faNum(review.todayReviews)} مرور کرده‌ای` : ''}`
+              : 'همه‌ی کارت‌های امروز مرور شده‌اند. 👏'}
+        </p>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        ${review.due > 0 ? `<span class="badge badge-brand">${ui.faNum(review.due)}</span>` : ''}
+        <button class="btn ${review.due > 0 ? 'btn-primary' : ''} btn-sm" id="dash-review">
+          ${review.due > 0 ? 'شروع مرور' : review.total ? 'مرور' : 'ساختن تست'}
+        </button>
+      </div>
+    </div>`;
+
   root.innerHTML = `
     <div class="grid" style="gap:18px">
       ${onboarding}
@@ -202,6 +224,7 @@ export async function dashboardView(root, route, app) {
         </div>
       </div>
       ${stats}
+      ${reviewCard}
       ${examCard}
       <div class="grid cols-2">
         ${todayCard}
@@ -218,6 +241,10 @@ export async function dashboardView(root, route, app) {
   root.querySelector('#qa-upload')?.addEventListener('click', () => uploadModal());
   root.querySelector('#qa-exam')?.addEventListener('click', () => examModal());
   root.querySelector('#dash-add-exam')?.addEventListener('click', () => examModal());
+  root.querySelector('#dash-review')?.addEventListener('click', () => {
+    const due = (app.data?.review?.due ?? 0) > 0;
+    app.navigate(due ? '#/review' : '#/library');
+  });
   root.querySelector('#dash-perm')?.addEventListener('click', async (e) => {
     const state = await ensurePermission();
     ui.toast(state === 'granted' ? 'اعلان یادآور فعال شد' : 'مرورگر اجازه نداد', state === 'granted' ? 'ok' : 'warn');

@@ -64,6 +64,12 @@ export const api = {
   deleteExam: (id) => request('DELETE', `/api/exams/${id}`),
   saveReminders: (r) => request('PUT', '/api/settings/reminders', r),
 
+  review: (limit = 20, courseId = '') =>
+    request('GET', `/api/review?limit=${encodeURIComponent(limit)}${courseId ? `&course=${encodeURIComponent(courseId)}` : ''}`),
+  gradeCard: (key, grade, responseMs = 0) =>
+    request('POST', '/api/review/grade', { key, grade, responseMs }),
+  syncReview: () => request('POST', '/api/review/sync'),
+
   saveAi: (cfg) => request('PUT', '/api/settings/ai', cfg),
   testAi: () => request('POST', '/api/settings/ai/test'),
 };

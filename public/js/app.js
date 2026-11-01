@@ -8,6 +8,7 @@ import { coursesView } from './views/courses.js';
 import { libraryView } from './views/library.js';
 import { chapterView } from './views/chapter.js';
 import { examsView } from './views/exams.js';
+import { reviewView } from './views/review.js';
 import { settingsView } from './views/settings.js';
 import { startReminders, examStart } from './reminders.js';
 import { initTheme } from './theme.js';
@@ -19,6 +20,7 @@ const ROUTES = {
   library: { view: libraryView, title: 'فصل‌ها و مطالعه', sub: 'خلاصه، تست و پاورپوینت هر فصل' },
   chapter: { view: chapterView, title: 'فصل', sub: '' },
   exams: { view: examsView, title: 'آزمون‌ها و یادآورها', sub: 'تاریخ آزمون‌ها و زمان یادآوری' },
+  review: { view: reviewView, title: 'مرور امروز', sub: 'فلش‌کارت‌های فاصله‌دار از سؤال‌های فصل‌ها' },
   settings: { view: settingsView, title: 'تنظیمات', sub: 'مشخصات و اتصال هوش مصنوعی' },
 };
 
@@ -41,6 +43,7 @@ export const app = {
     }
     this.paintSidebar();
     this.paintExamBadge();
+    this.paintReviewBadge();
     render();
     startReminders(this);
   },
@@ -49,6 +52,16 @@ export const app = {
     this.data = await api.state();
     this.paintSidebar();
     this.paintExamBadge();
+    this.paintReviewBadge();
+  },
+
+  /** نشانگر تعداد کارت‌های آماده‌ی مرور در منو */
+  paintReviewBadge() {
+    const el = document.getElementById('nav-review-count');
+    if (!el) return;
+    const due = this.data?.review?.due ?? 0;
+    el.textContent = due ? String(due).replace(/[0-9]/g, (d) => '۰۱۲۳۴۵۶۷۸۹'[Number(d)]) : '';
+    el.className = due ? 'badge badge-brand badge-count' : 'badge-count';
   },
 
   /** نشانگر تعداد آزمون‌های پیش‌رو در منو */

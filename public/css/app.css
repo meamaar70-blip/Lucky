@@ -884,6 +884,107 @@ p { margin: 0; }
 [data-theme="dark"] .quiz-result { color: var(--ink); }
 [data-theme="dark"] .progress-line { background: var(--line-2); }
 
+/* ---------- مرور فاصله‌دار (فلش‌کارت) ---------- */
+.review-wrap { display: flex; flex-direction: column; gap: 14px; max-width: 760px; margin-inline: auto; }
+.review-top { display: flex; flex-direction: column; gap: 10px; }
+.review-top-main { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.review-sub { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
+.review-progress { height: 7px; border-radius: 99px; background: var(--line-2); overflow: hidden; }
+.review-progress-bar { height: 100%; border-radius: 99px; background: linear-gradient(90deg, var(--brand), var(--brand-2)); transition: width .25s ease; }
+.review-meta { font-size: 12.5px; color: var(--muted); }
+
+.flashcard {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 20px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-height: 260px;
+}
+.flash-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+.flash-prompt { font-size: 12.5px; color: var(--muted); }
+.flash-statement { font-size: 17px; font-weight: 600; line-height: 2; color: var(--ink); }
+.flash-options { display: flex; flex-direction: column; gap: 8px; }
+.flash-opt {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 12px; border-radius: 12px;
+  border: 1px solid var(--line); background: var(--surface);
+  font-size: 14px; color: var(--ink);
+}
+.flash-opt .key {
+  width: 22px; height: 22px; border-radius: 7px; display: grid; place-items: center;
+  background: var(--line-2); color: var(--ink-2); font-size: 12px; font-weight: 700; flex: 0 0 auto;
+}
+.flash-opt.correct { border-color: var(--ok); background: var(--ok-soft, var(--brand-soft)); color: var(--ink); }
+.flash-opt.correct .key { background: var(--ok); color: #06281f; }
+.flash-opt .tick { margin-inline-start: auto; color: var(--ok); font-weight: 800; }
+.flash-answer {
+  padding: 12px 14px; border-radius: 12px;
+  background: var(--brand-soft); color: var(--ink);
+  border: 1px solid var(--brand-line); font-size: 14.5px;
+}
+.flash-explain {
+  font-size: 13px; line-height: 1.9; color: var(--ink-2);
+  border-inline-start: 3px solid var(--line-strong, var(--line));
+  padding-inline-start: 10px;
+}
+.flash-explain .k { color: var(--muted); font-size: 12px; }
+.flash-reveal { align-self: flex-start; margin-top: auto; display: inline-flex; align-items: center; gap: 8px; }
+.flash-reveal .hint {
+  font-size: 11px; opacity: .7; border: 1px solid rgba(255,255,255,.4);
+  border-radius: 6px; padding: 1px 6px;
+}
+
+.grade-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.grade-btn {
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+  padding: 11px 6px; border-radius: 13px; cursor: pointer;
+  border: 1px solid var(--line); background: var(--card); color: var(--ink);
+  transition: transform .12s, border-color .15s, background .15s;
+}
+.grade-btn:hover { transform: translateY(-1px); background: var(--hover); }
+.grade-btn .g-ico { font-size: 16px; }
+.grade-btn .g-t { font-size: 13px; font-weight: 600; }
+.grade-btn small { font-size: 11px; color: var(--muted); }
+.grade-btn.again:hover { border-color: var(--danger); }
+.grade-btn.again .g-ico { color: var(--danger); }
+.grade-btn.hard:hover { border-color: var(--warn); }
+.grade-btn.hard .g-ico { color: var(--warn); }
+.grade-btn.good:hover { border-color: var(--ok); }
+.grade-btn.good .g-ico { color: var(--ok); }
+.grade-btn.easy:hover { border-color: var(--brand); }
+.grade-btn.easy .g-ico { color: var(--brand); }
+.grade-hint { text-align: center; font-size: 11.5px; color: var(--muted); }
+
+.review-done { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 10px; padding: 30px 20px; }
+.done-emoji { font-size: 42px; }
+.done-sub { color: var(--muted); font-size: 13.5px; }
+.done-grid { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin: 6px 0; }
+.done-stat {
+  display: flex; flex-direction: column; gap: 2px; min-width: 96px;
+  padding: 12px 16px; border-radius: 14px; background: var(--surface); border: 1px solid var(--line);
+}
+.done-stat .v { font-size: 20px; font-weight: 800; color: var(--ink); }
+.done-stat .l { font-size: 11.5px; color: var(--muted); }
+.done-next { font-size: 13px; color: var(--muted); }
+.done-actions { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin-top: 6px; }
+
+.skeleton {
+  background: linear-gradient(90deg, var(--surface), var(--hover), var(--surface));
+  background-size: 200% 100%;
+  animation: shimmer 1.2s infinite;
+  border-radius: 12px;
+}
+@keyframes shimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+
+@media (max-width: 560px) {
+  .grade-bar { grid-template-columns: repeat(2, 1fr); }
+  .flash-statement { font-size: 15.5px; }
+}
+
 /* پرینت همیشه روشن است */
 @media print {
   [data-theme="dark"] {
@@ -904,3 +1005,10 @@ p { margin: 0; }
 }
 .next-class.is-empty .k { color: var(--brand-2); }
 .next-class.is-empty .m span { color: var(--muted); }
+
+/* کارت «مرور امروز» در داشبورد */
+.review-cta { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.review-cta-icon {
+  width: 44px; height: 44px; border-radius: 14px; display: grid; place-items: center;
+  font-size: 21px; background: var(--brand-soft); flex: 0 0 auto;
+}

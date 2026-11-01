@@ -175,6 +175,51 @@ else {
   else await globalThis.fetch(`/api/courses/${created.id}`, { method: 'DELETE' });
 }
 
+
+/* مرور فاصله‌دار */
+await go('#/review', 1100);
+{
+  console.log('\n=== مرور امروز ===');
+  const card = document.querySelector('.flashcard');
+  const reveal = document.getElementById('reveal');
+  console.log('کارت:', Boolean(card), '| دکمه نمایش پاسخ:', Boolean(reveal));
+  if (!card) errors.push('review: کارت مرور نمایش داده نشد');
+  if (!reveal) errors.push('review: دکمه «نمایش پاسخ» نیست');
+
+  if (reveal) {
+    reveal.dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
+    await new Promise((r) => setTimeout(r, 300));
+    const answer = document.querySelector('.flash-answer');
+    const grades = document.querySelectorAll('[data-grade]');
+    console.log('پاسخ نمایش داده شد:', Boolean(answer), '| دکمه‌های نمره:', grades.length);
+    if (!answer) errors.push('review: پاسخ کارت نمایش داده نشد');
+    if (grades.length !== 4) errors.push(`review: انتظار ۴ دکمه نمره، ${grades.length} دیده شد`);
+
+    const before = await (await globalThis.fetch('/api/state')).json();
+    const beforeCount = before.review?.todayReviews ?? 0;
+    const goodBtn = document.querySelector('[data-grade="4"]');
+    goodBtn?.dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
+    await new Promise((r) => setTimeout(r, 700));
+    const after = await (await globalThis.fetch('/api/state')).json();
+    const grew = (after.review?.todayReviews ?? 0) > beforeCount;
+    console.log('ثبت نمره در سرور:', grew, `(${beforeCount} → ${after.review?.todayReviews ?? 0})`);
+    if (!grew) errors.push('review: نمره‌ی کارت در سرور ثبت نشد');
+
+    const stillCard = Boolean(document.querySelector('.flashcard')) || Boolean(document.querySelector('.review-done'));
+    console.log('ادامه‌ی جلسه یا صفحه‌ی پایان:', stillCard);
+    if (!stillCard) errors.push('review: بعد از نمره‌دهی کارت بعدی/پایان نمایش داده نشد');
+
+    // کلید Space باید پاسخ را نمایش دهد
+    const beforeReveal = Boolean(document.querySelector('#reveal'));
+    document.dispatchEvent(new window.KeyboardEvent('keydown', { code: 'Space', key: ' ', bubbles: true }));
+    await new Promise((r) => setTimeout(r, 250));
+    if (beforeReveal && !document.querySelector('.flash-answer') && !document.querySelector('.review-done')) {
+      errors.push('review: کلید Space پاسخ را نمایش نداد');
+    }
+    console.log('کلید Space:', document.querySelector('.flash-answer') ? 'پاسخ نمایش داده شد' : '—');
+  }
+}
+
 /* حالت تاریک */
 await go('#/settings', 500);
 const root = document.documentElement;
