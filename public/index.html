@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Lucky — دستیار مطالعه دانشجو</title>
+  <meta name="description" content="ثبت برنامه کلاسی، آپلود کتاب درس و ساخت خلاصه، تست و پاورپوینت فصل‌به‌فصل" />
+  <meta name="theme-color" content="#1e1b4b" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%234f46e5'/%3E%3Ctext x='50' y='70' font-size='58' text-anchor='middle' fill='white' font-family='sans-serif'%3E%E2%9C%A6%3C/text%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="/css/app.css" />
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <div class="brand-logo">✦</div>
+        <div>
+          <div class="brand-name">Lucky</div>
+          <div class="brand-sub">دستیار مطالعه دانشجو</div>
+        </div>
+      </div>
+
+      <nav id="nav">
+        <button class="nav-item" data-route="dashboard"><span class="ico">🏠</span> داشبورد</button>
+        <button class="nav-item" data-route="schedule"><span class="ico">🗓️</span> برنامه هفتگی</button>
+        <button class="nav-item" data-route="courses"><span class="ico">📚</span> دروس و کتاب‌ها</button>
+        <button class="nav-item" data-route="library"><span class="ico">📑</span> فصل‌ها و مطالعه</button>
+        <button class="nav-item" data-route="settings"><span class="ico">⚙️</span> تنظیمات</button>
+      </nav>
+
+      <div class="sidebar-foot">
+        <div class="sidebar-card" id="side-card">
+          <strong id="side-name">خوش آمدید</strong>
+          <span id="side-sub">اطلاعاتت را در تنظیمات کامل کن</span>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <div class="topbar">
+        <div class="page-title">
+          <div style="display:flex;align-items:center;gap:10px">
+            <button class="btn btn-sm menu-btn" id="menu-btn" aria-label="منو">☰</button>
+            <h1 id="page-title">داشبورد</h1>
+          </div>
+          <div class="sub" id="page-sub">خلاصه‌ی وضعیت مطالعه‌ی تو</div>
+        </div>
+        <div class="topbar-actions" id="topbar-actions"></div>
+      </div>
+      <div id="view" aria-live="polite"></div>
+    </main>
+  </div>
+
+  <div class="toasts" id="toasts"></div>
+  <div id="modal-root"></div>
+
+  <script type="module" src="/js/app.js"></script>
+</body>
+</html>
