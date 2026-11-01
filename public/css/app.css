@@ -580,3 +580,110 @@ p { margin: 0; }
   .card { box-shadow: none; border: 1px solid #ddd; break-inside: avoid; }
   body { background: #fff; }
 }
+
+/* ---------- یادآورها ---------- */
+#reminders {
+  position: fixed;
+  inset-block-start: 18px;
+  inset-inline-start: 50%;
+  transform: translateX(-50%);
+  z-index: 300;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: min(520px, calc(100% - 24px));
+  pointer-events: none;
+}
+.reminder {
+  pointer-events: auto;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: #fff;
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-lg);
+  animation: reminderIn .28s cubic-bezier(.2, .9, .3, 1.15);
+}
+@keyframes reminderIn { from { transform: translateY(-14px); opacity: 0; } }
+.reminder.class { border-inline-start: 5px solid var(--brand); }
+.reminder.exam { border-inline-start: 5px solid #d97706; }
+.reminder-icon { font-size: 22px; line-height: 1.2; }
+.reminder-body { flex: 1; min-width: 0; }
+.reminder-title { font-weight: 700; font-size: 14.5px; margin-bottom: 2px; }
+.reminder-text { font-size: 12.5px; color: var(--muted); line-height: 1.9; }
+.reminder-actions { display: flex; gap: 6px; margin-top: 9px; flex-wrap: wrap; }
+.reminder-x {
+  border: none; background: none; cursor: pointer; color: var(--muted);
+  font-size: 20px; line-height: 1; padding: 0 4px; border-radius: 8px;
+}
+.reminder-x:hover { background: #f3f4f6; color: var(--ink); }
+
+/* ---------- آزمون‌ها ---------- */
+.exam-card {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #fff;
+  position: relative;
+  overflow: hidden;
+  transition: border-color .15s, box-shadow .15s;
+}
+.exam-card::before {
+  content: ''; position: absolute; inset-block: 0; inset-inline-start: 0;
+  width: 4px; background: var(--c, var(--brand));
+}
+.exam-card:hover { border-color: #c7d2fe; box-shadow: var(--shadow-sm); }
+.exam-card.past { opacity: .62; }
+.exam-date {
+  flex: 0 0 auto; width: 62px; text-align: center;
+  background: var(--warn-soft); border-radius: 12px; padding: 6px 4px;
+  border: 1px solid #fde68a;
+}
+.exam-date .day { font-weight: 800; font-size: 19px; color: #92400e; line-height: 1.3; }
+.exam-date .month { font-size: 11px; color: #a16207; }
+.exam-body { flex: 1; min-width: 0; }
+.exam-title { font-weight: 700; font-size: 14.5px; }
+.exam-meta {
+  display: flex; gap: 12px; flex-wrap: wrap;
+  font-size: 12px; color: var(--muted); margin-top: 3px;
+}
+.exam-note {
+  font-size: 12px; color: var(--ink-2); margin-top: 6px;
+  background: var(--line-2); border-radius: 8px; padding: 5px 9px;
+}
+.exam-side { text-align: center; display: flex; flex-direction: column; gap: 6px; align-items: center; }
+.exam-days {
+  font-size: 12px; font-weight: 700; color: var(--muted);
+  background: var(--line-2); border-radius: 999px; padding: 3px 11px; white-space: nowrap;
+}
+.exam-days.urgent { background: #fef2f2; color: var(--danger); }
+
+/* ---------- سوییچ ---------- */
+.switch-row {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 0; font-size: 13.5px; cursor: pointer;
+}
+.switch-row input[type="checkbox"] {
+  appearance: none; width: 40px; height: 23px; border-radius: 999px;
+  background: #d1d5db; position: relative; cursor: pointer; transition: background .16s;
+  flex: 0 0 auto; margin: 0;
+}
+.switch-row input[type="checkbox"]::after {
+  content: ''; position: absolute; top: 3px; inset-inline-start: 3px;
+  width: 17px; height: 17px; border-radius: 50%; background: #fff;
+  transition: inset-inline-start .16s;
+  box-shadow: 0 1px 3px rgba(0,0,0,.2);
+}
+.switch-row input[type="checkbox"]:checked { background: var(--brand); }
+.switch-row input[type="checkbox"]:checked::after { inset-inline-start: 20px; }
+
+@media (max-width: 760px) {
+  .exam-card { flex-wrap: wrap; }
+  .exam-side { width: 100%; flex-direction: row; justify-content: space-between; }
+  #reminders { inset-block-start: 10px; }
+}

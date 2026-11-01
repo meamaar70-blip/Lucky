@@ -7,7 +7,9 @@ import { scheduleView } from './views/schedule.js';
 import { coursesView } from './views/courses.js';
 import { libraryView } from './views/library.js';
 import { chapterView } from './views/chapter.js';
+import { examsView } from './views/exams.js';
 import { settingsView } from './views/settings.js';
+import { startReminders, examStart } from './reminders.js';
 
 const ROUTES = {
   dashboard: { view: dashboardView, title: 'داشبورد', sub: 'خلاصه‌ی وضعیت مطالعه‌ی تو' },
@@ -15,6 +17,7 @@ const ROUTES = {
   courses: { view: coursesView, title: 'دروس و کتاب‌ها', sub: 'مدیریت درس‌ها و فایل PDF کتاب' },
   library: { view: libraryView, title: 'فصل‌ها و مطالعه', sub: 'خلاصه، تست و پاورپوینت هر فصل' },
   chapter: { view: chapterView, title: 'فصل', sub: '' },
+  exams: { view: examsView, title: 'آزمون‌ها و یادآورها', sub: 'تاریخ آزمون‌ها و زمان یادآوری' },
   settings: { view: settingsView, title: 'تنظیمات', sub: 'مشخصات و اتصال هوش مصنوعی' },
 };
 
@@ -35,12 +38,28 @@ export const app = {
       return;
     }
     this.paintSidebar();
+    this.paintExamBadge();
     render();
+    startReminders(this);
   },
 
   async refresh() {
     this.data = await api.state();
     this.paintSidebar();
+    this.paintExamBadge();
+  },
+
+  /** نشانگر تعداد آزمون‌های پیش‌رو در منو */
+  paintExamBadge() {
+    const el = document.getElementById('nav-exam-count');
+    if (!el) return;
+    const now = Date.now();
+    const soon = (this.data.exams ?? []).filter((e) => {
+      const diff = examStart(e).getTime() - now;
+      return diff > -6 * 3600 * 1000 && diff < 7 * 24 * 3600 * 1000;
+    }).length;
+    el.textContent = soon ? String(soon).replace(/[0-9]/g, (d) => '۰۱۲۳۴۵۶۷۸۹'[Number(d)]) : '';
+    el.className = soon ? 'badge badge-warn badge-count' : 'badge-count';
   },
 
   navigate(hash) {

@@ -28,7 +28,11 @@ const EMPTY = {
   books: [],
   artifacts: {},
   attempts: [],
-  settings: { ai: { baseUrl: '', apiKey: '', model: '' } },
+  exams: [],
+  settings: {
+    ai: { baseUrl: '', apiKey: '', model: '' },
+    reminders: { enabled: true, classLead: 15, examLead: 1440, sound: true, browser: true },
+  },
 };
 
 let cache = null;
@@ -54,7 +58,10 @@ async function load() {
       ...structuredClone(EMPTY),
       ...parsed,
       profile: { ...EMPTY.profile, ...(parsed.profile ?? {}) },
-      settings: { ai: { ...EMPTY.settings.ai, ...(parsed.settings?.ai ?? {}) } },
+      settings: {
+        ai: { ...EMPTY.settings.ai, ...(parsed.settings?.ai ?? {}) },
+        reminders: { ...EMPTY.settings.reminders, ...(parsed.settings?.reminders ?? {}) },
+      },
     };
   } catch {
     cache = structuredClone(EMPTY);

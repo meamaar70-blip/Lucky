@@ -79,6 +79,34 @@ export function toast(message, type = '') {
   }, 3800);
 }
 
+/* ---------------- بنر یادآور ---------------- */
+export function pushReminder({ key, title, body, actions = [], tone = 'class' }) {
+  const root = document.getElementById('reminders');
+  if (!root) return;
+  if (root.querySelector(`[data-rk="${String(key).replace(/["\\]/g, '')}"]`)) return;
+  const el = document.createElement('div');
+  el.className = `reminder ${tone}`;
+  el.dataset.rk = key;
+  el.innerHTML = `
+    <div class="reminder-icon">${tone === 'exam' ? '📝' : '🎓'}</div>
+    <div class="reminder-body">
+      <div class="reminder-title">${esc(title)}</div>
+      <div class="reminder-text">${esc(body)}</div>
+      <div class="reminder-actions">
+        ${actions.map((a, i) => a.href
+          ? `<a class="btn btn-sm ${a.primary ? 'btn-primary' : ''}" href="${esc(a.href)}" ${a.href.startsWith('http') ? 'target="_blank" rel="noopener"' : ''}>${esc(a.label)}</a>`
+          : `<button class="btn btn-sm" data-ack="${i}">${esc(a.label)}</button>`).join('')}
+      </div>
+    </div>
+    <button class="reminder-x" aria-label="بستن">×</button>`;
+  el.querySelector('.reminder-x').onclick = () => el.remove();
+  el.querySelectorAll('[data-ack]').forEach((b) => { b.onclick = () => el.remove(); });
+  root.appendChild(el);
+  // حداکثر ۳ بنر هم‌زمان
+  const all = root.querySelectorAll('.reminder');
+  if (all.length > 3) all[0].remove();
+}
+
 /* ---------------- مودال ---------------- */
 export function openModal({ title, body, footer = '', onMount, size }) {
   const root = document.getElementById('modal-root');
@@ -170,6 +198,29 @@ export function humanCountdown(totalMinutes) {
   if (d > 0) return `${faNum(d)} روز و ${faNum(h)} ساعت دیگر`;
   if (h > 0) return `${faNum(h)} ساعت و ${faNum(m)} دقیقه دیگر`;
   return `${faNum(m)} دقیقه دیگر`;
+}
+
+export function faFullDate(date) {
+  try {
+    const wd = new Intl.DateTimeFormat('fa-IR', { weekday: 'long' }).format(date);
+    const rest = new Intl.DateTimeFormat('fa-IR', { day: 'numeric', month: 'long', year: 'numeric' }).format(date);
+    return `${wd} ${rest}`;
+  } catch {
+    return '';
+  }
+}
+
+export function faShortDate(date) {
+  try {
+    return new Intl.DateTimeFormat('fa-IR', { day: 'numeric', month: 'long' }).format(date);
+  } catch {
+    return '';
+  }
+}
+
+export function todayISO(date = new Date()) {
+  const p = (n) => String(n).padStart(2, '0');
+  return `${date.getFullYear()}-${p(date.getMonth() + 1)}-${p(date.getDate())}`;
 }
 
 export function debounce(fn, ms = 250) {

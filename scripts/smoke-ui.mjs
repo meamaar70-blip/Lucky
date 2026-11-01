@@ -57,6 +57,12 @@ const go = async (hash, wait = 700) => {
 };
 
 snapshot('داشبورد');
+{
+  const viewText = document.getElementById('view').textContent;
+  const hasExamCard = viewText.includes('آزمون بعدی') || viewText.includes('آزمونی ثبت نشده');
+  console.log('کارت آزمون در داشبورد:', hasExamCard ? '✓' : '✗');
+  if (!hasExamCard) errors.push('dashboard: کارت آزمون نمایش داده نشد');
+}
 await go('#/schedule');
 snapshot('برنامه هفتگی');
 await go('#/courses');
@@ -79,8 +85,49 @@ if (chapter) {
   console.log('هیچ فصلی برای تست صفحه‌ی فصل وجود ندارد');
 }
 
-await go('#/settings');
+await go('#/exams', 700);
+snapshot('آزمون‌ها');
+
+/* ---------- یادآور ---------- */
+const soon = new Date(Date.now() + 30 * 60000);
+const pad = (n) => String(n).padStart(2, '0');
+const soonISO = `${soon.getFullYear()}-${pad(soon.getMonth() + 1)}-${pad(soon.getDate())}`;
+const courses = (await (await globalThis.fetch('/api/state')).json()).courses;
+const mkExam = await globalThis.fetch('/api/exams', {
+  method: 'POST',
+  headers: { 'content-type': 'application/json' },
+  body: JSON.stringify({
+    courseId: courses[0].id,
+    title: 'آزمون آزمایشی یادآور',
+    date: soonISO,
+    time: `${pad(soon.getHours())}:${pad(soon.getMinutes())}`,
+    duration: 60,
+    remindBefore: 120,
+  }),
+}).then((r) => r.json());
+
+const { app: appInstance } = await import('../public/js/app.js');
+const reminders = await import('../public/js/reminders.js');
+await appInstance.refresh();
+const fired = reminders.checkNow(appInstance);
+const banner = document.querySelector('#reminders .reminder');
+console.log('\n=== یادآور ===');
+console.log('رویدادهای یادآوری‌شده:', fired, '| بنر:', banner ? '✓' : '✗');
+if (!banner) errors.push('reminders: بنر یادآور نمایش داده نشد');
+else console.log('متن بنر:', banner.textContent.replace(/\s+/g, ' ').trim().slice(0, 100));
+
+const events = reminders.upcomingEvents(appInstance.data);
+console.log('رویدادهای پیش‌رو:', events.length, '| نوع‌ها:', [...new Set(events.map((e) => e.type))].join(', '));
+if (!events.some((e) => e.type === 'exam')) errors.push('reminders: آزمون در رویدادها نیست');
+if (!events.some((e) => e.type === 'class')) errors.push('reminders: کلاس در رویدادها نیست');
+
+await globalThis.fetch(`/api/exams/${mkExam.id}`, { method: 'DELETE' });
+await appInstance.refresh();
+
+await go('#/settings', 700);
 snapshot('تنظیمات');
+const remCard = document.querySelector('#r-save');
+if (!remCard) errors.push('settings: کارت یادآور رندر نشد');
 
 /* ---------- آزمون تعاملی ---------- */
 const chResp = await (await globalThis.fetch(`/api/chapters/${chapter?.id}`)).json();

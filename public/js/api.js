@@ -59,6 +59,11 @@ export const api = {
   saveAttempt: (id, payload) => request('POST', `/api/chapters/${id}/attempt`, payload),
   checkShort: (id, given, answer) => request('POST', `/api/chapters/${id}/check-short`, { given, answer }),
 
+  createExam: (e) => request('POST', '/api/exams', e),
+  updateExam: (id, e) => request('PUT', `/api/exams/${id}`, e),
+  deleteExam: (id) => request('DELETE', `/api/exams/${id}`),
+  saveReminders: (r) => request('PUT', '/api/settings/reminders', r),
+
   saveAi: (cfg) => request('PUT', '/api/settings/ai', cfg),
   testAi: () => request('POST', '/api/settings/ai/test'),
 };

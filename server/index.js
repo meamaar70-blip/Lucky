@@ -64,6 +64,8 @@ app.get('/api/state', wrap(async (req, res) => {
       })),
     })),
     attempts: db.attempts.slice(-40),
+    exams: db.exams,
+    reminders: db.settings.reminders,
     ai: publicAiConfig(ai),
     depths: Object.entries(DEPTHS).map(([k, v]) => ({ key: k, label: v.label })),
   });
@@ -191,31 +193,142 @@ app.delete('/api/sessions/:id', wrap(async (req, res) => {
   res.json({ ok: true });
 }));
 
+/* ---------------- آزمون‌ها ---------------- */
+const EXAM_TIME_RE = /^([01]?\d|2[0-3]):[0-5]\d$/;
+
+function validateExam(body) {
+  const {
+    courseId, title = '', date, time, duration = 90, place = '', note = '', remindBefore = null,
+  } = body ?? {};
+  if (!courseId) return { error: 'درس را انتخاب کنید' };
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(String(date ?? ''))) return { error: 'تاریخ آزمون نامعتبر است' };
+  const dt = new Date(`${date}T00:00:00`);
+  if (Number.isNaN(dt.getTime())) return { error: 'تاریخ آزمون نامعتبر است' };
+  if (!EXAM_TIME_RE.test(String(time ?? ''))) return { error: 'ساعت آزمون نامعتبر است' };
+  const dur = Number(duration);
+  if (!Number.isFinite(dur) || dur < 15 || dur > 480) return { error: 'مدت آزمون باید بین ۱۵ تا ۴۸۰ دقیقه باشد' };
+  let lead = null;
+  if (remindBefore !== null && remindBefore !== '' && remindBefore !== undefined) {
+    const l = Number(remindBefore);
+    if (!Number.isFinite(l) || l < 0 || l > 20160) return { error: 'زمان یادآوری نامعتبر است' };
+    lead = Math.round(l);
+  }
+  return {
+    data: {
+      courseId: String(courseId),
+      title: String(title).trim().slice(0, 120),
+      date: String(date),
+      time: String(time),
+      duration: Math.round(dur),
+      place: String(place).slice(0, 100),
+      note: String(note).slice(0, 300),
+      remindBefore: lead,
+    },
+  };
+}
+
+app.post('/api/exams', wrap(async (req, res) => {
+  const { error, data } = validateExam(req.body);
+  if (error) return res.status(400).json({ error });
+  const db = await readDb();
+  const course = db.courses.find((c) => c.id === data.courseId);
+  if (!course) return res.status(400).json({ error: 'درس پیدا نشد' });
+  const exam = await updateDb((d) => {
+    const e = {
+      id: newId('exm'),
+      ...data,
+      title: data.title || `آزمون ${course.title}`,
+      createdAt: new Date().toISOString(),
+    };
+    d.exams.push(e);
+    return e;
+  });
+  res.status(201).json(exam);
+}));
+
+app.put('/api/exams/:id', wrap(async (req, res) => {
+  const { error, data } = validateExam(req.body);
+  if (error) return res.status(400).json({ error });
+  const updated = await updateDb((db) => {
+    const e = db.exams.find((x) => x.id === req.params.id);
+    if (!e) return null;
+    Object.assign(e, data);
+    if (!e.title) e.title = 'آزمون';
+    return e;
+  });
+  if (!updated) return res.status(404).json({ error: 'آزمون پیدا نشد' });
+  res.json(updated);
+}));
+
+app.delete('/api/exams/:id', wrap(async (req, res) => {
+  await updateDb((db) => { db.exams = db.exams.filter((e) => e.id !== req.params.id); });
+  res.json({ ok: true });
+}));
+
+/* ---------------- تنظیمات یادآور ---------------- */
+app.put('/api/settings/reminders', wrap(async (req, res) => {
+  const body = req.body ?? {};
+  const num = (v, min, max, fallback) => {
+    const n = Number(v);
+    return Number.isFinite(n) ? Math.min(max, Math.max(min, Math.round(n))) : fallback;
+  };
+  const saved = await updateDb((db) => {
+    const cur = db.settings.reminders;
+    const next = {
+      enabled: body.enabled === undefined ? cur.enabled : Boolean(body.enabled),
+      browser: body.browser === undefined ? cur.browser : Boolean(body.browser),
+      sound: body.sound === undefined ? cur.sound : Boolean(body.sound),
+      classLead: body.classLead === undefined ? cur.classLead : num(body.classLead, 0, 180, 15),
+      examLead: body.examLead === undefined ? cur.examLead : num(body.examLead, 0, 20160, 1440),
+    };
+    db.settings.reminders = next;
+    return next;
+  });
+  res.json(saved);
+}));
+
 /* ---------------- خروجی تقویم ---------------- */
-function icsEscape(s) {
-  return String(s ?? '').replace(/\\/g, '\\\\').replace(/;/g, '\\;').replace(/,/g, '\\,').replace(/\n/g, '\\n');
+function icsEscape(str) {
+  return String(str ?? '').replace(/\\/g, '\\\\').replace(/;/g, '\\;').replace(/,/g, '\\,').replace(/\n/g, '\\n');
+}
+
+/** زمان «شناور» محلی (بدون Z) تا تقویم مقصد از وقت محلی کاربر استفاده کند */
+function icsStamp(date) {
+  const p = (n) => String(n).padStart(2, '0');
+  return `${date.getFullYear()}${p(date.getMonth() + 1)}${p(date.getDate())}T${p(date.getHours())}${p(date.getMinutes())}00`;
+}
+
+function valarm(minutes, description) {
+  if (!Number.isFinite(minutes) || minutes <= 0) return [];
+  return [
+    'BEGIN:VALARM',
+    'ACTION:DISPLAY',
+    `DESCRIPTION:${icsEscape(description)}`,
+    `TRIGGER:-PT${Math.round(minutes)}M`,
+    'END:VALARM',
+  ];
 }
 
 app.get('/api/calendar.ics', wrap(async (req, res) => {
   const db = await readDb();
-  const stamp = (d) => d.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
+  const reminders = db.settings.reminders ?? { enabled: true, classLead: 15, examLead: 1440 };
+  const stampNow = icsStamp(new Date());
 
-  // شنبه = 0  →  شنبه در جاوااسکریپت getDay() = 6
-  const jsDay = (wd) => (wd + 1) % 7;
-  const now = new Date();
   const lines = [
-    'BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Lucky Study//فارسی//FA',
-    'CALSCALE:GREGORIAN', 'METHOD:PUBLISH', 'X-WR-CALNAME:برنامه کلاسی',
+    'BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Lucky Study//FA', 'CALSCALE:GREGORIAN',
+    'METHOD:PUBLISH', 'X-WR-CALNAME:برنامه کلاسی و آزمون‌ها',
   ];
 
+  /* کلاس‌های هفتگی */
+  const jsDay = (wd) => (wd + 1) % 7; // شنبه = ۰ در برنامه، ۶ در جاوااسکریپت
+  const now = new Date();
   for (const s of db.sessions) {
     const course = db.courses.find((c) => c.id === s.courseId);
     if (!course) continue;
     const target = jsDay(s.weekday);
     const start = new Date(now);
     start.setHours(0, 0, 0, 0);
-    const diff = (target - start.getDay() + 7) % 7;
-    start.setDate(start.getDate() + diff);
+    start.setDate(start.getDate() + ((target - start.getDay() + 7) % 7));
     const [sh, sm] = s.start.split(':').map(Number);
     const [eh, em] = s.end.split(':').map(Number);
     const dtStart = new Date(start); dtStart.setHours(sh, sm, 0, 0);
@@ -223,17 +336,42 @@ app.get('/api/calendar.ics', wrap(async (req, res) => {
     lines.push(
       'BEGIN:VEVENT',
       `UID:${s.id}@lucky.study`,
-      `DTSTAMP:${stamp(new Date())}`,
-      `DTSTART:${stamp(dtStart)}`,
-      `DTEND:${stamp(dtEnd)}`,
+      `DTSTAMP:${stampNow}`,
+      `DTSTART:${icsStamp(dtStart)}`,
+      `DTEND:${icsStamp(dtEnd)}`,
       'RRULE:FREQ=WEEKLY;COUNT=16',
       `SUMMARY:${icsEscape(course.title)}`,
       `DESCRIPTION:${icsEscape([course.teacher ? `استاد: ${course.teacher}` : '', s.link ? `لینک کلاس: ${s.link}` : ''].filter(Boolean).join(' | '))}`,
       `LOCATION:${icsEscape(s.place || (s.link ? 'کلاس آنلاین' : ''))}`,
       ...(s.link ? [`URL:${s.link}`] : []),
+      ...(reminders.enabled ? valarm(reminders.classLead, `کلاس ${course.title} تا ${toFaDigits(reminders.classLead)} دقیقه‌ی دیگر`) : []),
       'END:VEVENT',
     );
   }
+
+  /* آزمون‌ها */
+  for (const e of db.exams) {
+    const course = db.courses.find((c) => c.id === e.courseId);
+    const [yh, mm, dd] = String(e.date).split('-').map(Number);
+    const [hh, mi] = String(e.time).split(':').map(Number);
+    if (!yh || !mm || !dd || Number.isNaN(hh)) continue;
+    const dtStart = new Date(yh, mm - 1, dd, hh, mi || 0, 0, 0);
+    const dtEnd = new Date(dtStart.getTime() + (Number(e.duration) || 90) * 60000);
+    const lead = e.remindBefore ?? reminders.examLead;
+    lines.push(
+      'BEGIN:VEVENT',
+      `UID:${e.id}@lucky.study`,
+      `DTSTAMP:${stampNow}`,
+      `DTSTART:${icsStamp(dtStart)}`,
+      `DTEND:${icsStamp(dtEnd)}`,
+      `SUMMARY:${icsEscape(`آزمون: ${e.title || course?.title || 'آزمون'}`)}`,
+      `DESCRIPTION:${icsEscape([course?.title, e.note].filter(Boolean).join(' | '))}`,
+      `LOCATION:${icsEscape(e.place || '')}`,
+      ...(reminders.enabled ? valarm(lead, `آزمون ${e.title || course?.title || ''} — یادآوری`) : []),
+      'END:VEVENT',
+    );
+  }
+
   lines.push('END:VCALENDAR');
   res.setHeader('Content-Type', 'text/calendar; charset=utf-8');
   res.setHeader('Content-Disposition', 'attachment; filename="lucky-classes.ics"');

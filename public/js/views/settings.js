@@ -2,6 +2,7 @@
 
 import { api } from '../api.js';
 import * as ui from '../ui.js';
+import { permissionState, ensurePermission, sendTestReminder, nextExam } from '../reminders.js';
 
 const PRESETS = [
   { label: 'OpenAI', url: 'https://api.openai.com', model: 'gpt-4o-mini' },
@@ -75,6 +76,48 @@ export async function settingsView(root, route, app) {
       </div>
 
       <div class="card card-pad">
+        <div class="section-head">
+          <h2>🔔 یادآور کلاس و آزمون</h2>
+          <span class="badge ${d.reminders?.enabled ? 'badge-ok' : 'badge-danger'}">${d.reminders?.enabled ? 'فعال' : 'خاموش'}</span>
+        </div>
+        <label class="switch-row">
+          <input type="checkbox" id="r-enabled" ${d.reminders?.enabled ? 'checked' : ''} />
+          <span>یادآوری فعال باشد</span>
+        </label>
+        <label class="switch-row">
+          <input type="checkbox" id="r-browser" ${d.reminders?.browser ? 'checked' : ''} />
+          <span>اعلان مرورگر (حتی وقتی تب در پس‌زمینه است)</span>
+        </label>
+        <label class="switch-row">
+          <input type="checkbox" id="r-sound" ${d.reminders?.sound ? 'checked' : ''} />
+          <span>صدای هشدار</span>
+        </label>
+        <div class="row" style="margin-top:10px">
+          <div class="field">
+            <label>یادآوری کلاس</label>
+            <select class="select" id="r-class">
+              ${[0, 5, 10, 15, 20, 30, 45, 60].map((m) => `<option value="${m}" ${Number(d.reminders?.classLead) === m ? 'selected' : ''}>${m === 0 ? 'بدون یادآوری' : `${ui.faNum(m)} دقیقه قبل`}</option>`).join('')}
+            </select>
+          </div>
+          <div class="field">
+            <label>یادآوری آزمون</label>
+            <select class="select" id="r-exam">
+              ${[0, 30, 120, 720, 1440, 2880, 4320].map((m) => `<option value="${m}" ${Number(d.reminders?.examLead) === m ? 'selected' : ''}>${m === 0 ? 'بدون یادآوری' : m >= 1440 ? `${ui.faNum(m / 1440)} روز قبل` : m >= 60 ? `${ui.faNum(m / 60)} ساعت قبل` : `${ui.faNum(m)} دقیقه قبل`}</option>`).join('')}
+            </select>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px">
+          <button class="btn btn-primary" id="r-save">ذخیره‌ی تنظیمات</button>
+          <button class="btn" id="r-perm">${permissionState() === 'granted' ? '🔔 اعلان مجاز است' : '🔔 فعال‌سازی اعلان مرورگر'}</button>
+          <button class="btn" id="r-test">تست یادآور</button>
+        </div>
+        <p class="hint" style="margin-top:12px">
+          یادآورها در همین مرورگر اجرا می‌شوند و تا وقتی Lucky در یک تب باز است کار می‌کنند.
+          برای یادآوری روی گوشی، از <a href="/api/calendar.ics">خروجی تقویم (ICS)</a> استفاده کن؛ کلاس‌ها و آزمون‌ها با هشدار داخل تقویم ثبت می‌شوند.
+        </p>
+      </div>
+
+      <div class="card card-pad">
         <div class="section-head"><h2>📊 داده‌های من</h2></div>
         <div class="grid cols-2" style="gap:10px">
           <div class="stat" style="padding:10px 0"><div class="icon">📚</div><div><div class="value">${ui.faNum(d.courses.length)}</div><div class="label">درس</div></div></div>
@@ -83,6 +126,7 @@ export async function settingsView(root, route, app) {
           <div class="stat" style="padding:10px 0"><div class="icon">✅</div><div><div class="value">${ui.faNum(d.attempts.length)}</div><div class="label">آزمون داده‌شده</div></div></div>
         </div>
         <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap">
+          <a class="btn btn-sm" href="/api/calendar.ics">📅 خروجی تقویم</a>
           <a class="btn btn-sm" href="/api/calendar.ics">📥 خروجی تقویم</a>
           <a class="btn btn-sm" href="#/library">📑 رفتن به فصل‌ها</a>
         </div>
@@ -119,6 +163,38 @@ export async function settingsView(root, route, app) {
         ui.toast('مشخصات ذخیره شد', 'ok');
       } catch (err) { ui.toast(err.message, 'err'); }
     }, 'در حال ذخیره…');
+  };
+
+  /* یادآورها */
+  const pick = (id) => root.querySelector(id);
+  pick('#r-save').onclick = async (e) => {
+    const btn = e.currentTarget;
+    await app.busy(btn, async () => {
+      try {
+        await api.saveReminders({
+          enabled: pick('#r-enabled').checked,
+          browser: pick('#r-browser').checked,
+          sound: pick('#r-sound').checked,
+          classLead: Number(pick('#r-class').value),
+          examLead: Number(pick('#r-exam').value),
+        });
+        await app.refresh();
+        ui.toast('تنظیمات یادآور ذخیره شد', 'ok');
+        settingsView(root, route, app);
+      } catch (err) { ui.toast(err.message, 'err'); }
+    }, 'در حال ذخیره…');
+  };
+
+  pick('#r-perm').onclick = async () => {
+    const state = await ensurePermission();
+    if (state === 'granted') ui.toast('اعلان مرورگر فعال شد', 'ok');
+    else if (state === 'denied') ui.toast('مرورگر اجازه‌ی اعلان را رد کرده است', 'warn');
+    else ui.toast('این مرورگر از اعلان پشتیبانی نمی‌کند', 'warn');
+    settingsView(root, route, app);
+  };
+
+  pick('#r-test').onclick = () => {
+    sendTestReminder({ sound: pick('#r-sound').checked });
   };
 
   /* هوش مصنوعی */

@@ -441,3 +441,123 @@ export function chaptersModal(book) {
     },
   });
 }
+
+
+/* ---------------- آزمون ---------------- */
+const EXAM_LEADS = [
+  { v: '', label: 'پیش‌فرض تنظیمات' },
+  { v: '60', label: '۱ ساعت قبل' },
+  { v: '180', label: '۳ ساعت قبل' },
+  { v: '720', label: '۱۲ ساعت قبل' },
+  { v: '1440', label: '۱ روز قبل' },
+  { v: '2880', label: '۲ روز قبل' },
+];
+
+export function examModal(exam = null) {
+  const courses = app.data.courses;
+  if (!courses.length) {
+    ui.toast('اول یک درس بساز', 'warn');
+    courseModal();
+    return;
+  }
+  const current = {
+    courseId: exam?.courseId ?? courses[0].id,
+    title: exam?.title ?? '',
+    date: exam?.date ?? ui.todayISO(),
+    time: exam?.time ?? '10:00',
+    duration: exam?.duration ?? 90,
+    place: exam?.place ?? '',
+    note: exam?.note ?? '',
+    remindBefore: exam?.remindBefore ?? '',
+  };
+
+  const body = `
+    <div class="field">
+      <label>درس *</label>
+      <select class="select" id="e-course">
+        ${courses.map((c) => `<option value="${c.id}" ${current.courseId === c.id ? 'selected' : ''}>${ui.esc(c.title)}</option>`).join('')}
+      </select>
+    </div>
+    <div class="field">
+      <label>عنوان آزمون</label>
+      <input class="input" id="e-title" maxlength="120" placeholder="مثلاً: میان‌ترم، پایان‌ترم، کوییز ۲" value="${ui.esc(current.title)}" />
+    </div>
+    <div class="row">
+      <div class="field">
+        <label>تاریخ *</label>
+        <input class="input" id="e-date" type="date" value="${current.date}" />
+      </div>
+      <div class="field">
+        <label>ساعت شروع *</label>
+        <input class="input" id="e-time" type="time" value="${current.time}" />
+      </div>
+      <div class="field">
+        <label>مدت (دقیقه)</label>
+        <input class="input" id="e-duration" type="number" min="15" max="480" step="15" value="${current.duration}" />
+      </div>
+    </div>
+    <div class="field">
+      <label>محل برگزاری</label>
+      <input class="input" id="e-place" maxlength="100" placeholder="مثلاً: سالن ۲ یا سامانه‌ی آنلاین" value="${ui.esc(current.place)}" />
+    </div>
+    <div class="field">
+      <label>یادآوری</label>
+      <select class="select" id="e-lead">
+        ${EXAM_LEADS.map((l) => `<option value="${l.v}" ${String(current.remindBefore ?? '') === l.v ? 'selected' : ''}>${l.label}</option>`).join('')}
+      </select>
+    </div>
+    <div class="field" style="margin-bottom:0">
+      <label>یادداشت / منابع</label>
+      <textarea class="textarea" id="e-note" maxlength="300" placeholder="مثلاً: فصل ۱ تا ۴ + جزوه‌ی کلاسی">${ui.esc(current.note)}</textarea>
+    </div>`;
+
+  ui.openModal({
+    title: exam ? 'ویرایش آزمون' : 'افزودن آزمون',
+    body,
+    footer: `
+      <button class="btn btn-primary" id="e-save">${exam ? 'ذخیره' : 'افزودن آزمون'}</button>
+      ${exam ? '<button class="btn btn-danger" id="e-del">حذف</button>' : ''}
+      <button class="btn btn-ghost" data-modal-close>لغو</button>`,
+    onMount(modal, close) {
+      const save = modal.querySelector('#e-save');
+      save.onclick = async () => {
+        const payload = {
+          courseId: modal.querySelector('#e-course').value,
+          title: modal.querySelector('#e-title').value.trim(),
+          date: modal.querySelector('#e-date').value,
+          time: modal.querySelector('#e-time').value,
+          duration: Number(modal.querySelector('#e-duration').value) || 90,
+          place: modal.querySelector('#e-place').value.trim(),
+          note: modal.querySelector('#e-note').value.trim(),
+          remindBefore: modal.querySelector('#e-lead').value === '' ? null : Number(modal.querySelector('#e-lead').value),
+        };
+        if (!payload.date) return ui.toast('تاریخ آزمون را انتخاب کن', 'err');
+        save.disabled = true;
+        save.innerHTML = '<span class="spinner"></span>';
+        try {
+          if (exam) await api.updateExam(exam.id, payload);
+          else await api.createExam(payload);
+          close();
+          await app.refresh();
+          ui.toast(exam ? 'آزمون ویرایش شد' : 'آزمون اضافه شد — یادآور تنظیم شد', 'ok');
+        } catch (e) {
+          ui.toast(e.message, 'err');
+          save.disabled = false;
+          save.textContent = exam ? 'ذخیره' : 'افزودن آزمون';
+        }
+      };
+
+      const del = modal.querySelector('#e-del');
+      if (del) del.onclick = async () => {
+        const ok = await ui.confirmDialog({ message: 'این آزمون حذف شود؟' });
+        if (!ok) return;
+        try {
+          await api.deleteExam(exam.id);
+          close();
+          await app.refresh();
+          ui.toast('آزمون حذف شد', 'ok');
+        } catch (e) { ui.toast(e.message, 'err'); }
+      };
+    },
+  });
+}

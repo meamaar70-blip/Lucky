@@ -1,7 +1,8 @@
 // public/js/views/dashboard.js
 
 import * as ui from '../ui.js';
-import { courseModal, uploadModal, sessionModal } from '../forms.js';
+import { courseModal, uploadModal, sessionModal, examModal } from '../forms.js';
+import { nextExam, examStart, examDaysLeft, permissionState, ensurePermission } from '../reminders.js';
 
 function greeting() {
   const h = new Date().getHours();
@@ -126,6 +127,50 @@ export async function dashboardView(root, route, app) {
           </div>`}
     </div>`;
 
+  const nx = nextExam(d);
+  const perm = permissionState();
+  const upcomingExams = (d.exams ?? [])
+    .map((e) => ({ e, start: examStart(e) }))
+    .filter((x) => x.start.getTime() > Date.now() - 6 * 3600 * 1000)
+    .sort((a, b) => a.start - b.start)
+    .slice(0, 3);
+
+  const examCard = nx ? `
+    <div class="card card-pad" style="background:linear-gradient(135deg,#fffbeb,#fef9c3);border-color:#fde68a">
+      <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap">
+        <div style="font-size:30px">📝</div>
+        <div style="flex:1;min-width:220px">
+          <div style="font-size:12px;color:#92400e;font-weight:600">آزمون بعدی</div>
+          <div style="font-weight:800;font-size:17px">${ui.esc(nx.exam.title || 'آزمون')} <span style="font-size:12.5px;font-weight:500;color:#a16207">• ${ui.esc(d.courses.find((c) => c.id === nx.exam.courseId)?.title ?? '')}</span></div>
+          <div style="font-size:12.5px;color:#78350f">
+            ${ui.esc(ui.faFullDate(nx.start))} • ساعت ${ui.faNum(nx.exam.time)}${nx.exam.place ? ` • ${ui.esc(nx.exam.place)}` : ''}
+          </div>
+        </div>
+        <div style="text-align:center">
+          <div style="font-size:24px;font-weight:800;color:#92400e">${(() => {
+            const days = examDaysLeft(nx.start);
+            return days <= 0 ? 'امروز' : days === 1 ? 'فردا' : `${ui.faNum(days)} روز`;
+          })()}</div>
+          <div style="font-size:11px;color:#a16207">${nx.start - Date.now() <= 7 * 86400000 ? 'زمان مرور' : 'مانده'}</div>
+        </div>
+        ${upcomingExams.length > 1 ? `<div style="font-size:12px;color:#92400e;min-width:150px">
+          ${upcomingExams.slice(1).map((x) => `<div>• ${ui.esc(ui.faShortDate(x.start))}: ${ui.esc(x.e.title || 'آزمون')}</div>`).join('')}
+        </div>` : ''}
+        <a class="btn" href="#/exams">مدیریت آزمون‌ها →</a>
+      </div>
+      ${perm !== 'granted' ? `<div style="margin-top:10px;font-size:12px;color:#92400e">
+        🔔 برای دریافت اعلان یادآور، اعلان مرورگر را فعال کن. <button class="btn btn-sm" id="dash-perm" style="margin-inline-start:6px">فعال‌سازی</button>
+      </div>` : ''}
+    </div>` : `
+    <div class="card card-pad" style="display:flex;gap:14px;align-items:center;flex-wrap:wrap">
+      <div style="font-size:24px">📝</div>
+      <div style="flex:1;min-width:200px">
+        <div style="font-weight:600">آزمونی ثبت نشده</div>
+        <div style="font-size:12.5px;color:var(--muted)">تاریخ آزمون‌ها را وارد کن تا چند روز قبل یادآوری دریافت کنی.</div>
+      </div>
+      <button class="btn btn-sm" id="dash-add-exam">＋ افزودن آزمون</button>
+    </div>`;
+
   const onboarding = d.courses.length ? '' : `
     <div class="card card-pad" style="background:linear-gradient(135deg,#eef2ff,#faf5ff);border-color:#ddd6fe">
       <h2 style="margin-bottom:8px">👋 خوش آمدی! سه قدم تا شروع</h2>
@@ -148,6 +193,7 @@ export async function dashboardView(root, route, app) {
             <button class="btn btn-block" id="qa-course">📚 افزودن درس</button>
             <button class="btn btn-block" id="qa-session">🗓️ افزودن کلاس</button>
             <button class="btn btn-block" id="qa-upload">📄 بارگذاری PDF کتاب</button>
+            <button class="btn btn-block" id="qa-exam">📝 افزودن آزمون</button>
             <a class="btn btn-block" href="/api/calendar.ics">📥 خروجی تقویم (ICS)</a>
           </div>
           <p class="hint" style="margin-top:12px">${
@@ -156,6 +202,7 @@ export async function dashboardView(root, route, app) {
         </div>
       </div>
       ${stats}
+      ${examCard}
       <div class="grid cols-2">
         ${todayCard}
         ${activityCard}
@@ -169,6 +216,13 @@ export async function dashboardView(root, route, app) {
   root.querySelector('#qa-course')?.addEventListener('click', () => courseModal());
   root.querySelector('#qa-session')?.addEventListener('click', () => sessionModal({}));
   root.querySelector('#qa-upload')?.addEventListener('click', () => uploadModal());
+  root.querySelector('#qa-exam')?.addEventListener('click', () => examModal());
+  root.querySelector('#dash-add-exam')?.addEventListener('click', () => examModal());
+  root.querySelector('#dash-perm')?.addEventListener('click', async (e) => {
+    const state = await ensurePermission();
+    ui.toast(state === 'granted' ? 'اعلان یادآور فعال شد' : 'مرورگر اجازه نداد', state === 'granted' ? 'ok' : 'warn');
+    dashboardView(root, route, app);
+  });
   root.querySelector('#go-schedule')?.addEventListener('click', () => app.navigate('#/schedule'));
   root.querySelector('#empty-library')?.addEventListener('click', () => app.navigate('#/library'));
   root.querySelector('#onb-start')?.addEventListener('click', () => courseModal());
