@@ -1,6 +1,19 @@
 # اجرای Lucky روی سرور
 
-## سریع‌ترین راه: یک دستور
+## ویندوز؟ از اینجا شروع کن
+
+اگر VPS تو **ویندوز** است، راهنمای اختصاصی و قدم‌به‌قدم اینجاست:
+[`deploy/windows/README.md`](windows/README.md)
+
+فایل لازم برای کپی روی ویندوز: `lucky-server-windows.zip` از صفحهٔ **Releases**
+(یا ساخت دوباره با `bash deploy/windows/bundle.sh`).
+
+خلاصه: Node.js 20 نصب کن → zip را در `C:\lucky` باز کن → `npm ci --omit=dev` →
+`start-lucky.bat` → `firewall.bat` → `caddy.exe` برای HTTPS → `install-service.bat`.
+
+---
+
+## لینوکس: سریع‌ترین راه با یک دستور
 
 روی VPS (اوبونتو/دبیان)، داخل پوشهٔ مخزن:
 

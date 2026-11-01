@@ -1,0 +1,27 @@
+# HTTPS خودکار روی ویندوز — فایل caddy.exe باید کنار همین فایل باشد
+# آدرس را عوض کن: یا دامنهٔ خودت، یا sslip.io با آی‌پی سرور
+#   مثال بدون دامنه:  lucky-82-12-34-56.sslip.io
+#
+# اجرا:  caddy.exe run --config Caddyfile
+# سرویس ویندوز:  caddy.exe start
+
+lucky-82-12-34-56.sslip.io {
+	encode zstd gzip
+
+	request_body {
+		max_size 200MB
+	}
+
+	reverse_proxy 127.0.0.1:3000 {
+		transport http {
+			read_timeout 10m
+			write_timeout 10m
+		}
+	}
+
+	header {
+		@nocache path /sw.js /manifest.webmanifest
+		header @nocache Cache-Control "no-cache"
+		-Server
+	}
+}
